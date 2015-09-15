@@ -1,0 +1,28 @@
+using UnityEngine;
+using System.Collections;
+
+public class DestroyAfterXseconds : MonoBehaviour {
+	public float killTime = .5f;
+	// Use this for initialization
+	void Start () 
+	{
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		if(ScoreTracker.pause)
+		{
+			return;
+		}
+		incrementDestroy();
+	
+	}
+	
+	protected void incrementDestroy()
+	{
+		killTime-=Time.deltaTime;
+		if(killTime<0)
+			Destroy(this.gameObject);
+	}
+}

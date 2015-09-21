@@ -12,7 +12,7 @@ namespace Assets.Scripts.CardSystem
         private Actions.Action action;
         private string name;
         private string description;
-        
+
         public Enums.CardTypes Type
         {
             get { return type; }
@@ -30,7 +30,7 @@ namespace Assets.Scripts.CardSystem
 
         public Actions.Action Action
         {
-            get {  return action; }
+            get { return action; }
         }
 
         public string Name
@@ -43,7 +43,7 @@ namespace Assets.Scripts.CardSystem
             get { return description; }
         }
 
-        public Card(string name, string type, int range, int damage, string actionType, string description )
+        public Card(string name, string type, int range, int damage, string actionType, string description)
         {
             this.name = name;
             SetType(type);
@@ -75,13 +75,14 @@ namespace Assets.Scripts.CardSystem
 
         private void SetAction(string actionType)
         {
-            try {
+            try
+            {
                 action = (Actions.Action)Activator.CreateInstance("Assets.Scripts.CardSystem.Actions", "Assets.Scripts.CardSystem.Actions." + actionType).Unwrap();
             }
             catch (Exception e)
             {
                 action = new Error();
-                Debug.LogError(e.Message + ": for " + actionType + ".  Setting " + name + " to action Error.");
+                Debug.LogError(e.Message + ": for " + actionType + ".  Setting " + name + "'s action to Error.");
             }
         }
     }

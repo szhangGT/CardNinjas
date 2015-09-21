@@ -5,11 +5,28 @@ namespace Assets.Scripts.Player
 {
     public abstract class Character : MonoBehaviour
     {
-        public int health = 100;
+        [SerializeField]
+        protected int health = 100;
+        [SerializeField]
+        protected int rowStart = 1;
+        [SerializeField]
+        protected int colStart = 1;
+        [SerializeField]
+        private Util.Enums.Direction direction = Util.Enums.Direction.Left;
 
-        public int rowStart = 1;
-        public int colStart = 1;
+
         protected GridNode[,] grid;
+        protected GridNode currentNode;
+
+        public GridNode CurrentNode
+        {
+            get { return currentNode; }
+        }
+
+        public Util.Enums.Direction Direction
+        {
+            get { return direction; }
+        }
 
         bool invincible = false;
 

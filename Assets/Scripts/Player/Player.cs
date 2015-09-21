@@ -5,21 +5,31 @@ namespace Assets.Scripts.Player
 {
     public class Player : Character
     {
-        public GridNode currHex;
-        
+
         private bool hasStart = false;
+        private CardSystem.Card[] cards;
+        private int currentCard;
 
         void Start()
         {
             grid = FindObjectOfType<GridManager>().Grid;
-            currHex = grid[rowStart, colStart];
-            currHex.Owner = this;
+            currentNode = grid[rowStart, colStart];
+            currentNode.Owner = this;
+            cards = FindObjectOfType<CardSystem.CardList>().Cards;
+            currentCard = 0;
+
         }
 
         void Update()
         {
             movementCheck();
-            transform.position = currHex.transform.position;
+            transform.position = currentNode.transform.position;
+            if (CustomInput.BoolFreshPress(CustomInput.UserInput.UseCard))
+            {
+                cards[currentCard++].Action.useCard(this);
+                if (currentCard >= cards.Length)
+                    currentCard = 0;
+            }
         }
 
         //MovementCheck does all the necessary keyPress checks and counts which ones are true. 
@@ -33,7 +43,7 @@ namespace Assets.Scripts.Player
 
             if (!hasStart)
             {
-                currHex = grid[rowStart, colStart];
+                currentNode = grid[rowStart, colStart];
                 hasStart = true;
             }
             if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up))
@@ -50,36 +60,36 @@ namespace Assets.Scripts.Player
             {
                 if (up)
                 {
-                    if (currHex.panelExists(Enums.Direction.Up))
+                    if (currentNode.panelExists(Enums.Direction.Up))
                     {
-                        currHex.clearOccupied();
-                        currHex = currHex.Up;
+                        currentNode.clearOccupied();
+                        currentNode = currentNode.Up;
                     }
                 }
                 if (down)
                 {
-                    if (currHex.panelExists(Enums.Direction.Down))
+                    if (currentNode.panelExists(Enums.Direction.Down))
                     {
-                        currHex = currHex.Down;
+                        currentNode = currentNode.Down;
                     }
                 }
                 if (left)
                 {
-                    if (currHex.panelExists(Enums.Direction.Left))
+                    if (currentNode.panelExists(Enums.Direction.Left))
                     {
-                        currHex.clearOccupied();
-                        currHex = currHex.Left;
+                        currentNode.clearOccupied();
+                        currentNode = currentNode.Left;
                     }
                 }
                 if (right)
                 {
-                    if (currHex.panelExists(Enums.Direction.Right))
+                    if (currentNode.panelExists(Enums.Direction.Right))
                     {
-                        currHex.clearOccupied();
-                        currHex = currHex.Right;
+                        currentNode.clearOccupied();
+                        currentNode = currentNode.Right;
                     }
                 }
-                currHex.Owner = (this);
+                currentNode.Owner = (this);
             }
         }
     }

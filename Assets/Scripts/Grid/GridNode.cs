@@ -9,6 +9,7 @@ namespace Assets.Scripts.Grid
         private GridNode[] neighbors = new GridNode[4];
         private bool occupied = false;
         private Character panelOwner;
+        private Enums.FieldType type;
 
         public GridNode Up
         {
@@ -44,6 +45,12 @@ namespace Assets.Scripts.Grid
                 occupied = true;
                 panelOwner = value;
             }
+        }
+
+        public Enums.FieldType Type
+        {
+            get { return type; }
+            set { type = value; }
         }
 
         public bool panelExists(Enums.Direction direction)

@@ -22,7 +22,7 @@
   </card>
   <card name= "Heal">
     <type>Heal</type>
-    <action range= "1" damage= "3" hitbox= "Assets/Prefabs/HitBox.prefab">Heal</action>
+    <action range= "1" damage= "10" hitbox= "Assets/Prefabs/HitBox.prefab">Heal</action>
     <description>A basic Health restore.</description>
   </card>
   <card name= "Smoke">

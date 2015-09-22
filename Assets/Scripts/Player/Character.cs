@@ -7,6 +7,7 @@ namespace Assets.Scripts.Player
     {
         [SerializeField]
         protected int health = 100;
+        protected const int MAX_HEALTH = 100;
         [SerializeField]
         protected int rowStart = 1;
         [SerializeField]
@@ -41,6 +42,12 @@ namespace Assets.Scripts.Player
             {
                 health = health - damage;
             }
+        }
+
+        public void addHealth(int health)
+        {
+            this.health = Mathf.Clamp(this.health + health, 0, MAX_HEALTH);
+            Debug.Log("Healing by " + health.ToString() + " points. Health is " + this.health.ToString());
         }
     }
 }

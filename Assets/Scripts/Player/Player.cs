@@ -60,7 +60,7 @@ namespace Assets.Scripts.Player
             {
                 if (up)
                 {
-                    if (currentNode.panelExists(Enums.Direction.Up))
+                    if (currentNode.panelAllowed(Enums.Direction.Up, Type))
                     {
                         currentNode.clearOccupied();
                         currentNode = currentNode.Up;
@@ -68,14 +68,14 @@ namespace Assets.Scripts.Player
                 }
                 if (down)
                 {
-                    if (currentNode.panelExists(Enums.Direction.Down))
+                    if (currentNode.panelAllowed(Enums.Direction.Down, Type))
                     {
                         currentNode = currentNode.Down;
                     }
                 }
                 if (left)
                 {
-                    if (currentNode.panelExists(Enums.Direction.Left))
+                    if (currentNode.panelAllowed(Enums.Direction.Left, Type))
                     {
                         currentNode.clearOccupied();
                         currentNode = currentNode.Left;
@@ -83,7 +83,7 @@ namespace Assets.Scripts.Player
                 }
                 if (right)
                 {
-                    if (currentNode.panelExists(Enums.Direction.Right))
+                    if (currentNode.panelAllowed(Enums.Direction.Right, Type))
                     {
                         currentNode.clearOccupied();
                         currentNode = currentNode.Right;

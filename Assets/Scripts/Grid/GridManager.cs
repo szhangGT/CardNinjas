@@ -71,6 +71,21 @@ namespace Assets.Scripts.Grid
                         grid[y, x].Left = grid[y, x + 1];
                 }
             }
+
+            for (int x = 0; x < gridHeight / 2; x++)
+            {
+                for (int y = 0; y < gridWidth; y++)
+                {
+                    grid[y, x].Type = Util.Enums.FieldType.Blue;
+                }
+            }
+            for (int x = gridHeight / 2; x < gridHeight; x++)
+            {
+                for (int y = 0; y < gridWidth; y++)
+                {
+                    grid[y, x].Type = Util.Enums.FieldType.Red;
+                }
+            }
         }
 
         //Method to calculate the position of the first tile

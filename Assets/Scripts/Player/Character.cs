@@ -14,6 +14,8 @@ namespace Assets.Scripts.Player
         protected int colStart = 1;
         [SerializeField]
         private Util.Enums.Direction direction = Util.Enums.Direction.Left;
+        [SerializeField]
+        private Util.Enums.FieldType type = Util.Enums.FieldType.Red;
 
 
         protected GridNode[,] grid;
@@ -27,6 +29,11 @@ namespace Assets.Scripts.Player
         public Util.Enums.Direction Direction
         {
             get { return direction; }
+        }
+
+        public Util.Enums.FieldType Type
+        {
+            get { return type; }
         }
 
         bool invincible = false;

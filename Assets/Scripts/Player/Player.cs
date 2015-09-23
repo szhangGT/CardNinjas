@@ -1,14 +1,23 @@
-﻿using Assets.Scripts.Util;
+﻿using UnityEngine;
+using Assets.Scripts.Util;
 using Assets.Scripts.Grid;
 
 namespace Assets.Scripts.Player
 {
     public class Player : Character
     {
+        [SerializeField]
+        private Animator anim;
+        [SerializeField]
+        private GameObject bullet;
+        [SerializeField]
+        private Transform barrel;
 
-        private bool hasStart = false;
         private CardSystem.Card[] cards;
         private int currentCard;
+        private enum PlayerState { Idle, MoveBegining, Move, MoveEnding, Attacking, Hurt };
+        private PlayerState state;
+        private GridNode nextNode;
 
         public delegate void NewSelectedCard(string name, string type, int range, int damage, string description);
         public static event NewSelectedCard NewSelect;
@@ -20,7 +29,7 @@ namespace Assets.Scripts.Player
             currentNode.Owner = this;
             cards = FindObjectOfType<CardSystem.CardList>().Cards;
             currentCard = 0;
-
+            state = PlayerState.Idle;
             CardUIEvent(); //fire event to update card UI
         }
 
@@ -28,29 +37,37 @@ namespace Assets.Scripts.Player
         {
             movementCheck();
             transform.position = currentNode.transform.position;
-            if (CustomInput.BoolFreshPress(CustomInput.UserInput.UseCard))
+            Debug.Log(state);
+            if (state == PlayerState.Idle)
             {
-                cards[currentCard++].Action.useCard(this);
-                if (currentCard >= cards.Length)
-                    currentCard = 0;
-                CardUIEvent();
+                if (CustomInput.BoolFreshPress(CustomInput.UserInput.UseCard))
+                {
+                    switch (cards[currentCard].Type)
+                    {
+                        case Enums.CardTypes.Sword: anim.SetBool("sword", true); break;
+                        default: anim.SetBool("shoot", true); break;
+                    }
+                    cards[currentCard++].Action.useCard(this);
+                    if (currentCard >= cards.Length)
+                        currentCard = 0;
+                    CardUIEvent();
+                    state = PlayerState.Attacking;
+                }
+                else if(CustomInput.BoolFreshPress(CustomInput.UserInput.Attack))
+                {
+                    BasicAttack();
+                    state = PlayerState.Attacking;
+                }
             }
         }
 
-        //MovementCheck does all the necessary keyPress checks and counts which ones are true. 
-        //Then it calculates the moved hex in batch form, and returns the end result.
-        void movementCheck()
+        private void movementCheck()
         {
             bool up = false;
             bool down = false;
             bool left = false;
             bool right = false;
 
-            if (!hasStart)
-            {
-                currentNode = grid[rowStart, colStart];
-                hasStart = true;
-            }
             if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up))
                 up = true;
             if (CustomInput.BoolFreshPress(CustomInput.UserInput.Down))
@@ -60,41 +77,53 @@ namespace Assets.Scripts.Player
             if (CustomInput.BoolFreshPress(CustomInput.UserInput.Right))
                 right = true;
 
-
-            if (up || down || left || right)
+            if ((up || down || left || right) && state == PlayerState.Idle)
             {
                 if (up)
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Up, Type))
                     {
-                        currentNode.clearOccupied();
-                        currentNode = currentNode.Up;
+                        state = PlayerState.MoveBegining;
+                        anim.SetBool("startMove", true);
+                        nextNode = currentNode.Up;
                     }
                 }
                 if (down)
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Down, Type))
                     {
-                        currentNode = currentNode.Down;
+                        state = PlayerState.MoveBegining;
+                        anim.SetBool("startMove", true);
+                        nextNode = currentNode.Down;
                     }
                 }
                 if (left)
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Left, Type))
                     {
-                        currentNode.clearOccupied();
-                        currentNode = currentNode.Left;
+                        state = PlayerState.MoveBegining;
+                        anim.SetBool("startMove", true);
+                        nextNode = currentNode.Left;
                     }
                 }
                 if (right)
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Right, Type))
                     {
-                        currentNode.clearOccupied();
-                        currentNode = currentNode.Right;
+                        state = PlayerState.MoveBegining;
+                        anim.SetBool("startMove", true);
+                        nextNode = currentNode.Right;
                     }
                 }
+            }
+
+            if (state == PlayerState.Move)
+            {
+                currentNode.clearOccupied();
+                currentNode = nextNode;
                 currentNode.Owner = (this);
+                state = PlayerState.MoveEnding;
+                anim.SetBool("endMove", true);
             }
         }
 
@@ -103,6 +132,34 @@ namespace Assets.Scripts.Player
             if (NewSelect != null)
                 NewSelect(cards[currentCard].Name, cards[currentCard].Type.ToString(),
                               cards[currentCard].Action.Range, cards[currentCard].Action.Damage, cards[currentCard].Description); //fire event to gui
+        }
+
+        private void MovementBeginEnd()
+        {
+            anim.SetBool("startMove", false);
+            state = PlayerState.Move;
+        }
+
+        private void MovementEndEnd()
+        {
+            anim.SetBool("endMove", false);
+            state = PlayerState.Idle;
+        }
+
+        private void AnimEnd()
+        {
+            Debug.Log("a");
+            for (int i = 0; i < anim.parameters.Length; i++)
+                anim.SetBool(anim.parameters[i].nameHash, false);
+            state = PlayerState.Idle;
+        }
+
+        private void BasicAttack()
+        {
+            Weapons.Projectiles.Bullet b = Instantiate(bullet).GetComponent<Weapons.Projectiles.Bullet>();
+            b.transform.position = barrel.position;
+            b.Direction = Direction;
+            anim.SetBool("shoot", true);
         }
     }
 }

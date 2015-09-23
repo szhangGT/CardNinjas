@@ -7,7 +7,7 @@ namespace Assets.Scripts.Weapons.Projectiles
         [SerializeField]
         private float speed = 10;
 
-        private Vector3 direction = Vector3.forward;
+        private Util.Enums.Direction direction = Util.Enums.Direction.Left;
 
         public float Speed
         {
@@ -15,7 +15,7 @@ namespace Assets.Scripts.Weapons.Projectiles
             set { speed = value; }
         }
 
-        public Vector3 Direction
+        public Util.Enums.Direction Direction
         {
             get { return direction; }
             set { direction = value; }
@@ -23,7 +23,7 @@ namespace Assets.Scripts.Weapons.Projectiles
 
         void Update()
         {
-            transform.Translate(direction * speed * Time.deltaTime);
+            transform.Translate(new Vector3(0,0, direction == Util.Enums.Direction.Left ? -1 : 1) * speed * Time.deltaTime);
             if ((deathTime -= Time.deltaTime) < 0 || dead)
                 Destroy(this.gameObject);
         }

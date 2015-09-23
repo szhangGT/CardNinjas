@@ -18,13 +18,24 @@ namespace Assets.Scripts.Grid
 
         public GridNode[,] Grid
         {
-            get { return grid; }
+            get
+            {
+                if (grid == null)
+                {
+                    setSizes();
+                    createGrid();
+                }
+                return grid;
+            }
         }
 
         void Start()
         {
-            setSizes();
-            createGrid();
+            if (grid == null)
+            {
+                setSizes();
+                createGrid();
+            }
         }
 
         void setSizes()

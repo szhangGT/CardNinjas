@@ -10,6 +10,9 @@ namespace Assets.Scripts.Player
         private CardSystem.Card[] cards;
         private int currentCard;
 
+        public delegate void NewSelectedCard(string name, string type, int range, int damage, string description);
+        public static event NewSelectedCard NewSelect;
+
         void Start()
         {
             grid = FindObjectOfType<GridManager>().Grid;
@@ -18,6 +21,7 @@ namespace Assets.Scripts.Player
             cards = FindObjectOfType<CardSystem.CardList>().Cards;
             currentCard = 0;
 
+            CardUIEvent(); //fire event to update card UI
         }
 
         void Update()
@@ -29,6 +33,7 @@ namespace Assets.Scripts.Player
                 cards[currentCard++].Action.useCard(this);
                 if (currentCard >= cards.Length)
                     currentCard = 0;
+                CardUIEvent();
             }
         }
 
@@ -91,6 +96,13 @@ namespace Assets.Scripts.Player
                 }
                 currentNode.Owner = (this);
             }
+        }
+
+        private void CardUIEvent()
+        {
+            if (NewSelect != null)
+                NewSelect(cards[currentCard].Name, cards[currentCard].Type.ToString(),
+                              cards[currentCard].Action.Range, cards[currentCard].Action.Damage, cards[currentCard].Description); //fire event to gui
         }
     }
 }

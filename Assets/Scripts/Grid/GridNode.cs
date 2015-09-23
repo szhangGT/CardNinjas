@@ -6,6 +6,13 @@ namespace Assets.Scripts.Grid
 {
     public class GridNode : MonoBehaviour
     {
+        [SerializeField]
+        private Material red;
+        [SerializeField]
+        private Material blue;
+        [SerializeField]
+        private Material white;
+
         private GridNode[] neighbors = new GridNode[4];
         private bool occupied = false;
         private Character panelOwner;
@@ -50,7 +57,15 @@ namespace Assets.Scripts.Grid
         public Enums.FieldType Type
         {
             get { return type; }
-            set { type = value; }
+            set {
+                type = value;
+                if (type == Enums.FieldType.Red)
+                    GetComponent<Renderer>().material = red;
+                else if (type == Enums.FieldType.Blue)
+                    GetComponent<Renderer>().material = blue;
+                else
+                    GetComponent<Renderer>().material = white;
+            }
         }
 
         public bool panelExists(Enums.Direction direction)
@@ -65,7 +80,20 @@ namespace Assets.Scripts.Grid
                 return Right != null;
             return false;
         }
-        
+
+        public bool panelAllowed(Enums.Direction direction, Enums.FieldType type)
+        {
+            if (direction == Enums.Direction.Up)
+                return Up != null && Up.type == type;
+            if (direction == Enums.Direction.Down)
+                return Down != null && Down.type == type;
+            if (direction == Enums.Direction.Left)
+                return Left != null && Left.type == type;
+            if (direction == Enums.Direction.Right)
+                return Right != null && Right.type == type;
+            return false;
+        }
+
         public void clearOccupied()
         {
             occupied = false;

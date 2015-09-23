@@ -18,13 +18,24 @@ namespace Assets.Scripts.Grid
 
         public GridNode[,] Grid
         {
-            get { return grid; }
+            get
+            {
+                if (grid == null)
+                {
+                    setSizes();
+                    createGrid();
+                }
+                return grid;
+            }
         }
 
         void Start()
         {
-            setSizes();
-            createGrid();
+            if (grid == null)
+            {
+                setSizes();
+                createGrid();
+            }
         }
 
         void setSizes()
@@ -69,6 +80,21 @@ namespace Assets.Scripts.Grid
                         grid[y, x].Right = grid[y, x - 1];
                     if (x < gridHeight - 1)
                         grid[y, x].Left = grid[y, x + 1];
+                }
+            }
+
+            for (int x = 0; x < gridHeight / 2; x++)
+            {
+                for (int y = 0; y < gridWidth; y++)
+                {
+                    grid[y, x].Type = Util.Enums.FieldType.Blue;
+                }
+            }
+            for (int x = gridHeight / 2; x < gridHeight; x++)
+            {
+                for (int y = 0; y < gridWidth; y++)
+                {
+                    grid[y, x].Type = Util.Enums.FieldType.Red;
                 }
             }
         }

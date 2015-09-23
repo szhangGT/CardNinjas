@@ -13,10 +13,12 @@ namespace Assets.Scripts.CardSystem.Actions
         }
         public int Range
         {
+            get { return range; }
             set { range = value; }
         }
         public int Damage
         {
+            get { return damage; }
             set { damage = value; }
         }
 

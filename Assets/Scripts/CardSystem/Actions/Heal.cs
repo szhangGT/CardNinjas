@@ -7,7 +7,7 @@ namespace Assets.Scripts.CardSystem.Actions
     {
         public override void useCard(Character actor)
         {
-            actor.addHealth(damage);
+            actor.AddHealth(damage);
         }
     }
 }

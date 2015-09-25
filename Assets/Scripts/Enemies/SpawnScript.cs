@@ -18,13 +18,15 @@ namespace Assets.Scripts.Enemies
                 wait += Time.deltaTime;
             if(wait > 1f)
             {
+                if (currWave >= waves.Length)
+                    Application.Quit();
                 waves[currWave].SpawnWave();
                 wait = -1;
                 currWave++;
             }
 
-            if (currWave >= waves.Length)
-                Destroy(this.gameObject);
+            //if (currWave >= waves.Length)
+            //    Destroy(this.gameObject);
         }
     }
 }

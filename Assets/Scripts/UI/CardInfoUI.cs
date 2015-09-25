@@ -17,7 +17,7 @@ namespace Assets.Scripts.UI
             Player.Player.NewSelect -= UpdateCardInfo;
         }
 
-        void Start()
+        void Awake()
         {
             nameText = GameObject.Find("Name Text").GetComponent<Text>();
             typeText = GameObject.Find("Type Text").GetComponent<Text>();

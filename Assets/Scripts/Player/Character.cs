@@ -59,7 +59,10 @@ namespace Assets.Scripts.Player
             {
                 health = health - damage;
                 if (health <= 0)
+                {
+                    currentNode.clearOccupied();
                     Destroy(this.gameObject);
+                }
             }
         }
 

@@ -20,6 +20,7 @@ namespace Assets.Scripts.Enemies
         void Update()
         {
             RunAI();
+            transform.position = currentNode.transform.position;
         }
 
         void OnTriggerEnter(Collider col)

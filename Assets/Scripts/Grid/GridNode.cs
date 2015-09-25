@@ -17,6 +17,7 @@ namespace Assets.Scripts.Grid
         private bool occupied = false;
         private Character panelOwner;
         private Enums.FieldType type;
+        private Vector2 position;
 
         public GridNode Up
         {
@@ -37,6 +38,12 @@ namespace Assets.Scripts.Grid
         {
             get { return neighbors[(int)Enums.Direction.Right]; }
             set { neighbors[(int)Enums.Direction.Right] = value; }
+        }
+
+        public Vector2 Position
+        {
+            get { return position; }
+            set { position = value; }
         }
 
         public bool Occupied

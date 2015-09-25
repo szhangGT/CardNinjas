@@ -16,10 +16,12 @@ namespace Assets.Scripts.Player
         [SerializeField]
         private Transform barrel;
 
+        private static int damage = 0;
         private static bool doOnce = false;
         private static bool move = false;
         private static bool useCard = false;
         private static bool basicAttack = false;
+        private static bool takeDamage = false;
         private static bool invun = false;
         private static float invunTime = .5f;
         private static float invunTimer = 0;
@@ -148,6 +150,13 @@ namespace Assets.Scripts.Player
                 b.transform.position = barrel.position;
                 b.Direction = Direction;
             }
+
+            if (damage > 0 && takeDamage)
+            {
+                takeDamage = false;
+                TakeDamage(damage);
+                damage = 0;
+            }
             prevState = currState;
         }
 
@@ -161,6 +170,16 @@ namespace Assets.Scripts.Player
             if (NewSelect != null)
                 NewSelect(cards[currentCard].Name, cards[currentCard].Type.ToString(),
                               cards[currentCard].Action.Range, cards[currentCard].Action.Damage, cards[currentCard].Description); //fire event to gui
+        }
+
+        void OnTriggerEnter(Collider col)
+        {
+            Weapons.Hitbox hitbox = col.gameObject.GetComponent<Weapons.Hitbox>();
+            if (hitbox != null && !invun)
+            {
+                hit = true;
+                damage = hitbox.Damage;
+            }
         }
 
         private static void Idle()
@@ -187,6 +206,7 @@ namespace Assets.Scripts.Player
                 doOnce = true;
                 invunTimer = invunTime;
                 invun = true;
+                takeDamage = true;
             }
         }
 

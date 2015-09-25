@@ -30013,7 +30013,7 @@ AnimationClip:
   m_GenerateMotionCurves: 0
   m_Events:
   - time: .166666672
-    functionName: MovementEndEnd
+    functionName: AnimDetector
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

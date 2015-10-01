@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.CardSystem.Actions
 {
-    abstract class Action
+    public abstract class Action
     {
         protected Weapons.Hitbox hitbox;
         protected int range, damage;

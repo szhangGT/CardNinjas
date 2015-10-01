@@ -5,7 +5,7 @@ using Assets.Scripts.CardSystem.Actions;
 
 namespace Assets.Scripts.CardSystem
 {
-    class Card
+    public class Card
     {
         private Enums.CardTypes type;
         private Actions.Action action;

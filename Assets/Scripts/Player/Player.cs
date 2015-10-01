@@ -6,7 +6,7 @@ namespace Assets.Scripts.Player
 {
     public class Player : Character
     {
-        public delegate void NewSelectedCard(string name, string type, int range, int damage, string description);
+        public delegate void NewSelectedCard(CardSystem.Card card);
         public static event NewSelectedCard NewSelect;
 
         [SerializeField]
@@ -168,8 +168,7 @@ namespace Assets.Scripts.Player
         private void CardUIEvent()
         {
             if (NewSelect != null)
-                NewSelect(cards[currentCard].Name, cards[currentCard].Type.ToString(),
-                              cards[currentCard].Action.Range, cards[currentCard].Action.Damage, cards[currentCard].Description); //fire event to gui
+                NewSelect(cards[currentCard]); //fire event to gui
         }
 
         void OnTriggerEnter(Collider col)

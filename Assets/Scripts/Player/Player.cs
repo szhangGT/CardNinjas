@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using Assets.Scripts.Util;
 using Assets.Scripts.Grid;
+using Assets.Scripts.CardSystem;
 
 namespace Assets.Scripts.Player
 {
     public class Player : Character
     {
-        public delegate void NewSelectedCard(CardSystem.Card card);
+        public delegate void NewSelectedCard(Card card);
         public static event NewSelectedCard NewSelect;
 
         [SerializeField]
@@ -40,26 +42,24 @@ namespace Assets.Scripts.Player
         private Enums.PlayerState prevState = 0;
         private Enums.PlayerState currState = 0;
         
-        private CardSystem.Card[] cards;
-        private CardSystem.Card[] hand;
+        private Card[] deck;
+        private List<Card> hand;
         private const int HAND_SIZE = 4;
-        private int currentCard;
 
-        void Awake()
+        public Card[] Deck
         {
-            cards = FindObjectOfType<CardSystem.CardList>().Cards;
+            get { return deck; }
+            set { deck = value; }
         }
-
+        
         void Start()
         {
             grid = FindObjectOfType<GridManager>().Grid;
             currentNode = grid[rowStart, colStart];
             currentNode.Owner = this;
             transform.position = currentNode.transform.position;
-  
-            hand = new CardSystem.Card[HAND_SIZE];
-            currentCard = 0;
-            CardUIEvent(); //fire event to update card UI
+            deck = FindObjectOfType<CardList>().Cards;
+            hand = new List<Card>();
             //state machine init
             machine = new PlayerStateMachine();
             doState = new state[] { Idle, MoveBegining, MoveEnding, Hit, Dead, BasicAttack, Sword };
@@ -69,7 +69,7 @@ namespace Assets.Scripts.Player
 
         void Update()
         {
-            if (Managers.GameManager.State.Equals(Managers.GameManager.GameStates.Battle))
+            if (Managers.GameManager.State == Enums.GameStates.Battle)
             {
                 if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up))
                 {
@@ -106,9 +106,7 @@ namespace Assets.Scripts.Player
                 else
                     direction = Enums.Direction.None;
                 //get next state
-                //currState = machine.update(hit, animDone, direction, cards[currentCard].Type);
-                if (!ArrayHandler.IsEmpty<CardSystem.Card>(hand))
-                    currState = machine.update(hit, animDone, direction, hand[currentCard].Type);
+                currState = machine.update(hit, animDone, direction, hand.Count > 0 ? hand[0].Type : Enums.CardTypes.Error, hand.Count == 0);
 
                 //state clean up
                 if (prevState != currState)
@@ -150,14 +148,11 @@ namespace Assets.Scripts.Player
 
                 if (useCard)
                 {
-                    if (!ArrayHandler.IsEmpty<CardSystem.Card>(hand))
+                    if (hand.Count != 0)
                     {
                         useCard = false;
-                        //cards[currentCard++].Action.useCard(this);
-                        //if (currentCard >= cards.Length)
-                        //    currentCard = 0;
-                        hand[currentCard].Action.useCard(this);
-                        ArrayHandler.Remove<CardSystem.Card>(ref hand, 0, 1);
+                        hand[0].Action.useCard(this);
+                        hand.RemoveAt(0);
                         CardUIEvent();
                     }
                 }
@@ -188,20 +183,14 @@ namespace Assets.Scripts.Player
         private void CardUIEvent()
         {
             if (NewSelect != null)
-                NewSelect(hand[currentCard]); //fire event to gui
+                NewSelect(hand.Count > 0 ? hand[0] : null); //fire event to gui
         }
 
-        public void AddCardsToHand(CardSystem.Card[] cards)
+        public void AddCardsToHand(Card[] cards)
         {
-            hand = cards;
-        }
-        public void AddCardsToDeck(CardSystem.Card card)
-        {
-            ArrayHandler.AddToArray<CardSystem.Card>(ref cards, card);
-        }
-        public void AddCardsToDeck(CardSystem.Card[] cards)
-        {
-            ArrayHandler.AddToArray<CardSystem.Card>(ref this.cards, cards);
+            foreach (Card c in cards)
+                hand.Add(c);
+            CardUIEvent();
         }
 
         void OnTriggerEnter(Collider col)
@@ -267,7 +256,7 @@ namespace Assets.Scripts.Player
 
         public CardSystem.Card[] Cards
         {
-            get { return cards; }
+            get { return deck; }
         }
     }
 }

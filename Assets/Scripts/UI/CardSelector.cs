@@ -54,9 +54,12 @@ namespace Assets.Scripts.UI
 
         void Update()
         {
-            if(Input.GetKeyDown(KeyCode.P))
+            if (Managers.GameManager.State == Enums.GameStates.CardSelection)
             {
-                DrawPossibleSelections();
+                if (CustomInput.BoolFreshPress(CustomInput.UserInput.Attack))
+                {
+                    DrawPossibleSelections();
+                }
             }
         }
 

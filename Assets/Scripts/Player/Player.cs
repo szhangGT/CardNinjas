@@ -39,8 +39,16 @@ namespace Assets.Scripts.Player
         private state[] doState;
         private Enums.PlayerState prevState = 0;
         private Enums.PlayerState currState = 0;
+        
         private CardSystem.Card[] cards;
+        private CardSystem.Card[] hand;
+        private const int HAND_SIZE = 4;
         private int currentCard;
+
+        void Awake()
+        {
+            cards = FindObjectOfType<CardSystem.CardList>().Cards;
+        }
 
         void Start()
         {
@@ -48,7 +56,8 @@ namespace Assets.Scripts.Player
             currentNode = grid[rowStart, colStart];
             currentNode.Owner = this;
             transform.position = currentNode.transform.position;
-            cards = FindObjectOfType<CardSystem.CardList>().Cards;
+  
+            hand = new CardSystem.Card[HAND_SIZE];
             currentCard = 0;
             CardUIEvent(); //fire event to update card UI
             //state machine init
@@ -60,104 +69,115 @@ namespace Assets.Scripts.Player
 
         void Update()
         {
-            if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up))
+            if (Managers.GameManager.State.Equals(Managers.GameManager.GameStates.Battle))
             {
-                if (currentNode.panelAllowed(Enums.Direction.Up, Type))
+                if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up))
                 {
-                    direction = Enums.Direction.Up;
-                    nextNode = currentNode.Up;
+                    if (currentNode.panelAllowed(Enums.Direction.Up, Type))
+                    {
+                        direction = Enums.Direction.Up;
+                        nextNode = currentNode.Up;
+                    }
                 }
-            }
-            else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Down))
-            {
-                if (currentNode.panelAllowed(Enums.Direction.Down, Type))
+                else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Down))
                 {
-                    direction = Enums.Direction.Down;
-                    nextNode = currentNode.Down;
+                    if (currentNode.panelAllowed(Enums.Direction.Down, Type))
+                    {
+                        direction = Enums.Direction.Down;
+                        nextNode = currentNode.Down;
+                    }
                 }
-            }
-            else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Left))
-            {
-                if (currentNode.panelAllowed(Enums.Direction.Left, Type))
+                else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Left))
                 {
-                    direction = Enums.Direction.Left;
-                    nextNode = currentNode.Left;
+                    if (currentNode.panelAllowed(Enums.Direction.Left, Type))
+                    {
+                        direction = Enums.Direction.Left;
+                        nextNode = currentNode.Left;
+                    }
                 }
-            }
-            else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Right))
-            {
-                if (currentNode.panelAllowed(Enums.Direction.Right, Type))
+                else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Right))
                 {
-                    direction = Enums.Direction.Right;
-                    nextNode = currentNode.Right;
+                    if (currentNode.panelAllowed(Enums.Direction.Right, Type))
+                    {
+                        direction = Enums.Direction.Right;
+                        nextNode = currentNode.Right;
+                    }
                 }
-            }
-            else
-                direction = Enums.Direction.None;
-            //get next state
-            currState = machine.update(hit, animDone, direction, cards[currentCard].Type);
-            //state clean up
-            if (prevState != currState)
-            {
-                doOnce = false;
-                animDone = false;
-                hit = false;
-                anim.SetInteger("state", (int)currState);
-            }
-            if (invunTimer > 0)
-            {
-                if (renderTimer > renderTime)
+                else
+                    direction = Enums.Direction.None;
+                //get next state
+                //currState = machine.update(hit, animDone, direction, cards[currentCard].Type);
+                if (!ArrayHandler.IsEmpty<CardSystem.Card>(hand))
+                    currState = machine.update(hit, animDone, direction, hand[currentCard].Type);
+
+                //state clean up
+                if (prevState != currState)
                 {
-                    render = !render;
-                    renderTimer = 0;
-                    //GetComponent<Renderer>().enabled = render;
+                    doOnce = false;
+                    animDone = false;
+                    hit = false;
+                    anim.SetInteger("state", (int)currState);
                 }
-                hit = false;
-                renderTimer += Time.deltaTime;
-                invunTimer -= Time.deltaTime;
-            }
-            else
-            {
-                //GetComponent<Renderer>().enabled = true;
-                invun = false;
-            }
+                if (invunTimer > 0)
+                {
+                    if (renderTimer > renderTime)
+                    {
+                        render = !render;
+                        renderTimer = 0;
+                        //GetComponent<Renderer>().enabled = render;
+                    }
+                    hit = false;
+                    renderTimer += Time.deltaTime;
+                    invunTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    //GetComponent<Renderer>().enabled = true;
+                    invun = false;
+                }
 
-            //run state
-            doState[(int)currState]();
+                //run state
+                doState[(int)currState]();
 
-            if (move)
-            {
-                move = false;
-                currentNode.clearOccupied();
-                currentNode = nextNode;
-                currentNode.Owner = (this);
-                transform.position = currentNode.transform.position;
-            }
+                if (move)
+                {
+                    move = false;
+                    currentNode.clearOccupied();
+                    currentNode = nextNode;
+                    currentNode.Owner = (this);
+                    transform.position = currentNode.transform.position;
+                }
 
-            if (useCard)
-            {
-                useCard = false;
-                cards[currentCard++].Action.useCard(this);
-                if (currentCard >= cards.Length)
-                    currentCard = 0;
-                CardUIEvent();
-            }
+                if (useCard)
+                {
+                    if (!ArrayHandler.IsEmpty<CardSystem.Card>(hand))
+                    {
+                        useCard = false;
+                        //cards[currentCard++].Action.useCard(this);
+                        //if (currentCard >= cards.Length)
+                        //    currentCard = 0;
+                        hand[currentCard].Action.useCard(this);
+                        ArrayHandler.Remove<CardSystem.Card>(ref hand, 0, 1);
+                        CardUIEvent();
+                    }
+                }
 
-            if (basicAttack)
-            {
-                basicAttack = false;
-                Weapons.Projectiles.Bullet b = Instantiate(bullet).GetComponent<Weapons.Projectiles.Bullet>();
-                b.transform.position = barrel.position;
-                b.Direction = Direction;
-            }
+                if (basicAttack)
+                {
+                    basicAttack = false;
+                    Weapons.Projectiles.Bullet b = Instantiate(bullet).GetComponent<Weapons.Projectiles.Bullet>();
+                    b.transform.position = barrel.position;
+                    b.Direction = Direction;
+                }
 
-            if (damage > 0 && takeDamage)
-            {
-                takeDamage = false;
-                TakeDamage(damage);
-                damage = 0;
+                if (damage > 0 && takeDamage)
+                {
+                    takeDamage = false;
+                    TakeDamage(damage);
+                    damage = 0;
+                }
+                prevState = currState;
             }
-            prevState = currState;
         }
 
         public void AnimDetector()
@@ -168,7 +188,20 @@ namespace Assets.Scripts.Player
         private void CardUIEvent()
         {
             if (NewSelect != null)
-                NewSelect(cards[currentCard]); //fire event to gui
+                NewSelect(hand[currentCard]); //fire event to gui
+        }
+
+        public void AddCardsToHand(CardSystem.Card[] cards)
+        {
+            hand = cards;
+        }
+        public void AddCardsToDeck(CardSystem.Card card)
+        {
+            ArrayHandler.AddToArray<CardSystem.Card>(ref cards, card);
+        }
+        public void AddCardsToDeck(CardSystem.Card[] cards)
+        {
+            ArrayHandler.AddToArray<CardSystem.Card>(ref this.cards, cards);
         }
 
         void OnTriggerEnter(Collider col)
@@ -230,6 +263,11 @@ namespace Assets.Scripts.Player
                 doOnce = true;
                 useCard = true;
             }
+        }
+
+        public CardSystem.Card[] Cards
+        {
+            get { return cards; }
         }
     }
 }

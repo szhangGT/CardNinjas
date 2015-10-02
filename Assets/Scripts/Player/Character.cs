@@ -36,22 +36,37 @@ namespace Assets.Scripts.Player
             get { return type; }
         }
 
-        bool invincible = false;
+        public int RowStart
+        {
+            set { rowStart = value; }
+        }
+
+        public int ColStart
+        {
+            set { colStart = value; }
+        }
+
+        protected bool invincible = false;
 
         void Start()
         {
             grid = FindObjectOfType<GridManager>().Grid;
         }
         
-        public void takeDamage(int damage)
+        public virtual void TakeDamage(int damage)
         {
             if (!invincible)
             {
                 health = health - damage;
+                if (health <= 0)
+                {
+                    currentNode.clearOccupied();
+                    Destroy(this.gameObject);
+                }
             }
         }
 
-        public void addHealth(int health)
+        public void AddHealth(int health)
         {
             this.health = Mathf.Clamp(this.health + health, 0, MAX_HEALTH);
             Debug.Log("Healing by " + health.ToString() + " points. Health is " + this.health.ToString());

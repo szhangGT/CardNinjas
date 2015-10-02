@@ -28,13 +28,13 @@ namespace Assets.Scripts.UI
             HideDescription();
         }
 
-        private void UpdateCardInfo(string name, string type, int range, int damage, string description)
+        private void UpdateCardInfo(CardSystem.Card card)
         {
-            nameText.text = "Name: " + name;
-            typeText.text = "Type: " + type;
-            descriptionText.text = "Description: "+ description;
-            rangeText.text = "Range: " + range.ToString();
-            damageText.text = "Damage: " + damage.ToString();
+            nameText.text = "Name: " + card.Name;
+            typeText.text = "Type: " + card.Type.ToString();
+            descriptionText.text = "Description: " + card.Description;
+            rangeText.text = "Range: " + card.Action.Range.ToString();
+            damageText.text = "Damage: " + card.Action.Damage.ToString();
         }
 
         public void DisplayDescription()

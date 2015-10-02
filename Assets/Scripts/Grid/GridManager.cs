@@ -80,6 +80,7 @@ namespace Assets.Scripts.Grid
                         grid[y, x].Right = grid[y, x - 1];
                     if (x < gridHeight - 1)
                         grid[y, x].Left = grid[y, x + 1];
+                    grid[y, x].Position = new Vector2(y, x);
                 }
             }
 

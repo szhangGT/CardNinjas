@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
-using UnityEditor;
 
 namespace Assets.Scripts.CardSystem
 {
@@ -52,7 +51,7 @@ namespace Assets.Scripts.CardSystem
                     reader.MoveToNextAttribute();
                     damage = int.Parse(reader.Value);
                     reader.MoveToNextAttribute();
-                    hitbox = (AssetDatabase.LoadAssetAtPath(reader.Value, typeof(GameObject))as GameObject).GetComponent<Weapons.Hitbox>();
+                    hitbox = (Resources.Load(reader.Value, typeof(GameObject))as GameObject).GetComponent<Weapons.Hitbox>();
                     reader.MoveToContent();
                     actionType = reader.ReadElementContentAsString();
                     reader.ReadToFollowing("description");
@@ -63,13 +62,13 @@ namespace Assets.Scripts.CardSystem
             cards = tempList.ToArray();
         }
 
-        void Start()
-        {
-            ReadList();
-            //foreach(Card c in cards)
-            //{
-            //    Debug.Log(string.Format("name: {0}, type: {1}, action: {2}, description: {3}", c.Name, c.Type, c.Action, c.Description));
-            //}
-        }
+        //void Start()
+        //{
+        //    ReadList();
+        //    foreach (Card c in cards)
+        //    {
+        //        Debug.Log(string.Format("name: {0}, type: {1}, action: {2}, description: {3}", c.Name, c.Type, c.Action, c.Description));
+        //    }
+        //}
     }
 }

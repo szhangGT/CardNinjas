@@ -43,7 +43,7 @@ namespace Assets.Scripts.Player
         private Enums.PlayerState currState = 0;
         
         private Card[] deck;
-        private List<Card> hand;
+        private Hand hand;
         private const int HAND_SIZE = 4;
 
         public Card[] Deck
@@ -59,7 +59,7 @@ namespace Assets.Scripts.Player
             currentNode.Owner = this;
             transform.position = currentNode.transform.position;
             deck = FindObjectOfType<CardList>().Cards;
-            hand = new List<Card>();
+            hand = new Hand();
             //state machine init
             machine = new PlayerStateMachine();
             doState = new state[] { Idle, MoveBegining, MoveEnding, Hit, Dead, BasicAttack, Sword };
@@ -106,7 +106,7 @@ namespace Assets.Scripts.Player
                 else
                     direction = Enums.Direction.None;
                 //get next state
-                currState = machine.update(hit, animDone, direction, hand.Count > 0 ? hand[0].Type : Enums.CardTypes.Error, hand.Count == 0);
+                currState = machine.update(hit, animDone, direction, hand.GetCurrentType(), hand.Empty());
 
                 //state clean up
                 if (prevState != currState)
@@ -148,11 +148,10 @@ namespace Assets.Scripts.Player
 
                 if (useCard)
                 {
-                    if (hand.Count != 0)
+                    if (!hand.Empty())
                     {
                         useCard = false;
-                        hand[0].Action.useCard(this);
-                        hand.RemoveAt(0);
+                        hand.UseCurrent(this);
                         CardUIEvent();
                     }
                 }
@@ -183,13 +182,15 @@ namespace Assets.Scripts.Player
         private void CardUIEvent()
         {
             if (NewSelect != null)
-                NewSelect(hand.Count > 0 ? hand[0] : null); //fire event to gui
+                NewSelect(hand.getCurrent()); //fire event to gui
         }
 
         public void AddCardsToHand(Card[] cards)
         {
+            List<Card> temp = new List<Card>();
             foreach (Card c in cards)
-                hand.Add(c);
+                temp.Add(c);
+            hand.PlayerHand = temp;
             CardUIEvent();
         }
 

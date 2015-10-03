@@ -30,7 +30,7 @@ namespace Assets.Scripts.UI
             //should find players provided they are named in the fashion: "Player 1" or "Player 42"
             player = GameObject.Find("Player " + ++playerIndex).GetComponent<Player.Player>();
 
-            cards = player.Cards;
+            cards = player.Deck;
             ArrayHandler.Shuffle<CardSystem.Card>(cards);
 
             selectionOptions = ArrayHandler.Remove<CardSystem.Card>(ref cards, 0, NUM_SELECTIONS);

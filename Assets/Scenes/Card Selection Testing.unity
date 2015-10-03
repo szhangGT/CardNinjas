@@ -6897,7 +6897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eaa87f8adb9e9a438b4bb35be8e917e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xmlCardList: {fileID: 4900000, guid: 56ef6befb6d16c545abe74cdc54169b6, type: 3}
+  xmlCardList: {fileID: 4900000, guid: 8ad00bea1751d09478ef2742622816cd, type: 3}
 --- !u!4 &1925483359
 Transform:
   m_ObjectHideFlags: 0

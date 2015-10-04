@@ -90,6 +90,7 @@ namespace Assets.Scripts.UI
                 cb.highlightedColor = Color.white;
                 cb.normalColor = Color.white;
                 t.colors = cb;
+                selectedCards.PlayerHand.Remove(selectionOptions.PlayerHand[index]);
                 numSelections--;
             }
             else
@@ -100,7 +101,7 @@ namespace Assets.Scripts.UI
                 cb.highlightedColor = Color.yellow;
                 t.colors = cb;
                 numSelections++;
-                //selectedCards.PlayerHand.Add(selectionOptions.PlayerHand[index]);
+                selectedCards.PlayerHand.Add(selectionOptions.PlayerHand[index]);
                 if (numSelections >= MAX_SELECTIONS)
                 {
                     for (int i = 0; i < selectionButtons.Length; i++)
@@ -121,13 +122,9 @@ namespace Assets.Scripts.UI
 
         public void Okay()
         {
-            for(int i = 0; i < selectionOptions.PlayerHand.Count; i++)
+            for(int i = 0; i < selectedCards.PlayerHand.Count; i++)
             {
-                if (selectionButtons[i].isOn) selectedCards.PlayerHand.Add(selectionOptions.PlayerHand[i]);
-            }
-            for (int i = 0; i < selectionOptions.PlayerHand.Count; i++)
-            {
-                if (selectedCards.PlayerHand.Contains(selectionOptions.PlayerHand[i])) selectionOptions.PlayerHand.RemoveAt(i--);
+                selectionOptions.PlayerHand.Remove(selectedCards.PlayerHand[i]);
             }
             deck.ReturnUsedCards(selectionOptions.PlayerHand);
             player.AddCardsToHand(selectedCards.PlayerHand);

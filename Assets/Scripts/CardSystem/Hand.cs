@@ -3,7 +3,7 @@ using Assets.Scripts.Util;
 
 namespace Assets.Scripts.CardSystem
 {
-    class Hand
+    public class Hand
     {
         private List<Card> hand;
 

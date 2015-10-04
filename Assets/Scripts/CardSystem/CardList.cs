@@ -10,9 +10,9 @@ namespace Assets.Scripts.CardSystem
         [SerializeField]
         private TextAsset xmlCardList;
 
-        private Card[] cards;
+        private List<Card> cards;
 
-        public Card[] Cards
+        public List<Card> Cards
         {
             get
             {
@@ -34,7 +34,8 @@ namespace Assets.Scripts.CardSystem
         */
         public void ReadList()
         {
-            List<Card> tempList = new List<Card>();
+            //List<Card> tempList = new List<Card>();
+            cards = new List<Card>();
             Weapons.Hitbox hitbox;
             //UnityEngine.UI.Image image;
             string name, type, actionType, description;
@@ -60,10 +61,9 @@ namespace Assets.Scripts.CardSystem
                     actionType = reader.ReadElementContentAsString();
                     reader.ReadToFollowing("description");
                     description = reader.ReadElementContentAsString();
-                    tempList.Add(new Card(name, type, range, damage, actionType, hitbox, description));
+                    cards.Add(new Card(name, type, range, damage, actionType, hitbox, description));
                 }
             }
-            cards = tempList.ToArray();
         }
 
         //void Start()

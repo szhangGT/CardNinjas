@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace Assets.Scripts.CardSystem
 {
-    class Deck
+    public class Deck
     {
         public const int DRAW_SIZE = 8;
         private List<Card> deck;
@@ -10,7 +10,7 @@ namespace Assets.Scripts.CardSystem
         public Deck(List<Card> deck)
         {
             this.deck = deck;
-            Random.seed = System.DateTime.Today.Millisecond;
+            //Random.seed = System.DateTime.Today.Millisecond;
             Card temp;
             for (int i = 0; i < this.deck.Count; i++)
             {
@@ -26,15 +26,21 @@ namespace Assets.Scripts.CardSystem
             if (deck.Count == 0)
                 return null;
             List<Card> selection = new List<Card>();
-            for (int i = 0; i < DRAW_SIZE; i++)
+            int limitedDrawSize = deck.Count > DRAW_SIZE ? DRAW_SIZE : deck.Count;
+            for (int i = 0; i < limitedDrawSize; i++)
                 selection.Add(deck[i]);
-            deck.RemoveRange(0, 8);
+            deck.RemoveRange(0, limitedDrawSize);
             return selection;
         }
 
         public void ReturnUsedCards(List<Card> cards)
         {
-            deck.AddRange(cards);
+            deck.InsertRange(0, cards);
+        }
+
+        public List<Card> GetDeck
+        {
+            get { return deck; }
         }
     }
 }

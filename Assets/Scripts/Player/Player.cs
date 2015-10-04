@@ -42,11 +42,11 @@ namespace Assets.Scripts.Player
         private Enums.PlayerState prevState = 0;
         private Enums.PlayerState currState = 0;
         
-        private Card[] deck;
+        private Deck deck;
         private Hand hand;
         private const int HAND_SIZE = 4;
 
-        public Card[] Deck
+        public Deck Deck
         {
             get { return deck; }
             set { deck = value; }
@@ -58,7 +58,7 @@ namespace Assets.Scripts.Player
             currentNode = grid[rowStart, colStart];
             currentNode.Owner = this;
             transform.position = currentNode.transform.position;
-            deck = FindObjectOfType<CardList>().Cards;
+            deck = new Deck(FindObjectOfType<CardList>().Cards);
             hand = new Hand();
             //state machine init
             machine = new PlayerStateMachine();
@@ -185,12 +185,9 @@ namespace Assets.Scripts.Player
                 NewSelect(hand.getCurrent()); //fire event to gui
         }
 
-        public void AddCardsToHand(Card[] cards)
+        public void AddCardsToHand(List<Card> cards)
         {
-            List<Card> temp = new List<Card>();
-            foreach (Card c in cards)
-                temp.Add(c);
-            hand.PlayerHand = temp;
+            hand.PlayerHand = cards;
             CardUIEvent();
         }
 
@@ -253,11 +250,6 @@ namespace Assets.Scripts.Player
                 doOnce = true;
                 useCard = true;
             }
-        }
-
-        public CardSystem.Card[] Cards
-        {
-            get { return deck; }
         }
     }
 }

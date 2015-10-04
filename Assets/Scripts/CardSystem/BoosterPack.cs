@@ -19,7 +19,7 @@ namespace Assets.Scripts.CardSystem
 
         public List<Card> GetCards()
         {
-            Card[] cards = FindObjectOfType<CardList>().Cards;
+            List<Card> cards = FindObjectOfType<CardList>().Cards;
             List<Card> pack = new List<Card>();
             Random.seed = System.DateTime.Today.Millisecond;
             for (int i = 0; i < packSize; i++)

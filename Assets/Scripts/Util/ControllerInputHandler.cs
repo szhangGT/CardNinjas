@@ -15,26 +15,26 @@ namespace Assets.Scripts.Util
         public enum Buttons { A, B, X, Y, RightBumper, LeftBumper, Back, Start, LeftStickClick, RightStickClick };
         public enum Triggers { RightTrigger, LeftTrigger };
         public enum ControlType { Xbox, PS3 };
-        private const string LEFT_OSX_TRIGGER = "LeftOSXTrigger";
-        private const string LEFT_LINUX_TRIGGER = "LeftLinuxTrigger";
-        private const string LEFT_WIN_TRIGGER = "LeftWinTrigger";
-        private const string RIGHT_OSX_TRIGGER = "RightOSXTrigger";
-        private const string RIGHT_LINUX_TRIGGER = "RightLinuxTrigger";
-        private const string RIGHT_WIN_TRIGGER = "RightWinTrigger";
-        private const string RIGHT_OSX_STICK_Y = "RightOSXStickY";
-        private const string RIGHT_WIN_STICK_Y = "RightWinStickY";
-        private const string RIGHT_OSX_STICK_X = "RightOSXStickX";
-        private const string RIGHT_WIN_STICK_X = "RightWinStickX";
-        private const string RIGHT_PS_STICK_X = "RightPSStickX";
-        private const string RIGHT_PS_STICK_Y = "RightPSStickY";
-        private const string LEFT_STICK_Y = "Vertical";
-        private const string LEFT_STICK_X = "Horizontal";
-        private const string DPAD_WIN_STICK_Y = "DpadWinStickY";
-        private const string DPAD_WIN_STICK_X = "DpadWinStickX";
-        private const string DPAD_LINUX_STICK_X = "DpadLinuxStickX";
-        private const string DPAD_LINUX_STICK_Y = "DpadLinuxStickY";
-        private const string DPAD_PS_STICK_X = "DpadPSStickX";
-        private const string DPAD_PS_STICK_Y = "DpadPSStickY";
+        private const string LEFT_OSX_TRIGGER =     "LeftOSXTrigger";
+        private const string LEFT_LINUX_TRIGGER =   "LeftLinuxTrigger";
+        private const string LEFT_WIN_TRIGGER =     "LeftWinTrigger";
+        private const string RIGHT_OSX_TRIGGER =    "RightOSXTrigger";
+        private const string RIGHT_LINUX_TRIGGER =  "RightLinuxTrigger";
+        private const string RIGHT_WIN_TRIGGER =    "RightWinTrigger";
+        private const string RIGHT_OSX_STICK_Y =    "RightOSXStickY";
+        private const string RIGHT_WIN_STICK_Y =    "RightWinStickY";
+        private const string RIGHT_OSX_STICK_X =    "RightOSXStickX";
+        private const string RIGHT_WIN_STICK_X =    "RightWinStickX";
+        private const string RIGHT_PS_STICK_X =     "RightPSStickX";
+        private const string RIGHT_PS_STICK_Y =     "RightPSStickY";
+        private const string LEFT_STICK_Y =         "LeftStickY";
+        private const string LEFT_STICK_X =         "LeftStickX";
+        private const string DPAD_WIN_STICK_Y =     "DpadWinStickY";
+        private const string DPAD_WIN_STICK_X =     "DpadWinStickX";
+        private const string DPAD_LINUX_STICK_X =   "DpadLinuxStickX";
+        private const string DPAD_LINUX_STICK_Y =   "DpadLinuxStickY";
+        private const string DPAD_PS_STICK_X =      "DpadPSStickX";
+        private const string DPAD_PS_STICK_Y =      "DpadPSStickY";
 
         public static ControlType GetControlType()
         {
@@ -67,7 +67,7 @@ namespace Assets.Scripts.Util
             return Input.GetKeyDown(btnKeyCode);
         }
 
-        public static float GetAxis(Axis axisName)
+        public static float GetAxis(Axis axisName, int joyStickNumber = 0)
         {
             float result = 0;
             ControlType inControlType = GetControlType();
@@ -85,18 +85,18 @@ namespace Assets.Scripts.Util
                         case RuntimePlatform.OSXEditor:
                         case RuntimePlatform.OSXPlayer:
                         case RuntimePlatform.OSXWebPlayer:
-                            result = Input.GetAxisRaw(RIGHT_OSX_STICK_Y);
+                            result = Input.GetAxisRaw(RIGHT_OSX_STICK_Y + joyStickNumber);
                             break;
                         case RuntimePlatform.LinuxPlayer:
                         default:
-                            result = Input.GetAxisRaw(RIGHT_WIN_STICK_Y);
+                            result = Input.GetAxisRaw(RIGHT_WIN_STICK_Y + joyStickNumber);
                             break;
                     }
                     break;
                 case Axis.RightStickX:
                     if (inControlType == ControlType.PS3)
                     {
-                        result = Input.GetAxisRaw(RIGHT_PS_STICK_X);
+                        result = Input.GetAxisRaw(RIGHT_PS_STICK_X + joyStickNumber);
                         break;
                     }
                     switch (Application.platform)
@@ -105,11 +105,11 @@ namespace Assets.Scripts.Util
                         case RuntimePlatform.OSXEditor:
                         case RuntimePlatform.OSXPlayer:
                         case RuntimePlatform.OSXWebPlayer:
-                            result = Input.GetAxisRaw(RIGHT_OSX_STICK_X);
+                            result = Input.GetAxisRaw(RIGHT_OSX_STICK_X + joyStickNumber);
                             break;
                         case RuntimePlatform.LinuxPlayer:
                         default:
-                            result = Input.GetAxisRaw(RIGHT_WIN_STICK_X);
+                            result = Input.GetAxisRaw(RIGHT_WIN_STICK_X + joyStickNumber);
                             break;
                     }
                     break;
@@ -122,7 +122,7 @@ namespace Assets.Scripts.Util
                         case RuntimePlatform.OSXWebPlayer:
                         case RuntimePlatform.LinuxPlayer:
                         default:
-                            result = Input.GetAxisRaw(LEFT_STICK_Y);
+                            result = Input.GetAxisRaw(LEFT_STICK_Y + joyStickNumber);
                             break;
                     }
                     break;
@@ -135,20 +135,20 @@ namespace Assets.Scripts.Util
                         case RuntimePlatform.OSXWebPlayer:
                         case RuntimePlatform.LinuxPlayer:
                         default:
-                            result = Input.GetAxisRaw(LEFT_STICK_X);
+                            result = Input.GetAxisRaw(LEFT_STICK_X + joyStickNumber);
                             break;
                     }
                     break;
                 case Axis.DPadY:
                     if (inControlType == ControlType.PS3)
                     {
-                        result = Input.GetAxisRaw(DPAD_PS_STICK_Y);
+                        result = Input.GetAxisRaw(DPAD_PS_STICK_Y + joyStickNumber);
                         break;
                     }
                     switch (Application.platform)
                     {
                         case RuntimePlatform.LinuxPlayer:
-                            result = Input.GetAxisRaw(DPAD_LINUX_STICK_Y);
+                            result = Input.GetAxisRaw(DPAD_LINUX_STICK_Y + joyStickNumber);
                             break;
                         case RuntimePlatform.OSXDashboardPlayer:
                         case RuntimePlatform.OSXEditor:
@@ -158,20 +158,20 @@ namespace Assets.Scripts.Util
                             if (result == 0) result = (Input.GetKey(KeyCode.JoystickButton5) ? 1 : 0);
                             break;
                         default:
-                            result = Input.GetAxisRaw(DPAD_WIN_STICK_Y);
+                            result = Input.GetAxisRaw(DPAD_WIN_STICK_Y + joyStickNumber);
                             break;
                     }
                     break;
                 case Axis.DPadX:
                     if (inControlType == ControlType.PS3)
                     {
-                        result = Input.GetAxisRaw(DPAD_PS_STICK_X);
+                        result = Input.GetAxisRaw(DPAD_PS_STICK_X + joyStickNumber);
                         break;
                     }
                     switch (Application.platform)
                     {
                         case RuntimePlatform.LinuxPlayer:
-                            result = Input.GetAxisRaw(DPAD_LINUX_STICK_X);
+                            result = Input.GetAxisRaw(DPAD_LINUX_STICK_X + joyStickNumber);
                             break;
                         case RuntimePlatform.OSXDashboardPlayer:
                         case RuntimePlatform.OSXEditor:
@@ -181,7 +181,7 @@ namespace Assets.Scripts.Util
                             if (result == 0) result = (Input.GetKey(KeyCode.JoystickButton8) ? 1 : 0);
                             break;
                         default:
-                            result = Input.GetAxisRaw(DPAD_WIN_STICK_X);
+                            result = Input.GetAxisRaw(DPAD_WIN_STICK_X + joyStickNumber);
                             break;
                     }
                     break;
@@ -189,7 +189,7 @@ namespace Assets.Scripts.Util
             return result;
         }
 
-        public static float GetTrigger(Triggers trgName)
+        public static float GetTrigger(Triggers trgName, int joyStickNumber = 0)
         {
             float result = 0;
             ControlType inControlType = GetControlType();
@@ -198,7 +198,16 @@ namespace Assets.Scripts.Util
                 case Triggers.LeftTrigger:
                     if (inControlType == ControlType.PS3)
                     {
-                        result = (Input.GetKey(KeyCode.JoystickButton6) ? 1 : 0);
+                        switch (joyStickNumber)
+                        {
+                            case 1: result = (Input.GetKey(KeyCode.Joystick1Button6) ? 1 : 0); break;
+                            case 2: result = (Input.GetKey(KeyCode.Joystick2Button6) ? 1 : 0); break;
+                            case 3: result = (Input.GetKey(KeyCode.Joystick3Button6) ? 1 : 0); break;
+                            case 4: result = (Input.GetKey(KeyCode.Joystick4Button6) ? 1 : 0); break;
+                            case 5: result = (Input.GetKey(KeyCode.Joystick5Button6) ? 1 : 0); break;
+                            case 6: result = (Input.GetKey(KeyCode.Joystick6Button6) ? 1 : 0); break;
+                            default: result = (Input.GetKey(KeyCode.JoystickButton6) ? 1 : 0); break;
+                        }
                         break;
                     }
                     switch (Application.platform)
@@ -207,20 +216,29 @@ namespace Assets.Scripts.Util
                         case RuntimePlatform.OSXEditor:
                         case RuntimePlatform.OSXPlayer:
                         case RuntimePlatform.OSXWebPlayer:
-                            result = Input.GetAxisRaw(LEFT_OSX_TRIGGER);
+                            result = Input.GetAxisRaw(LEFT_OSX_TRIGGER + joyStickNumber);
                             break;
                         case RuntimePlatform.LinuxPlayer:
-                            result = Input.GetAxisRaw(LEFT_LINUX_TRIGGER);
+                            result = Input.GetAxisRaw(LEFT_LINUX_TRIGGER + joyStickNumber);
                             break;
                         default:
-                            result = Input.GetAxisRaw(LEFT_WIN_TRIGGER);
+                            result = Input.GetAxisRaw(LEFT_WIN_TRIGGER + joyStickNumber);
                             break;
                     }
                     break;
                 case Triggers.RightTrigger:
                     if (inControlType == ControlType.PS3)
                     {
-                        result = (Input.GetKey(KeyCode.JoystickButton7) ? 1 : 0);
+                        switch (joyStickNumber)
+                        {
+                            case 1: result = (Input.GetKey(KeyCode.Joystick1Button7) ? 1 : 0); break;
+                            case 2: result = (Input.GetKey(KeyCode.Joystick2Button7) ? 1 : 0); break;
+                            case 3: result = (Input.GetKey(KeyCode.Joystick3Button7) ? 1 : 0); break;
+                            case 4: result = (Input.GetKey(KeyCode.Joystick4Button7) ? 1 : 0); break;
+                            case 5: result = (Input.GetKey(KeyCode.Joystick5Button7) ? 1 : 0); break;
+                            case 6: result = (Input.GetKey(KeyCode.Joystick6Button7) ? 1 : 0); break;
+                            default: result = (Input.GetKey(KeyCode.JoystickButton7) ? 1 : 0); break;
+                        }
                         break;
                     }
                     switch (Application.platform)
@@ -229,13 +247,13 @@ namespace Assets.Scripts.Util
                         case RuntimePlatform.OSXEditor:
                         case RuntimePlatform.OSXPlayer:
                         case RuntimePlatform.OSXWebPlayer:
-                            result = Input.GetAxisRaw(RIGHT_OSX_TRIGGER);
+                            result = Input.GetAxisRaw(RIGHT_OSX_TRIGGER + joyStickNumber);
                             break;
                         case RuntimePlatform.LinuxPlayer:
-                            result = Input.GetAxisRaw(RIGHT_LINUX_TRIGGER);
+                            result = Input.GetAxisRaw(RIGHT_LINUX_TRIGGER + joyStickNumber);
                             break;
                         default:
-                            result = Input.GetAxisRaw(RIGHT_WIN_TRIGGER);
+                            result = Input.GetAxisRaw(RIGHT_WIN_TRIGGER + joyStickNumber);
                             break;
                     }
                     break;

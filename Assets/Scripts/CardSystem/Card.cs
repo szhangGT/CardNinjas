@@ -7,7 +7,7 @@ namespace Assets.Scripts.CardSystem
 {
     public class Card
     {
-        private UnityEngine.UI.Image image;
+        private Sprite image;
         private Enums.CardTypes type;
         private Actions.Action action;
         private string name;
@@ -33,12 +33,18 @@ namespace Assets.Scripts.CardSystem
             get { return description; }
         }
 
-        public Card(string name, string type, int range, int damage, string actionType, Weapons.Hitbox actionHitBox, string description)
+        public Sprite Image
+        {
+            get { return image; }
+        }
+
+        public Card(string name, string type, int range, int damage, string actionType, Weapons.Hitbox actionHitBox, string description, Sprite image)
         {
             this.name = name;
             SetType(type);
             SetAction(actionType, range, damage, actionHitBox);
             this.description = description;
+            this.image = image;
         }
 
         private void SetType(string type)

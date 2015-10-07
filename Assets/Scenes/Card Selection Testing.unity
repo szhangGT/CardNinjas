@@ -3949,6 +3949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xmlCardList: {fileID: 4900000, guid: 8ad00bea1751d09478ef2742622816cd, type: 3}
+  ErrorImage: {fileID: 21300000, guid: cb4340bac6343db4e89def9c27a09b96, type: 3}
 --- !u!4 &1925483359
 Transform:
   m_ObjectHideFlags: 0

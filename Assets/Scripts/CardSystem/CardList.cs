@@ -9,6 +9,8 @@ namespace Assets.Scripts.CardSystem
     {
         [SerializeField]
         private TextAsset xmlCardList;
+        [SerializeField]
+        private Sprite ErrorImage;
 
         private List<Card> cards;
 
@@ -37,7 +39,7 @@ namespace Assets.Scripts.CardSystem
             //List<Card> tempList = new List<Card>();
             cards = new List<Card>();
             Weapons.Hitbox hitbox;
-            //UnityEngine.UI.Image image;
+            Sprite image;
             string name, type, actionType, description;
             int range, damage;
             using (XmlReader reader = XmlReader.Create(new StringReader(xmlCardList.text)))
@@ -46,8 +48,10 @@ namespace Assets.Scripts.CardSystem
                 {
                     reader.MoveToAttribute(0);
                     name = reader.Value;
-                    //reader.ReadToFollowing("image");
-                    //image = (Resources.Load(reader.ReadElementContentAsString(), typeof(UnityEngine.UI.Image)) as UnityEngine.UI.Image);
+                    reader.ReadToFollowing("image");
+                    image = (Resources.Load(reader.ReadElementContentAsString(), typeof(Sprite)) as Sprite);
+                    if (image == null)
+                        image = ErrorImage;
                     reader.ReadToFollowing("type");
                     type = reader.ReadElementContentAsString();
                     reader.ReadToFollowing("action");
@@ -61,7 +65,7 @@ namespace Assets.Scripts.CardSystem
                     actionType = reader.ReadElementContentAsString();
                     reader.ReadToFollowing("description");
                     description = reader.ReadElementContentAsString();
-                    cards.Add(new Card(name, type, range, damage, actionType, hitbox, description));
+                    cards.Add(new Card(name, type, range, damage, actionType, hitbox, description, image));
                 }
             }
         }

@@ -72,6 +72,7 @@ namespace Assets.Scripts.Grid
                     GetComponent<Renderer>().material = blue;
                 else
                     GetComponent<Renderer>().material = white;
+                this.gameObject.tag = type.ToString();
             }
         }
 

@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Hitbox
   - Selection
+  - Player 1
+  - Player 2
+  - Enemy
+  - Blue
+  - Red
   layers:
   - Default
   - TransparentFX

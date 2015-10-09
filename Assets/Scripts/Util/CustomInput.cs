@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Xml;
 
 namespace Assets.Scripts.Util
 {
@@ -6,6 +7,9 @@ namespace Assets.Scripts.Util
     {
         /// <summary> This is used to define user inputs, changed to add or remove buttons. </summary>
         public enum UserInput { Up, Down, Left, Right, Attack, UseCard, Pause, Accept, Cancel, SelectCards, Taunt }
+
+        /// <summary> The file to save the bindings to. </summary>
+        private const string filename = "config.xml";
 
         /// <summary> This is used to define whether to return a positive or negative value for a specfic raw input. </summary>
         public static void RawSign()
@@ -300,7 +304,13 @@ namespace Assets.Scripts.Util
 
             RawSign();
 
-            Default();
+            if (FileExists())
+                Load();
+            else
+            {
+                Default();
+                Store();
+            }
         }
 
         /// <summary> Resets all the bindings to default. </summary>
@@ -308,6 +318,65 @@ namespace Assets.Scripts.Util
         {
             DefaultKey();
             DefaultPad();
+        }
+
+        public static bool FileExists()
+        {
+            return System.IO.File.Exists(filename);
+        }
+
+        public static void Load()
+        {
+            using (XmlReader reader = XmlReader.Create(filename))
+            {
+                for (int p = 0; p < 7; p++)
+                {
+                    reader.ReadToFollowing("Player" + p);
+                    for (int i = 0; i < System.Enum.GetNames(typeof(UserInput)).Length; i++)
+                    {
+                        reader.ReadToFollowing("Keyboard_" + System.Enum.GetNames(typeof(UserInput))[i]);
+                        keyBoard[i, p] = (KeyCode)System.Enum.Parse(typeof(KeyCode), reader.ReadElementContentAsString());
+                    }
+                    for (int i = 0; i < System.Enum.GetNames(typeof(UserInput)).Length; i++)
+                    {
+                        reader.ReadToFollowing("Gamepad_" + System.Enum.GetNames(typeof(UserInput))[i]);
+                        gamePad[i, p] = reader.ReadElementContentAsString();
+                    }
+                }
+                reader.Close();
+            }
+        }
+
+        public static void Store()
+        {
+            XmlDocument bindings = new XmlDocument();
+            XmlNode node;
+            XmlElement element, child;
+            XmlElement root = bindings.CreateElement("Controls");
+            bindings.InsertAfter(root, bindings.DocumentElement);
+            for (int p = 0; p < 7; p++)
+            {
+                element = bindings.CreateElement("Player"+p);
+                for (int i = 0; i < System.Enum.GetNames(typeof(UserInput)).Length; i++)
+                {
+                    child = bindings.CreateElement("Keyboard_" + System.Enum.GetNames(typeof(UserInput))[i]);
+                    node = bindings.CreateTextNode("Keyboard_" + System.Enum.GetNames(typeof(UserInput))[i]);
+                    node.Value = keyBoard[i, p].ToString();
+                    child.AppendChild(node);
+                    element.AppendChild(child);
+                }
+                for (int i = 0; i < System.Enum.GetNames(typeof(UserInput)).Length; i++)
+                {
+                    child = bindings.CreateElement("Gamepad_" + System.Enum.GetNames(typeof(UserInput))[i]);
+                    node = bindings.CreateTextNode("Gamepad_" + System.Enum.GetNames(typeof(UserInput))[i]);
+                    node.Value = gamePad[i, p];
+                    element.AppendChild(node);
+                    child.AppendChild(node);
+                    element.AppendChild(child);
+                }
+                root.AppendChild(element);                
+            }
+            bindings.Save(filename);
         }
 
         void Update()

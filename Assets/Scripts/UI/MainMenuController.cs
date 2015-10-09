@@ -5,12 +5,12 @@ using System.Collections;
 public class MainMenuController : MonoBehaviour {
 
 	public GameObject buttonParent;
-	private GameObject goalButtonParent;
+	public GameObject goalButtonParent;
 
 	private GameObject[] buttons;
 	private GameObject[] goalButtons;
 
-	// Use this for initialization
+
 	void Start () {
 		goalButtonParent.SetActive(true);
 		Button[] temp = buttonParent.GetComponentsInChildren<Button>();
@@ -26,8 +26,8 @@ public class MainMenuController : MonoBehaviour {
 		}
 		goalButtonParent.SetActive(false);
 	}
-	
-	// Update is called once per frame
+
+	// Move buttons to proper placement if they are out of place
 	void Update () {
 		for (int i = 0; i < buttons.Length; i++) {
 			buttons[i].transform.position = Vector3.MoveTowards(buttons[i].transform.position, 
@@ -36,7 +36,9 @@ public class MainMenuController : MonoBehaviour {
 	}
 
 	public void MoveButtons() {
+		// TODO: Use Jonathan's Custom Input
 
+		// Reassign all button references to proper place after navigation
 		if(Input.GetAxis("Vertical") < 0.0f) {
 			GameObject temp = buttons[0];
 			for (int i = 1; i < buttons.Length; i++) {

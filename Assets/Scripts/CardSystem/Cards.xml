@@ -1,32 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <library>
-  <card name= "Sword">
-    <type>Sword</type>
-    <action range= "1" damage= "3" hitbox= "Prefabs/HitBox">Sword</action>
+  <card name= "Sword1">
+    <image></image>
+    <type>SwordHori</type>
+    <action range= "1" damage= "3" hitbox= "Prefabs/HitBox">VerticalObjectSpawn</action>
     <description>A basic sword.</description>
   </card>
-  <card name= "Sword">
-    <type>Sword</type>
-    <action range= "2" damage= "3" hitbox= "Prefabs/HitBox">Sword</action>
+  <card name= "Sword2">
+    <image></image>
+    <type>SwordHori</type>
+    <action range= "2" damage= "3" hitbox= "Prefabs/HitBox">VerticalObjectSpawn</action>
     <description>A basic sword with higher range.</description>
   </card>
-  <card name= "Sword">
-    <type>Sword</type>
-    <action range= "3" damage= "3" hitbox= "Prefabs/HitBox">Sword</action>
+  <card name= "Sword3">
+    <image></image>
+    <type>SwordHori</type>
+    <action range= "3" damage= "3" hitbox= "Prefabs/HitBox">VerticalObjectSpawn</action>
     <description>A basic sword with max range.</description>
   </card>
-  <card name= "Kunai">
-    <type>Kunai</type>
-    <action range= "3" damage= "1" hitbox= "Prefabs/HitBox">Kunai</action>
+  <card name= "Kunai1">
+    <image></image>
+    <type>ThrowLight</type>
+    <action range= "1" damage= "1" hitbox= "Prefabs/Kunai">VerticalObjectSpawn</action>
     <description>A Throwing weapon.</description>
   </card>
-  <card name= "Heal">
-    <type>Heal</type>
+  <card name= "Kunai2">
+    <image></image>
+    <type>ThrowLight</type>
+    <action range= "2" damage= "1" hitbox= "Prefabs/Kunai">VerticalObjectSpawn</action>
+    <description>2 Throwing weapons.</description>
+  </card>
+  <card name= "Kunai3">
+    <image></image>
+    <type>ThrowLight</type>
+    <action range= "3" damage= "1" hitbox= "Prefabs/Kunai">VerticalObjectSpawn</action>
+    <description>3 Throwing weapons.</description>
+  </card>
+  <card name= "Heal1">
+    <image></image>
+    <type>ChiStationary</type>
     <action range= "1" damage= "10" hitbox= "Prefabs/HitBox">Heal</action>
     <description>A basic Health restore.</description>
   </card>
+  <card name= "Heal2">
+    <image></image>
+    <type>ChiStationary</type>
+    <action range= "1" damage= "25" hitbox= "Prefabs/HitBox">Heal</action>
+    <description>A medium Health restore.</description>
+  </card>
+  <card name= "Heal3">
+    <image></image>
+    <type>ChiStationary</type>
+    <action range= "1" damage= "50" hitbox= "Prefabs/HitBox">Heal</action>
+    <description>A large Health restore.</description>
+  </card>
   <card name= "Smoke">
-    <type>Smoke</type>
+    <image></image>
+    <type>ChiStationary</type>
     <action range= "9" damage= "0" hitbox= "Prefabs/HitBox">Smoke</action>
     <description>Obscure your movement.</description>
   </card>

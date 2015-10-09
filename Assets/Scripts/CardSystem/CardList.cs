@@ -9,10 +9,12 @@ namespace Assets.Scripts.CardSystem
     {
         [SerializeField]
         private TextAsset xmlCardList;
+        [SerializeField]
+        private Sprite ErrorImage;
 
-        private Card[] cards;
+        private List<Card> cards;
 
-        public Card[] Cards
+        public List<Card> Cards
         {
             get
             {
@@ -25,16 +27,19 @@ namespace Assets.Scripts.CardSystem
         /* XML Expected format
         <library>
             <card name= "Sword"> // The card name.
+                <image>Images/a</image>
                 <type>Sword</type> // The card type, has to one of the Enums.CardTypes.
-                <action range= "1" damage= "3" hitBox= "Assets/Prefabs/HitBox.prefab">Sword</action> // Defines the action class for this card, must implement action and be in the namespace Assets.Scripts.CardSystem.Actions.
+                <action range= "1" damage= "3" hitBox= "Prefabs/HitBox">Sword</action> // Defines the action class for this card, must implement action and be in the namespace Assets.Scripts.CardSystem.Actions.
                 <description>A basic sword.</description> // The string description of the card.
             </card>
         </library>
         */
         public void ReadList()
         {
-            List<Card> tempList = new List<Card>();
+            //List<Card> tempList = new List<Card>();
+            cards = new List<Card>();
             Weapons.Hitbox hitbox;
+            Sprite image;
             string name, type, actionType, description;
             int range, damage;
             using (XmlReader reader = XmlReader.Create(new StringReader(xmlCardList.text)))
@@ -43,6 +48,10 @@ namespace Assets.Scripts.CardSystem
                 {
                     reader.MoveToAttribute(0);
                     name = reader.Value;
+                    reader.ReadToFollowing("image");
+                    image = (Resources.Load(reader.ReadElementContentAsString(), typeof(Sprite)) as Sprite);
+                    if (image == null)
+                        image = ErrorImage;
                     reader.ReadToFollowing("type");
                     type = reader.ReadElementContentAsString();
                     reader.ReadToFollowing("action");
@@ -56,10 +65,9 @@ namespace Assets.Scripts.CardSystem
                     actionType = reader.ReadElementContentAsString();
                     reader.ReadToFollowing("description");
                     description = reader.ReadElementContentAsString();
-                    tempList.Add(new Card(name, type, range, damage, actionType, hitbox, description));
+                    cards.Add(new Card(name, type, range, damage, actionType, hitbox, description, image));
                 }
             }
-            cards = tempList.ToArray();
         }
 
         //void Start()

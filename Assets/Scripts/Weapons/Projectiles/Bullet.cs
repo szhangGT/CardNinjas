@@ -7,18 +7,10 @@ namespace Assets.Scripts.Weapons.Projectiles
         [SerializeField]
         private float speed = 10;
 
-        private Util.Enums.Direction direction = Util.Enums.Direction.Right;
-
         public float Speed
         {
             get { return speed; }
             set { speed = value; }
-        }
-
-        public Util.Enums.Direction Direction
-        {
-            get { return direction; }
-            set { direction = value; }
         }
 
         void Update()

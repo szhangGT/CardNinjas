@@ -8,11 +8,12 @@ public class UIVideo : MonoBehaviour {
     // Use this for initialization
     void Start () {
 		movie = this.GetComponent<RawImage>().texture as MovieTexture;
+		movie.loop = true;
 		movie.Play();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 }

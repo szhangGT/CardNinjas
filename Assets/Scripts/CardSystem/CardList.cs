@@ -67,6 +67,7 @@ namespace Assets.Scripts.CardSystem
                     description = reader.ReadElementContentAsString();
                     cards.Add(new Card(name, type, range, damage, actionType, hitbox, description, image));
                 }
+                reader.Close();
             }
         }
 

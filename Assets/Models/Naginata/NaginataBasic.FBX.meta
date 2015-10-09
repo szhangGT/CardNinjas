@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: b2d104981cdfa4b4a9024c96113d0d20
-timeCreated: 1444341166
+guid: 69ee3d4fd94ad39438fb34f0ad756863
+timeCreated: 1444168647
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Torus001
+    4300000: Katana
     9500000: //RootNode
   materials:
     importMaterials: 1

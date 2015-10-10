@@ -66,4 +66,10 @@
     <action range= "2" damage= "2" hitbox= "Prefabs/Spear">SpearAction</action>
     <description>A stab attack that hits two tiles in front of you.</description>
   </card>
+  <card name= "Tremor">
+	<image></image>
+	<type>SwordHori</type>
+	<action range= "2" damage= "0" hitbox= "Prefabs/Hitbox">DestroyTile</action>
+	<description>The earth swells two tiles in front of you, destroying a tile.</description>
+  </card>
 </library>

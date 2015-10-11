@@ -60,4 +60,10 @@
     <action range= "9" damage= "0" hitbox= "Prefabs/HitBox">Smoke</action>
     <description>Obscure your movement.</description>
   </card>
+  <card name= "Tremor">
+	<image></image>
+	<type>SwordHori</type>
+	<action range= "2" damage= "0" hitbox= "Prefabs/Hitbox">DestroyTile</action>
+	<description>The earth swells two tiles in front of you, destroying a tile.</description>
+  </card>
 </library>

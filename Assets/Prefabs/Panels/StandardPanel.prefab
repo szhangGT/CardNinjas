@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   red: {fileID: 2100000, guid: c82c0412e8d2d8d4397a0d0d3a1143f2, type: 2}
   blue: {fileID: 2100000, guid: b81eddf58ad98ef40b0090980253c592, type: 2}
+  destroyed: {fileID: 2100000, guid: f3731cc65c6ce894eb2d89eef1dd671a, type: 2}
   white: {fileID: 2100000, guid: a439004025fa4eb409e93def1f6ee52e, type: 2}
 --- !u!1001 &100100000
 Prefab:

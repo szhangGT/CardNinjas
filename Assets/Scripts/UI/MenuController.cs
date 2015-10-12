@@ -110,5 +110,9 @@ public class MenuController : MonoBehaviour {
 				cards[0] = tempCard;
 			}
 		}
+
+		// Play sound effect
+		AudioSource sfx = this.GetComponent<AudioSource>();
+		if (sfx) sfx.Play();
 	}
 }

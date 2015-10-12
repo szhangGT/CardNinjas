@@ -515,8 +515,8 @@ namespace Assets.Scripts.Util
         {
             bool key = false, keyUp = false;
 
-            if (gamePad[input, playerNumber] == LEFT_STICK_LEFT || gamePad[(int)input, playerNumber] == LEFT_STICK_DOWN || gamePad[(int)input, playerNumber] == RIGHT_STICK_LEFT ||
-                gamePad[(int)input, playerNumber] == RIGHT_STICK_DOWN || gamePad[input, playerNumber] == DPAD_LEFT || gamePad[input, playerNumber] == DPAD_LEFT)
+            if (gamePad[input, playerNumber] == LEFT_STICK_LEFT || gamePad[(int)input, playerNumber] == LEFT_STICK_UP || gamePad[(int)input, playerNumber] == RIGHT_STICK_LEFT ||
+                gamePad[(int)input, playerNumber] == RIGHT_STICK_UP || gamePad[input, playerNumber] == DPAD_LEFT || gamePad[input, playerNumber] == DPAD_DOWN)
             {
                 if (data < 0)
                     key = true;
@@ -540,9 +540,9 @@ namespace Assets.Scripts.Util
         {
             bool key = false, keyUp = false;
 
-            if (GetButton(gamePad[input, playerNumber]))
+            if (GetButton(gamePad[input, playerNumber], playerNumber))
                 key = true;
-            else if (GetButtonUp(gamePad[input, playerNumber]))
+            else if (GetButtonUp(gamePad[input, playerNumber], playerNumber))
                 keyUp = true;
 
             UpdateBools(key, keyUp, input, 1f, playerNumber);
@@ -551,40 +551,40 @@ namespace Assets.Scripts.Util
         /// <summary> Input.GetKey for the specific controller button. </summary>
         /// <param name="button"> The specific controller button. </param>
         /// <returns> True if that button has been pressed. </returns>
-        private bool GetButton(string button)
+        private bool GetButton(string button, int playerNumber)
         {
             switch (button)
             {
-                case A: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.A);
-                case B: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.B);
-                case X: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.X);
-                case Y: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.Y);
-                case RB: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.RightBumper);
-                case LB: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.LeftBumper);
-                case START: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.Start);
-                case BACK: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.Back);
-                case LEFT_STICK: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.LeftStickClick);
-                default: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.RightStickClick);
+                case A: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.A, playerNumber);
+                case B: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.B, playerNumber);
+                case X: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.X, playerNumber);
+                case Y: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.Y, playerNumber);
+                case RB: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.RightBumper, playerNumber);
+                case LB: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.LeftBumper, playerNumber);
+                case START: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.Start, playerNumber);
+                case BACK: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.Back, playerNumber);
+                case LEFT_STICK: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.LeftStickClick, playerNumber);
+                default: return ControllerInputHandler.GetButton(ControllerInputHandler.Buttons.RightStickClick, playerNumber);
             }
         }
 
         /// <summary> Input.GetKeyUp for the specific controller button. </summary>
         /// <param name="button"> The specific controller button. </param>
         /// <returns> True if that button has been released. </returns>
-        private bool GetButtonUp(string button)
+        private bool GetButtonUp(string button, int playerNumber)
         {
             switch (button)
             {
-                case A: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.A);
-                case B: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.B);
-                case X: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.X);
-                case Y: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.Y);
-                case RB: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.RightBumper);
-                case LB: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.LeftBumper);
-                case START: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.Start);
-                case BACK: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.Back);
-                case LEFT_STICK: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.LeftStickClick);
-                default: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.RightStickClick);
+                case A: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.A, playerNumber);
+                case B: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.B, playerNumber);
+                case X: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.X, playerNumber);
+                case Y: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.Y, playerNumber);
+                case RB: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.RightBumper, playerNumber);
+                case LB: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.LeftBumper, playerNumber);
+                case START: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.Start, playerNumber);
+                case BACK: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.Back, playerNumber);
+                case LEFT_STICK: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.LeftStickClick, playerNumber);
+                default: return ControllerInputHandler.GetButtonUp(ControllerInputHandler.Buttons.RightStickClick, playerNumber);
             }
         }
 

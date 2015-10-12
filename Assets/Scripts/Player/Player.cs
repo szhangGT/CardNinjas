@@ -16,13 +16,20 @@ namespace Assets.Scripts.Player
         [SerializeField]
         private GameObject bullet;
         [SerializeField]
+        private GameObject Katana;
+        [SerializeField]
+        private GameObject Niginata;
+        [SerializeField]
         private Transform barrel;
+        [SerializeField]
+        private int playerNumber = 1;
 
         private static int damage = 0;
         private static bool doOnce = false;
         private static bool move = false;
         private static bool useCard = false;
         private static bool basicAttack = false;
+        private static bool attack = false;
         private static bool takeDamage = false;
         private static bool invun = false;
         private static float invunTime = .5f;
@@ -41,7 +48,8 @@ namespace Assets.Scripts.Player
         private state[] doState;
         private Enums.PlayerState prevState = 0;
         private Enums.PlayerState currState = 0;
-        
+        private GameObject weapon;
+
         private Deck deck;
         private Hand hand;
         private const int HAND_SIZE = 4;
@@ -51,7 +59,7 @@ namespace Assets.Scripts.Player
             get { return deck; }
             set { deck = value; }
         }
-        
+
         void Start()
         {
             grid = FindObjectOfType<GridManager>().Grid;
@@ -62,7 +70,8 @@ namespace Assets.Scripts.Player
             hand = new Hand();
             //state machine init
             machine = new PlayerStateMachine();
-            doState = new state[] { Idle, MoveBegining, MoveEnding, Hit, Dead, BasicAttack, Sword };
+            doState = new state[] { Idle, MoveBegining, MoveEnding, Hit, Dead, BasicAttack, CardAnim, CardAnim, CardAnim, CardAnim, CardAnim, CardAnim, CardAnim,
+                                    Taunt, Taunt, Taunt, Taunt, Taunt };
             renderTimer = 0;
             invunTimer = 0;
         }
@@ -71,7 +80,7 @@ namespace Assets.Scripts.Player
         {
             if (Managers.GameManager.State == Enums.GameStates.Battle)
             {
-                if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up))
+                if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up, playerNumber))
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Up, Type))
                     {
@@ -79,7 +88,7 @@ namespace Assets.Scripts.Player
                         nextNode = currentNode.Up;
                     }
                 }
-                else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Down))
+                else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Down, playerNumber))
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Down, Type))
                     {
@@ -87,7 +96,7 @@ namespace Assets.Scripts.Player
                         nextNode = currentNode.Down;
                     }
                 }
-                else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Left))
+                else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Left, playerNumber))
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Left, Type))
                     {
@@ -95,7 +104,7 @@ namespace Assets.Scripts.Player
                         nextNode = currentNode.Left;
                     }
                 }
-                else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Right))
+                else if (CustomInput.BoolFreshPress(CustomInput.UserInput.Right, playerNumber))
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Right, Type))
                     {
@@ -106,14 +115,19 @@ namespace Assets.Scripts.Player
                 else
                     direction = Enums.Direction.None;
                 //get next state
-                currState = machine.update(hit, animDone, direction, hand.GetCurrentType(), hand.Empty());
+                currState = machine.update(hit, animDone, direction, hand.GetCurrentType(), hand.Empty(), playerNumber);
 
                 //state clean up
                 if (prevState != currState)
                 {
                     doOnce = false;
                     animDone = false;
+                    attack = false;
+                    basicAttack = false;
+                    move = false;
                     hit = false;
+                    if (weapon)
+                        Destroy(weapon);
                     anim.SetInteger("state", (int)currState);
                 }
                 if (invunTimer > 0)
@@ -150,6 +164,16 @@ namespace Assets.Scripts.Player
                 {
                     if (!hand.Empty())
                     {
+                        Enums.CardTypes type = hand.GetCurrentType();
+                        if (type == Enums.CardTypes.SwordHori || type == Enums.CardTypes.SwordVert)
+                        {
+                            //weapon = Instantiate(Katana);
+                            //weapon.transform.parent = 
+                        }
+                        else if (type == Enums.CardTypes.NaginataHori || type == Enums.CardTypes.NaginataVert)
+                        {
+
+                        }
                         useCard = false;
                         hand.UseCurrent(this);
                         CardUIEvent();
@@ -177,6 +201,11 @@ namespace Assets.Scripts.Player
         public void AnimDetector()
         {
             animDone = true;
+        }
+
+        public void Attack()
+        {
+            attack = true;
         }
 
         private void CardUIEvent()
@@ -235,21 +264,24 @@ namespace Assets.Scripts.Player
 
         private static void BasicAttack()
         {
-            hold += Time.deltaTime;
-            if (hold > .5f)
+            if (attack)
             {
-                hold = 0;
+                attack = false;
                 basicAttack = true;
             }
         }
 
-        private static void Sword()
+        private static void CardAnim()
         {
             if (!doOnce)
             {
                 doOnce = true;
                 useCard = true;
             }
+        }
+
+        private static void Taunt()
+        {
         }
     }
 }

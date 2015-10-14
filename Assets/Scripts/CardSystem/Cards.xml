@@ -60,6 +60,11 @@
     <action range= "9" damage= "0" hitbox= "Prefabs/HitBox">Smoke</action>
     <description>Obscure your movement.</description>
   </card>
+  <card name= "Fireball">
+    <type>Kunai</type>
+    <action range= "4" damage= "3" hitbox= "Prefabs/Sphere">VerticalObjectSpawn</action>
+    <description>A large fireball attack.</description>
+  </card>
   <card name= "Spear">
     <image></image>
     <type>SwordHori</type>

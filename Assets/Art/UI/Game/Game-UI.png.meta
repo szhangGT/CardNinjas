@@ -1,12 +1,13 @@
 fileFormatVersion: 2
 guid: 9ad1a956bca6eee46878856465750c7a
-timeCreated: 1444703147
+timeCreated: 1444888616
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Game-UI_Tab
     21300002: Game-UI_Square
     21300004: Game-UI_Hex
+    21300006: Game-UI_0
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -56,9 +57,9 @@ TextureImporter:
     - name: Game-UI_Tab
       rect:
         serializedVersion: 2
-        x: 12
+        x: 13
         y: 183
-        width: 122
+        width: 121
         height: 57
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -66,23 +67,33 @@ TextureImporter:
     - name: Game-UI_Square
       rect:
         serializedVersion: 2
-        x: 13
+        x: 14
         y: 38
-        width: 104
-        height: 103
+        width: 102
+        height: 102
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Game-UI_Hex
       rect:
         serializedVersion: 2
-        x: 136
-        y: 37
-        width: 101
-        height: 104
+        x: 137
+        y: 57
+        width: 69
+        height: 63
       alignment: 0
       pivot: {x: .5, y: .5}
-      border: {x: 33, y: 0, z: 31, w: 0}
+      border: {x: 26, y: 29, z: 26, w: 30}
+    - name: Game-UI_0
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 176
+        width: 60
+        height: 61
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 20, y: 21, z: 20, w: 20}
   spritePackingTag: 
   userData: 
   assetBundleName: 

@@ -60,13 +60,16 @@ namespace Assets.Scripts.Player
             set { deck = value; }
         }
 
+        void Awake()
+        {
+            deck = new Deck(FindObjectOfType<CardList>().Cards);
+        }
         void Start()
         {
             grid = FindObjectOfType<GridManager>().Grid;
             currentNode = grid[rowStart, colStart];
             currentNode.Owner = this;
             transform.position = currentNode.transform.position;
-            deck = new Deck(FindObjectOfType<CardList>().Cards);
             hand = new Hand();
             //state machine init
             machine = new PlayerStateMachine();

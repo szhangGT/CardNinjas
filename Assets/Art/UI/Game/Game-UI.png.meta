@@ -1,0 +1,100 @@
+fileFormatVersion: 2
+guid: 9ad1a956bca6eee46878856465750c7a
+timeCreated: 1444888616
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Game-UI_Tab
+    21300002: Game-UI_Square
+    21300004: Game-UI_Hex
+    21300006: Game-UI_0
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Game-UI_Tab
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 183
+        width: 121
+        height: 57
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 59, w: 0}
+    - name: Game-UI_Square
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 38
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Game-UI_Hex
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 57
+        width: 69
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 26, y: 29, z: 26, w: 30}
+    - name: Game-UI_0
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 176
+        width: 60
+        height: 61
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 20, y: 21, z: 20, w: 20}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

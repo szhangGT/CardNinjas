@@ -63,7 +63,7 @@
   <card name= "Fireball">
     <image></image>
     <type>ChiAttack</type>
-    <action range= "4" damage= "3" hitbox= "Prefabs/Sphere">VerticalObjectSpawn</action>
+    <action range= "4" damage= "3" hitbox= "Prefabs/HitBox">VerticalObjectSpawn</action>
     <description>A large fireball attack.</description>
   </card>
   <card name= "Spear">

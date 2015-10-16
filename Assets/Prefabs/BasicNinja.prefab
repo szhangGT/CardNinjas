@@ -4239,6 +4239,7 @@ MonoBehaviour:
   bullet: {fileID: 116738, guid: 8d5d85be926fb984bbc8047b3426a344, type: 2}
   Katana: {fileID: 100000, guid: baeb8e22b0f12d84e9dda8dbbcd3babc, type: 3}
   Naginata: {fileID: 100000, guid: 69ee3d4fd94ad39438fb34f0ad756863, type: 3}
+  Hammer: {fileID: 100000, guid: e83dd12612a96f94cac69311e0b01397, type: 3}
   barrel: {fileID: 443406}
   playerNumber: 1
   weaponPoint: {fileID: 421640}

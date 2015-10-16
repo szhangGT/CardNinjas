@@ -45,7 +45,8 @@ namespace Assets.Scripts.CardSystem.Actions
 					}
 				}
 				//Destroy the furthest tile within range.
-				targetNode.Type = Assets.Scripts.Util.Enums.FieldType.Destroyed;
+                if(!targetNode.Occupied)
+				    targetNode.Type = Assets.Scripts.Util.Enums.FieldType.Destroyed;
 			}
 		}
 	}

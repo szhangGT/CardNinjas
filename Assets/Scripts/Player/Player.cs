@@ -18,11 +18,13 @@ namespace Assets.Scripts.Player
         [SerializeField]
         private GameObject Katana;
         [SerializeField]
-        private GameObject Niginata;
+        private GameObject Naginata;
         [SerializeField]
         private Transform barrel;
         [SerializeField]
         private int playerNumber = 1;
+        [SerializeField]
+        private Transform weaponPoint;
 
         private static int damage = 0;
         private static bool doOnce = false;
@@ -129,7 +131,7 @@ namespace Assets.Scripts.Player
                     basicAttack = false;
                     move = false;
                     hit = false;
-                    if (weapon)
+                    if (weapon != null)
                         Destroy(weapon);
                     anim.SetInteger("state", (int)currState);
                 }
@@ -170,12 +172,19 @@ namespace Assets.Scripts.Player
                         Enums.CardTypes type = hand.GetCurrentType();
                         if (type == Enums.CardTypes.SwordHori || type == Enums.CardTypes.SwordVert)
                         {
-                            //weapon = Instantiate(Katana);
-                            //weapon.transform.parent = 
+                            weapon = Instantiate(Katana);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localRotation = weaponPoint.localRotation;
+                            weapon.transform.localScale = weaponPoint.localScale / 2.5f;
+                            weapon.transform.parent = weaponPoint;
                         }
                         else if (type == Enums.CardTypes.NaginataHori || type == Enums.CardTypes.NaginataVert)
                         {
-
+                            weapon = Instantiate(Naginata);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localRotation = weaponPoint.localRotation;
+                            weapon.transform.localScale = weaponPoint.localScale / 1.5f;
+                            weapon.transform.parent = weaponPoint;
                         }
                         useCard = false;
                         hand.UseCurrent(this);

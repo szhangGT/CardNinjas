@@ -20,6 +20,8 @@ namespace Assets.Scripts.Player
         [SerializeField]
         private GameObject Naginata;
         [SerializeField]
+        private GameObject Hammer;
+        [SerializeField]
         private Transform barrel;
         [SerializeField]
         private int playerNumber = 1;
@@ -184,6 +186,14 @@ namespace Assets.Scripts.Player
                             weapon.transform.position = weaponPoint.position;
                             weapon.transform.localRotation = weaponPoint.localRotation;
                             weapon.transform.localScale = weaponPoint.localScale / 1.5f;
+                            weapon.transform.parent = weaponPoint;
+                        }
+                        else if (type == Enums.CardTypes.HammerHori || type == Enums.CardTypes.HammerVert)
+                        {
+                            weapon = Instantiate(Hammer);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localRotation = Quaternion.Euler(new Vector3(0,270, 300));
+                            weapon.transform.localScale = weaponPoint.localScale;
                             weapon.transform.parent = weaponPoint;
                         }
                         useCard = false;

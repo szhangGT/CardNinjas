@@ -61,7 +61,7 @@
     <description>Obscure your movement.</description>
   </card>
   <card name= "Fireball">
-    <image></image>
+    <image>Cards/Fireball</image>
     <type>ChiAttack</type>
     <action range= "4" damage= "3" hitbox= "Prefabs/HitBox">VerticalObjectSpawn</action>
     <description>A large fireball attack.</description>
@@ -74,7 +74,7 @@
   </card>
   <card name= "Tremor">
 	  <image></image>
-	  <type>ChiStationary</type>
+	  <type>HammerVert</type>
 	  <action range= "2" damage= "0" hitbox= "Prefabs/Hitbox">DestroyTile</action>
 	  <description>The earth swells two tiles in front of you, destroying a tile.</description>
   </card>

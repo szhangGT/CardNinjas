@@ -14,7 +14,7 @@ namespace Assets.Scripts.Player
         [SerializeField]
         private Animator anim;
         [SerializeField]
-        private GameObject bullet;
+        private Weapons.Hitbox bullet;
         [SerializeField]
         private GameObject Katana;
         [SerializeField]
@@ -205,8 +205,9 @@ namespace Assets.Scripts.Player
                 if (basicAttack)
                 {
                     basicAttack = false;
-                    Weapons.Projectiles.Bullet b = Instantiate(bullet).GetComponent<Weapons.Projectiles.Bullet>();
-                    b.transform.position = barrel.position;
+                    Weapons.Hitbox b = Instantiate(bullet);
+                    b.transform.position = Direction == Enums.Direction.Left ? currentNode.Left.transform.position : currentNode.Right.transform.position;
+                    b.CurrentNode = Direction == Enums.Direction.Left ? currentNode.Left : currentNode.Right;
                     b.Direction = Direction;
                 }
 

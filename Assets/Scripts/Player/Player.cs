@@ -14,15 +14,19 @@ namespace Assets.Scripts.Player
         [SerializeField]
         private Animator anim;
         [SerializeField]
-        private GameObject bullet;
+        private Weapons.Hitbox bullet;
         [SerializeField]
         private GameObject Katana;
         [SerializeField]
-        private GameObject Niginata;
+        private GameObject Naginata;
+        [SerializeField]
+        private GameObject Hammer;
         [SerializeField]
         private Transform barrel;
         [SerializeField]
         private int playerNumber = 1;
+        [SerializeField]
+        private Transform weaponPoint;
 
         private static int damage = 0;
         private static bool doOnce = false;
@@ -129,7 +133,7 @@ namespace Assets.Scripts.Player
                     basicAttack = false;
                     move = false;
                     hit = false;
-                    if (weapon)
+                    if (weapon != null)
                         Destroy(weapon);
                     anim.SetInteger("state", (int)currState);
                 }
@@ -170,12 +174,27 @@ namespace Assets.Scripts.Player
                         Enums.CardTypes type = hand.GetCurrentType();
                         if (type == Enums.CardTypes.SwordHori || type == Enums.CardTypes.SwordVert)
                         {
-                            //weapon = Instantiate(Katana);
-                            //weapon.transform.parent = 
+                            weapon = Instantiate(Katana);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localRotation = weaponPoint.localRotation;
+                            weapon.transform.localScale = weaponPoint.localScale / 2.5f;
+                            weapon.transform.parent = weaponPoint;
                         }
                         else if (type == Enums.CardTypes.NaginataHori || type == Enums.CardTypes.NaginataVert)
                         {
-
+                            weapon = Instantiate(Naginata);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localRotation = weaponPoint.localRotation;
+                            weapon.transform.localScale = weaponPoint.localScale / 1.5f;
+                            weapon.transform.parent = weaponPoint;
+                        }
+                        else if (type == Enums.CardTypes.HammerHori || type == Enums.CardTypes.HammerVert)
+                        {
+                            weapon = Instantiate(Hammer);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localRotation = Quaternion.Euler(new Vector3(0,270, 300));
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
                         }
                         useCard = false;
                         hand.UseCurrent(this);
@@ -186,8 +205,9 @@ namespace Assets.Scripts.Player
                 if (basicAttack)
                 {
                     basicAttack = false;
-                    Weapons.Projectiles.Bullet b = Instantiate(bullet).GetComponent<Weapons.Projectiles.Bullet>();
-                    b.transform.position = barrel.position;
+                    Weapons.Hitbox b = Instantiate(bullet);
+                    b.transform.position = Direction == Enums.Direction.Left ? currentNode.Left.transform.position : currentNode.Right.transform.position;
+                    b.CurrentNode = Direction == Enums.Direction.Left ? currentNode.Left : currentNode.Right;
                     b.Direction = Direction;
                 }
 

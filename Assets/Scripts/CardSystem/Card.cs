@@ -38,11 +38,11 @@ namespace Assets.Scripts.CardSystem
             get { return image; }
         }
 
-        public Card(string name, string type, int range, int damage, string actionType, Weapons.Hitbox actionHitBox, string description, Sprite image)
+        public Card(string name, Weapons.Hitbox hitbox, string type, int range, int damage, string actionType, GameObject prefab, string description, Sprite image)
         {
             this.name = name;
             SetType(type);
-            SetAction(actionType, range, damage, actionHitBox);
+            SetAction(hitbox, actionType, range, damage, prefab);
             this.description = description;
             this.image = image;
         }
@@ -67,14 +67,15 @@ namespace Assets.Scripts.CardSystem
             }
         }
 
-        private void SetAction(string actionType, int range, int damage, Weapons.Hitbox actionHitBox)
+        private void SetAction(Weapons.Hitbox hitbox, string actionType, int range, int damage, GameObject prefab)
         {
             try
             {
                 action = (Actions.Action)Activator.CreateInstance(null, "Assets.Scripts.CardSystem.Actions." + actionType).Unwrap();
+                action.HitBox = hitbox;
                 action.Range = range;
                 action.Damage = damage;
-                action.HitBox = actionHitBox;
+                action.Prefab = prefab;
             }
             catch (Exception e)
             {

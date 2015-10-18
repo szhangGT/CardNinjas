@@ -93,6 +93,19 @@ namespace Assets.Scripts.Grid
             return false;
         }
 
+        public bool panelNotDestroyed(Enums.Direction direction)
+        {
+            if (direction == Enums.Direction.Up)
+                return Up != null && (Up.type != Enums.FieldType.Destroyed);
+            if (direction == Enums.Direction.Down)
+                return Down != null && (Down.type != Enums.FieldType.Destroyed);
+            if (direction == Enums.Direction.Left)
+                return Left != null && (Left.type != Enums.FieldType.Destroyed);
+            if (direction == Enums.Direction.Right)
+                return Right != null && (Right.type != Enums.FieldType.Destroyed);
+            return false;
+        }
+
         public bool panelAllowed(Enums.Direction direction, Enums.FieldType type)
         {
 			//Perform a check to verify that an adjacent tile exists physically and has not

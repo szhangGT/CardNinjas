@@ -17,15 +17,17 @@ namespace Assets.Scripts.Weapons
         [SerializeField]
         protected Enums.Direction direction = Enums.Direction.None;
         [SerializeField]
-        private float speed = 20;
+        protected float speed = 20;
         [SerializeField]
-        private int timesCanPierce = 2;
+        protected int timesCanPierce = 2;
+        [SerializeField]
+        protected bool isFlying = true;
 
         protected bool dead = false;
-        private bool moveCompleted = false;
-        private float pos = 0;
-        private GridNode currentNode;
-        private GridNode target;
+        protected bool moveCompleted = true;
+        protected float pos = 0;
+        protected GridNode currentNode;
+        protected GridNode target;
 
         public int Damage
         {
@@ -69,9 +71,16 @@ namespace Assets.Scripts.Weapons
             set { timesCanPierce = value; }
         }
 
-        protected bool MoveCompleted
+        public bool IsFlying
         {
-            get { return moveCompleted; }
+            get { return isFlying; }
+            set { isFlying = value; }
+        }
+
+        public GridNode CurrentNode
+        {
+            get { return currentNode; }
+            set { currentNode = value; }
         }
 
         void Update()
@@ -81,28 +90,72 @@ namespace Assets.Scripts.Weapons
                 switch (direction)
                 {
                     case Enums.Direction.Up:
-                        if (currentNode.panelExists(Enums.Direction.Up))
-                            target = currentNode.Up;
+                        if (isFlying)
+                        {
+                            if (currentNode.panelExists(Enums.Direction.Up))
+                                target = currentNode.Up;
+                            else
+                                dead = true;
+                        }
                         else
-                            Destroy(this.gameObject);
+                        {
+                            if (currentNode.panelNotDestroyed(Enums.Direction.Up))
+                                target = currentNode.Up;
+                            else
+                                dead = true;
+                        }
+                        moveCompleted = false;
                         break;
                     case Enums.Direction.Down:
-                        if (currentNode.panelExists(Enums.Direction.Down))
-                            target = currentNode.Down;
+                        if (isFlying)
+                        {
+                            if (currentNode.panelExists(Enums.Direction.Down))
+                                target = currentNode.Down;
+                            else
+                                dead = true;
+                        }
                         else
-                            Destroy(this.gameObject);
+                        {
+                            if (currentNode.panelNotDestroyed(Enums.Direction.Down))
+                                target = currentNode.Down;
+                            else
+                                dead = true;
+                        }
+                        moveCompleted = false;
                         break;
                     case Enums.Direction.Left:
-                        if (currentNode.panelExists(Enums.Direction.Left))
-                            target = currentNode.Left;
+                        if (isFlying)
+                        {
+                            if (currentNode.panelExists(Enums.Direction.Left))
+                                target = currentNode.Left;
+                            else
+                                dead = true;
+                        }
                         else
-                            Destroy(this.gameObject);
+                        {
+                            if (currentNode.panelNotDestroyed(Enums.Direction.Left))
+                                target = currentNode.Left;
+                            else
+                                dead = true;
+                        }
+                        moveCompleted = false;
                         break;
                     case Enums.Direction.Right:
-                        if (currentNode.panelExists(Enums.Direction.Right))
-                            target = currentNode.Right;
+                        if (isFlying)
+                        {
+                            if (currentNode.panelExists(Enums.Direction.Right))
+                                target = currentNode.Right;
+                            else
+                                dead = true;
+                        }
                         else
-                            Destroy(this.gameObject);
+                        {
+                            if (currentNode.panelNotDestroyed(Enums.Direction.Right))
+                                target = currentNode.Right;
+                            else
+                                dead = true;
+                        }
+                        moveCompleted = false;
                         break;
                     default: deathTime -= Time.deltaTime; break;
                 }
@@ -120,16 +173,17 @@ namespace Assets.Scripts.Weapons
                 timesCanPierce--;
         }
 
-        private void Move()
+        protected void Move()
         {
             if(!moveCompleted)
-                transform.position = Vector3.Lerp(currentNode.transform.position, target.transform.position, pos = pos + Time.deltaTime);
+                transform.position = Vector3.Lerp(currentNode.transform.position, target.transform.position, pos = pos + Time.deltaTime * speed);
             if(pos > 1)
             {
                 moveCompleted = true;
                 transform.position = target.transform.position;
                 currentNode = target;
                 distance--;
+                pos = 0;
             }
         }
     }

@@ -4236,10 +4236,10 @@ MonoBehaviour:
   direction: 3
   type: 1
   anim: {fileID: 9546624}
-  bullet: {fileID: 116738, guid: 8d5d85be926fb984bbc8047b3426a344, type: 2}
+  bullet: {fileID: 11490780, guid: c17618ea2789c0943a2977d03acf5990, type: 2}
   Katana: {fileID: 100000, guid: baeb8e22b0f12d84e9dda8dbbcd3babc, type: 3}
   Naginata: {fileID: 100000, guid: 69ee3d4fd94ad39438fb34f0ad756863, type: 3}
-  Hammer: {fileID: 100000, guid: e83dd12612a96f94cac69311e0b01397, type: 3}
+  Hammer: {fileID: 118704, guid: e11ebf88e37711641bc4c3518ba81c50, type: 2}
   barrel: {fileID: 443406}
   playerNumber: 1
   weaponPoint: {fileID: 421640}

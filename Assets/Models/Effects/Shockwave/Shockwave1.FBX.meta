@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 69ccd84448f4faf4786f8b9bb6361eb8
-timeCreated: 1445208364
+guid: a67d771e8b6546f498bc829581833ea5
+timeCreated: 1445275552
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -17,6 +17,7 @@ ModelImporter:
     3300002: ShockwaveSide
     4300000: Cylinder001
     4300002: ShockwaveSide
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -48,7 +49,7 @@ ModelImporter:
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
-    keepQuads: 1
+    keepQuads: 0
     weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
@@ -74,7 +75,7 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   additionalBone: 0
   userData: 
   assetBundleName: 

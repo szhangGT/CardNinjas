@@ -58,6 +58,9 @@ namespace Assets.Scripts.Player
         private Hand hand;
         private const int HAND_SIZE = 4;
 
+        private bool paused = false;
+        private float animSpeed = 0;
+
         public Deck Deck
         {
             get { return deck; }
@@ -87,6 +90,11 @@ namespace Assets.Scripts.Player
         {
             if (Managers.GameManager.State == Enums.GameStates.Battle)
             {
+                if (paused)
+                {
+                    paused = false;
+                    anim.speed = animSpeed;
+                }
                 if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up, playerNumber))
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Up, Type))
@@ -192,7 +200,7 @@ namespace Assets.Scripts.Player
                         {
                             weapon = Instantiate(Hammer);
                             weapon.transform.position = weaponPoint.position;
-                            weapon.transform.localRotation = Quaternion.Euler(new Vector3(0,270, 300));
+                            weapon.transform.localRotation = Quaternion.Euler(new Vector3(0, 270, 300));
                             weapon.transform.localScale = weaponPoint.localScale;
                             weapon.transform.parent = weaponPoint;
                         }
@@ -218,6 +226,15 @@ namespace Assets.Scripts.Player
                     damage = 0;
                 }
                 prevState = currState;
+            }
+            else
+            {
+                if (!paused)
+                {
+                    animSpeed = anim.speed;
+                    anim.speed = 0;
+                    paused = true;
+                }
             }
         }
 

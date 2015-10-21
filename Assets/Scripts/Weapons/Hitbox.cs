@@ -22,6 +22,7 @@ namespace Assets.Scripts.Weapons
         protected int timesCanPierce = 2;
         [SerializeField]
         protected bool isFlying = true;
+        protected GameObject owner;
 
         protected bool dead = false;
         protected bool moveCompleted = true;
@@ -81,6 +82,11 @@ namespace Assets.Scripts.Weapons
         {
             get { return currentNode; }
             set { currentNode = value; }
+        }
+
+        public GameObject Owner
+        {
+            set { owner = value; }
         }
 
         void Update()
@@ -170,6 +176,15 @@ namespace Assets.Scripts.Weapons
 
         void OnTriggerEnter(Collider collider)
         {
+            Hitbox h = collider.gameObject.GetComponent<Hitbox>();
+            if (h != null)
+            {
+                if(h.owner == owner)
+                {
+                    Physics.IgnoreCollision(this.GetComponent<Collider>(), collider);
+                    return;
+                }
+            }
             if (!piercing || timesCanPierce == 0)
                 dead = true;
             else

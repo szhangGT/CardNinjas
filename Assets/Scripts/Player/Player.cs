@@ -214,6 +214,7 @@ namespace Assets.Scripts.Player
                 {
                     basicAttack = false;
                     Weapons.Hitbox b = Instantiate(bullet);
+                    b.Owner = this.gameObject;
                     b.transform.position = Direction == Enums.Direction.Left ? currentNode.Left.transform.position : currentNode.Right.transform.position;
                     b.CurrentNode = Direction == Enums.Direction.Left ? currentNode.Left : currentNode.Right;
                     b.Direction = Direction;

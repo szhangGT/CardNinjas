@@ -31,19 +31,20 @@ namespace Assets.Scripts.CardSystem.Actions
 
         public abstract void useCard(Player.Character actor);
 
-        protected void spawnObjectUsingPrefabAsModel(int damage, int distance, float deathTime, bool piercing, Util.Enums.Direction direction, float speed, int timesCanPierce, bool isFlying, Grid.GridNode spawnPosition)
+        protected void spawnObjectUsingPrefabAsModel(int damage, int distance, float deathTime, bool piercing, Util.Enums.Direction direction, float speed, int timesCanPierce, bool isFlying, Grid.GridNode spawnPosition, Player.Character actor)
         {
             Weapons.Hitbox temp = MonoBehaviour.Instantiate(hitbox);
             GameObject model = MonoBehaviour.Instantiate(prefab);
             model.transform.parent = temp.transform;
             temp.Damage = damage;
-            temp.Distance = distance;
+            temp.Distance = distance == 0 ? 1 : distance;
             temp.DeathTime = deathTime;
             temp.Piercing = piercing;
             temp.Direction = direction;
             temp.Speed = speed;
             temp.TimesCanPierce = timesCanPierce;
             temp.IsFlying = isFlying;
+            temp.Owner = actor.gameObject;
             temp.CurrentNode = spawnPosition;
             temp.transform.position = spawnPosition.transform.position;
         }

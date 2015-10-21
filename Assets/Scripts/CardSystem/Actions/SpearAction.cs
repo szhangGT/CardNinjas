@@ -9,9 +9,9 @@ namespace Assets.Scripts.CardSystem.Actions
         public override void useCard(Character actor)
         {
             if (actor.Direction == Enums.Direction.Left)
-                spawnObjectUsingPrefabAsModel(damage, range, .2f, true, Util.Enums.Direction.Left, 10, 2, true, actor.CurrentNode.Left);
+                spawnObjectUsingPrefabAsModel(damage, range, .2f, true, Util.Enums.Direction.Left, 10, 1, true, actor.CurrentNode.Left, actor);
             if (actor.Direction == Enums.Direction.Right)
-                spawnObjectUsingPrefabAsModel(damage, range, .2f, true, Util.Enums.Direction.Right, 10, 2, true, actor.CurrentNode.Right);
+                spawnObjectUsingPrefabAsModel(damage, range, .2f, true, Util.Enums.Direction.Right, 10, 1, true, actor.CurrentNode.Right, actor);
         }
     }
 }

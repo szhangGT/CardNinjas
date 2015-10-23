@@ -3,26 +3,24 @@ using System.Collections;
 
 namespace Assets.Scripts.Util
 {
-	public class AddElements : MonoBehaviour
+	public static class AddElements
 	{
-		#region Trails
-		public TrailRenderer[] TrailRends;
-		#endregion
-
 		#region Materials
-		public Material[] Mats;
+		public static Material FireMat;
+		public static Material EarthMat;
+		public static Material ThunderMat;
+		public static Material[] Mats = {FireMat, EarthMat, ThunderMat};
 		#endregion
-
+		
 		/// <summary>
 		/// Adds an Elements visual effects to a Gameobject by enum
 		/// </summary>
 		/// <param name="obj">Object which needs element effects added.</param>
 		/// <param name="element">Element added to the game object.</param>
-		public void AddElementByEnum(GameObject obj, Enums.Element element, bool replaceMat) {
-			//GameObject trail = Instantiate("Resources/prefabs/trail", obj.transform.position, obj.transform.rotation);
-			//trail.GetComponent<TrailRenderer>() = TrailRends[element];
-
-			//if (replaceMat) obj.GetComponent<Material>() = Mats[element];
+		public static void AddElementByEnum(GameObject obj, Enums.Element element, bool replaceMat) {
+			GameObject trail = GameObject.Instantiate(Resources.Load(element + "trail"), obj.transform.position, obj.transform.rotation) as GameObject;
+			
+			if (replaceMat) obj.GetComponent<Renderer>().material = Mats[(int)element];
 		}
 	}
 }

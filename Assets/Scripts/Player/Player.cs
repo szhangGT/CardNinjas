@@ -52,6 +52,7 @@ namespace Assets.Scripts.Player
         private state[] doState;
         private Enums.PlayerState prevState = 0;
         private Enums.PlayerState currState = 0;
+        private Enums.Element damageElement = Enums.Element.None;
         private GameObject weapon;
 
         private Deck deck;
@@ -223,8 +224,9 @@ namespace Assets.Scripts.Player
                 if (damage > 0 && takeDamage)
                 {
                     takeDamage = false;
-                    TakeDamage(damage);
+                    TakeDamage(damage, damageElement);
                     damage = 0;
+                    damageElement = Enums.Element.None;
                 }
                 prevState = currState;
             }
@@ -268,6 +270,7 @@ namespace Assets.Scripts.Player
             {
                 hit = true;
                 damage = hitbox.Damage;
+                damageElement = hitbox.Element;
             }
         }
 

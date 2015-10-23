@@ -22,6 +22,8 @@ namespace Assets.Scripts.Weapons
         protected int timesCanPierce = 2;
         [SerializeField]
         protected bool isFlying = true;
+        [SerializeField]
+        private Util.Enums.Element element;
         protected GameObject owner;
 
         protected bool dead = false;
@@ -87,6 +89,12 @@ namespace Assets.Scripts.Weapons
         public GameObject Owner
         {
             set { owner = value; }
+        }
+
+        public Util.Enums.Element Element
+        {
+            get { return element; }
+            set { element = value; }
         }
 
         void Update()

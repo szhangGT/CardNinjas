@@ -18,9 +18,9 @@ namespace Assets.Scripts.Util
 		/// <param name="obj">Object which needs element effects added.</param>
 		/// <param name="element">Element added to the game object.</param>
 		public static void AddElementByEnum(GameObject obj, Enums.Element element, bool replaceMat) {
-			GameObject trail = GameObject.Instantiate(Resources.Load(element + "trail"), obj.transform.position, obj.transform.rotation) as GameObject;
+			//GameObject trail = GameObject.Instantiate(Resources.Load(element + "trail"), obj.transform.position, obj.transform.rotation) as GameObject;
 			
-			if (replaceMat) obj.GetComponent<Renderer>().material = Mats[(int)element];
+			//if (replaceMat) obj.GetComponent<Renderer>().material = Mats[(int)element];
 		}
 	}
 }

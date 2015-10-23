@@ -73,9 +73,27 @@
     <description>A stab attack that hits two tiles in front of you.</description>
   </card>
   <card name= "Tremor">
-	  <image></image>
-	  <type>HammerVert</type>
-	  <action range= "2" damage= "1" prefab= "Prefabs/Tremor">DestroyTile</action>
-	  <description>The earth swells two tiles in front of you, destroying a tile.</description>
+    <image></image>
+    <type>HammerVert</type>
+    <action range= "2" damage= "1" prefab= "Prefabs/Tremor">DestroyTile</action>
+    <description>The earth swells two tiles in front of you, destroying a tile.</description>
+  </card>
+  <card name= "Shield">
+    <image></image>
+    <type>ChiStationary</type>
+    <action range= "0" damage= "0" prefab= "Prefabs/Shield">Shield</action>
+    <description>A magic shield that protects from 1 hit</description>
+  </card>
+  <card name= "Shield2">
+    <image></image>
+    <type>ChiStationary</type>
+    <action range= "0" damage= "1" prefab= "Prefabs/Shield">Shield</action>
+    <description>A magic shield that protects from 2 hits</description>
+  </card>
+  <card name= "Shield3">
+    <image></image>
+    <type>ChiStationary</type>
+    <action range= "0" damage= "2" prefab= "Prefabs/Shield">Shield</action>
+    <description>A magic shield that protects from 3 hits</description>
   </card>
 </library>

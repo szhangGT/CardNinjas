@@ -49,6 +49,15 @@ namespace Assets.Scripts.UI
         private bool resize = false;
         private Animator anim;
 
+        void OnEnable()
+        {
+            SelectionTimer.TimerFinish += EnableCanvas;
+        }
+        void OnDisable()
+        {
+            SelectionTimer.TimerFinish -= EnableCanvas;
+        }
+
         void Start()
         {
             anim = this.GetComponent<Animator>();

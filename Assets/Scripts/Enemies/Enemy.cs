@@ -8,6 +8,8 @@ namespace Assets.Scripts.Enemies
         protected abstract void Initialize();
         protected abstract void RunAI();
 
+		protected bool hit = false;
+
         void Start()
         {
             grid = FindObjectOfType<GridManager>().Grid;
@@ -23,6 +25,9 @@ namespace Assets.Scripts.Enemies
             {
                 RunAI();
                 transform.position = currentNode.transform.position;
+				if(hit){
+					hit = false;
+				}
             }
         }
 
@@ -31,6 +36,7 @@ namespace Assets.Scripts.Enemies
             Weapons.Hitbox hitbox = col.gameObject.GetComponent<Weapons.Hitbox>();
             if (hitbox != null)
             {
+				hit=true;
                 TakeDamage(hitbox.Damage);
             }
         }

@@ -7,6 +7,7 @@ namespace Assets.Scripts.CardSystem.Actions
         protected Weapons.Hitbox hitbox;
         protected int range, damage;
         protected GameObject prefab;
+        protected Util.Enums.Element element;
 
         public Weapons.Hitbox HitBox
         {
@@ -16,6 +17,11 @@ namespace Assets.Scripts.CardSystem.Actions
         public GameObject Prefab
         {
             set { prefab = value; }
+        }
+
+        public Util.Enums.Element Element
+        {
+            set { element = value; }
         }
 
         public int Range
@@ -45,6 +51,8 @@ namespace Assets.Scripts.CardSystem.Actions
             temp.TimesCanPierce = timesCanPierce;
             temp.IsFlying = isFlying;
             temp.Owner = actor.gameObject;
+            temp.Element = element;
+            Util.AddElements.AddElementByEnum(model, element, true);
             temp.CurrentNode = spawnPosition;
             temp.transform.position = spawnPosition.transform.position;
         }

@@ -9,9 +9,15 @@ namespace Assets.Scripts.CardSystem
     {
         private Sprite image;
         private Enums.CardTypes type;
+        private Enums.Element element;
         private Actions.Action action;
         private string name;
         private string description;
+
+        public Enums.Element Element
+        {
+            get { return element; }
+        }
 
         public Enums.CardTypes Type
         {
@@ -38,13 +44,34 @@ namespace Assets.Scripts.CardSystem
             get { return image; }
         }
 
-        public Card(string name, Weapons.Hitbox hitbox, string type, int range, int damage, string actionType, GameObject prefab, string description, Sprite image)
+        public Card(string name, Weapons.Hitbox hitbox, string element, string type, int range, int damage, string actionType, GameObject prefab, string description, Sprite image)
         {
             this.name = name;
+            SetElement(element);
             SetType(type);
             SetAction(hitbox, actionType, range, damage, prefab);
             this.description = description;
             this.image = image;
+        }
+
+        private void SetElement(string type)
+        {
+            try
+            {
+                Enums.Element element = (Enums.Element)Enum.Parse(typeof(Enums.Element), type);
+                if (Enum.IsDefined(typeof(Enums.Element), element) | element.ToString().Contains(","))
+                    this.element = element;
+                else
+                {
+                    this.element = Enums.Element.None;
+                    Debug.LogError("Unable to resolve " + type + " to a type.  Setting " + name + " to type None.");
+                }
+            }
+            catch (ArgumentException)
+            {
+                this.type = Enums.CardTypes.Error;
+                Debug.LogError("Unable to resolve " + type + " to a type.  Setting " + name + " to type Error.");
+            }
         }
 
         private void SetType(string type)
@@ -76,6 +103,7 @@ namespace Assets.Scripts.CardSystem
                 action.Range = range;
                 action.Damage = damage;
                 action.Prefab = prefab;
+                action.Element = this.element;
             }
             catch (Exception e)
             {

@@ -37,7 +37,7 @@ namespace Assets.Scripts.Enemies
             if (hitbox != null)
             {
 				hit=true;
-                TakeDamage(hitbox.Damage);
+                TakeDamage(hitbox.Damage , hitbox.Element);
             }
         }
     }

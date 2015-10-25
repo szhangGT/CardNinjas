@@ -14,7 +14,7 @@ namespace Assets.Scripts.Player
         [SerializeField]
         private Animator anim;
         [SerializeField]
-        private GameObject bullet;
+        private Weapons.Hitbox bullet;
         [SerializeField]
         private GameObject Katana;
         [SerializeField]
@@ -52,11 +52,15 @@ namespace Assets.Scripts.Player
         private state[] doState;
         private Enums.PlayerState prevState = 0;
         private Enums.PlayerState currState = 0;
+        private Enums.Element damageElement = Enums.Element.None;
         private GameObject weapon;
 
         private Deck deck;
         private Hand hand;
         private const int HAND_SIZE = 4;
+
+        private bool paused = false;
+        private float animSpeed = 0;
 
         public Deck Deck
         {
@@ -87,6 +91,11 @@ namespace Assets.Scripts.Player
         {
             if (Managers.GameManager.State == Enums.GameStates.Battle)
             {
+                if (paused)
+                {
+                    paused = false;
+                    anim.speed = animSpeed;
+                }
                 if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up, playerNumber))
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Up, Type))
@@ -192,7 +201,7 @@ namespace Assets.Scripts.Player
                         {
                             weapon = Instantiate(Hammer);
                             weapon.transform.position = weaponPoint.position;
-                            weapon.transform.localRotation = Quaternion.Euler(new Vector3(0,270, 300));
+                            weapon.transform.localRotation = Quaternion.Euler(new Vector3(0, 270, 300));
                             weapon.transform.localScale = weaponPoint.localScale;
                             weapon.transform.parent = weaponPoint;
                         }
@@ -205,18 +214,30 @@ namespace Assets.Scripts.Player
                 if (basicAttack)
                 {
                     basicAttack = false;
-                    Weapons.Projectiles.Bullet b = Instantiate(bullet).GetComponent<Weapons.Projectiles.Bullet>();
-                    b.transform.position = barrel.position;
+                    Weapons.Hitbox b = Instantiate(bullet);
+                    b.Owner = this.gameObject;
+                    b.transform.position = Direction == Enums.Direction.Left ? currentNode.Left.transform.position : currentNode.Right.transform.position;
+                    b.CurrentNode = Direction == Enums.Direction.Left ? currentNode.Left : currentNode.Right;
                     b.Direction = Direction;
                 }
 
                 if (damage > 0 && takeDamage)
                 {
                     takeDamage = false;
-                    TakeDamage(damage);
+                    TakeDamage(damage, damageElement);
                     damage = 0;
+                    damageElement = Enums.Element.None;
                 }
                 prevState = currState;
+            }
+            else
+            {
+                if (!paused)
+                {
+                    animSpeed = anim.speed;
+                    anim.speed = 0;
+                    paused = true;
+                }
             }
         }
 
@@ -249,6 +270,7 @@ namespace Assets.Scripts.Player
             {
                 hit = true;
                 damage = hitbox.Damage;
+                damageElement = hitbox.Element;
             }
         }
 

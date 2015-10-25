@@ -16,7 +16,8 @@ namespace Assets.Scripts.Player
         private Util.Enums.Direction direction = Util.Enums.Direction.Left;
         [SerializeField]
         private Util.Enums.FieldType type = Util.Enums.FieldType.Red;
-
+        [SerializeField]
+        private Util.Enums.Element element;
 
         protected GridNode[,] grid;
         protected GridNode currentNode;
@@ -36,6 +37,11 @@ namespace Assets.Scripts.Player
             get { return type; }
         }
 
+        public Util.Enums.Element Element
+        {
+            get { return element; }
+        }
+
         public int RowStart
         {
             set { rowStart = value; }
@@ -53,11 +59,11 @@ namespace Assets.Scripts.Player
             grid = FindObjectOfType<GridManager>().Grid;
         }
         
-        public virtual void TakeDamage(int damage)
+        public virtual void TakeDamage(int damage, Util.Enums.Element incommingElement)
         {
             if (!invincible)
             {
-                health = health - damage;
+                health = health - (int)(damage * Util.Elements.GetDamageMultiplier(element, incommingElement));
                 if (health <= 0)
                 {
                     currentNode.clearOccupied();

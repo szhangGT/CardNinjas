@@ -13,6 +13,10 @@ TagManager:
   - Red
   - Destroyed
   - Final
+  - Selection 1
+  - Selection 2
+  - Final 1
+  - Final 2
   layers:
   - Default
   - TransparentFX

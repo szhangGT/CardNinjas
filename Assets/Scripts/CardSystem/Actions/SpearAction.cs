@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Player;
+using Assets.Scripts.Util;
 
 namespace Assets.Scripts.CardSystem.Actions
 {
@@ -7,20 +8,10 @@ namespace Assets.Scripts.CardSystem.Actions
     {
         public override void useCard(Character actor)
         {
-            Weapons.Hitbox temp = MonoBehaviour.Instantiate(hitbox);
-            temp.Damage = damage;
-            temp.DeathTime = 3f;
-            if (actor.Direction == Util.Enums.Direction.Left)
-            {
-                temp.transform.position = actor.CurrentNode.Left.transform.position;
-                
-            }
-
-            if (actor.Direction == Util.Enums.Direction.Right)
-            {
-                temp.transform.position = actor.CurrentNode.Right.transform.position;
-                
-            }
+            if (actor.Direction == Enums.Direction.Left)
+                spawnObjectUsingPrefabAsModel(damage, range, .2f, true, Util.Enums.Direction.Left, 10, 1, true, actor.CurrentNode.Left, actor);
+            if (actor.Direction == Enums.Direction.Right)
+                spawnObjectUsingPrefabAsModel(damage, range, .2f, true, Util.Enums.Direction.Right, 10, 1, true, actor.CurrentNode.Right, actor);
         }
     }
 }

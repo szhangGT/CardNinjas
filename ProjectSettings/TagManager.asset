@@ -12,6 +12,7 @@ TagManager:
   - Blue
   - Red
   - Destroyed
+  - Final
   layers:
   - Default
   - TransparentFX

@@ -3,7 +3,7 @@
     public class Enums
     {
         public enum Direction { Up, Down, Left, Right, None };
-        public enum CardTypes { SwordVert, SwordHori, NaginataVert, NaginataHori, ThrowLight, ThrowMid, Shoot, ChiAttack, ChiStationary, Error };
+        public enum CardTypes { SwordVert, SwordHori, NaginataVert, NaginataHori, HammerVert, HammerHori, ThrowLight, ThrowMid, Shoot, ChiAttack, ChiStationary, Error };
         public enum FieldType { Blue, Red, Destroyed };
         public enum PlayerState
         {

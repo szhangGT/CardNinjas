@@ -7,27 +7,9 @@ namespace Assets.Scripts.Weapons
     {
         private float speed = 20;
 
-        private int damage = 2;
-
-        private float deathTime = 0.2f;
-
         private int numHits = 2;
 
-        private bool dead = false;
-
         private Util.Enums.Direction direction = Util.Enums.Direction.Right;
-
-        public int Damage
-        {
-            get { return damage; }
-            set { damage = value; }
-        }
-
-        public float DeathTime
-        {
-            get { return deathTime; }
-            set { deathTime = value; }
-        }
 
         public float Speed
         {

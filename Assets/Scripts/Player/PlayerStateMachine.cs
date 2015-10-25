@@ -40,6 +40,8 @@ namespace Assets.Scripts.Player
                     case Enums.CardTypes.SwordHori: return Enums.PlayerState.HoriSwingMid;
                     case Enums.CardTypes.NaginataVert: return Enums.PlayerState.VertiSwingHeavy;
                     case Enums.CardTypes.NaginataHori: return Enums.PlayerState.HoriSwingMid;
+                    case Enums.CardTypes.HammerVert: return Enums.PlayerState.VertiSwingHeavy;
+                    case Enums.CardTypes.HammerHori: return Enums.PlayerState.HoriSwingMid;
                     case Enums.CardTypes.ThrowLight: return Enums.PlayerState.ThrowLight;
                     case Enums.CardTypes.ThrowMid: return Enums.PlayerState.ThrowMid;
                     case Enums.CardTypes.Shoot: return Enums.PlayerState.Shoot;

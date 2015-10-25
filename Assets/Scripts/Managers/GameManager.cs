@@ -22,14 +22,6 @@ namespace Assets.Scripts.Managers
             }
         }
 
-        void Update()
-        {
-            if(CustomInput.BoolFreshPress(CustomInput.UserInput.SelectCards))
-            {
-                GameObject.Find("Card Selection Canvas").GetComponent<UI.CardSelector>().EnableCanvas();
-            }
-        }
-
         private void CardSelectorStateEnable()
         {
             state = Enums.GameStates.CardSelection;

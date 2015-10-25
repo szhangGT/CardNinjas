@@ -7,8 +7,6 @@ namespace Assets.Scripts.Enemies
     {
         [SerializeField]
         private GameObject bullet;
-        [SerializeField]
-        private Transform barrel;
 
         private Player.Player player;
         private float turn = 0;
@@ -44,9 +42,9 @@ namespace Assets.Scripts.Enemies
                 }
                 else
                 {
-                    Weapons.Projectiles.Bullet b = Instantiate(bullet).GetComponent<Weapons.Projectiles.Bullet>();
-                    b.transform.position = barrel.position;
-                    b.Direction = Direction;
+                    Weapons.Hitbox b = Instantiate(bullet).GetComponent<Weapons.Hitbox>();
+                    b.transform.position = currentNode.Left.transform.position;
+                    b.CurrentNode = currentNode.Left;
                 }
             }
         }

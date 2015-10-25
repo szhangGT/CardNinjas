@@ -31,7 +31,7 @@ GameObject:
   - 114: {fileID: 11434800}
   m_Layer: 0
   m_Name: Met
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,15 +152,22 @@ MonoBehaviour:
   colStart: 1
   direction: 2
   type: 0
-  bullet: {fileID: 116738, guid: 8d5d85be926fb984bbc8047b3426a344, type: 2}
-  barrel: {fileID: 464760}
+  bullet: {fileID: 131416, guid: ea9caf517f393d040b907eef5331304d, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 131416, guid: ea9caf517f393d040b907eef5331304d, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 195412}

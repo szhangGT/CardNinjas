@@ -10,6 +10,8 @@ namespace Assets.Scripts.Grid
         private Material red;
         [SerializeField]
         private Material blue;
+		[SerializeField]
+		private Material destroyed;
         [SerializeField]
         private Material white;
 
@@ -70,8 +72,11 @@ namespace Assets.Scripts.Grid
                     GetComponent<Renderer>().material = red;
                 else if (type == Enums.FieldType.Blue)
                     GetComponent<Renderer>().material = blue;
+				else if (type == Enums.FieldType.Destroyed)
+					GetComponent<Renderer>().material = destroyed;
                 else
                     GetComponent<Renderer>().material = white;
+                this.gameObject.tag = type.ToString();
             }
         }
 
@@ -88,17 +93,33 @@ namespace Assets.Scripts.Grid
             return false;
         }
 
-        public bool panelAllowed(Enums.Direction direction, Enums.FieldType type)
+        public bool panelNotDestroyed(Enums.Direction direction)
         {
             if (direction == Enums.Direction.Up)
-                return Up != null && Up.type == type;
+                return Up != null && (Up.type != Enums.FieldType.Destroyed);
             if (direction == Enums.Direction.Down)
-                return Down != null && Down.type == type;
+                return Down != null && (Down.type != Enums.FieldType.Destroyed);
             if (direction == Enums.Direction.Left)
-                return Left != null && Left.type == type;
+                return Left != null && (Left.type != Enums.FieldType.Destroyed);
             if (direction == Enums.Direction.Right)
-                return Right != null && Right.type == type;
+                return Right != null && (Right.type != Enums.FieldType.Destroyed);
             return false;
+        }
+
+        public bool panelAllowed(Enums.Direction direction, Enums.FieldType type)
+        {
+			//Perform a check to verify that an adjacent tile exists physically and has not
+			//been destroyed by a player.
+			
+			if (direction == Enums.Direction.Up)
+				return (Up != null) && (Up.type == type) && (Up.type != Enums.FieldType.Destroyed);
+			if (direction == Enums.Direction.Down)
+				return (Down != null) && (Down.type == type) && (Down.type != Enums.FieldType.Destroyed);
+			if (direction == Enums.Direction.Left)
+				return (Left != null) && (Left.type == type) && (Left.type != Enums.FieldType.Destroyed);
+			if (direction == Enums.Direction.Right)
+				return (Right != null) && (Right.type == type) && (Right.type != Enums.FieldType.Destroyed);
+			return false;
         }
 
         public void clearOccupied()

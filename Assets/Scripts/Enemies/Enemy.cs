@@ -8,6 +8,8 @@ namespace Assets.Scripts.Enemies
         protected abstract void Initialize();
         protected abstract void RunAI();
 
+		protected bool hit = false;
+
         void Start()
         {
             grid = FindObjectOfType<GridManager>().Grid;
@@ -19,8 +21,14 @@ namespace Assets.Scripts.Enemies
 
         void Update()
         {
-            RunAI();
-            transform.position = currentNode.transform.position;
+            if (Managers.GameManager.State == Util.Enums.GameStates.Battle)
+            {
+                RunAI();
+                transform.position = currentNode.transform.position;
+				if(hit){
+					hit = false;
+				}
+            }
         }
 
         void OnTriggerEnter(Collider col)
@@ -28,7 +36,8 @@ namespace Assets.Scripts.Enemies
             Weapons.Hitbox hitbox = col.gameObject.GetComponent<Weapons.Hitbox>();
             if (hitbox != null)
             {
-                TakeDamage(hitbox.Damage);
+				hit=true;
+                TakeDamage(hitbox.Damage , hitbox.Element);
             }
         }
     }

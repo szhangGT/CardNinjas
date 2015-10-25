@@ -661,7 +661,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &6577850
 BoxCollider:
@@ -708,6 +708,7 @@ MonoBehaviour:
   colStart: 1
   direction: 2
   type: 1
+  element: 0
   bullet: {fileID: 184562, guid: b0dcee4b3a24b4846ae16358774447b3, type: 2}
   mechAnima: {fileID: 9576214}
 --- !u!137 &13711030
@@ -764,7 +765,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
+      value: 126
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 183768}

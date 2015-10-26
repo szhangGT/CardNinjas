@@ -89,7 +89,7 @@ namespace Assets.Scripts.Player
 
         void Update()
         {
-            if (Managers.GameManager.State == Enums.GameStates.Battle)
+            if (Managers.GameManager.State == Enums.GameStates.Battle && !stun)
             {
                 if (paused)
                 {
@@ -237,6 +237,14 @@ namespace Assets.Scripts.Player
                     animSpeed = anim.speed;
                     anim.speed = 0;
                     paused = true;
+                }
+                if (stun)
+                {
+                    if ((stunTimer += Time.deltaTime) > stunTime)
+                    {
+                        stunTimer = 0f;
+                        stun = false;
+                    }
                 }
             }
         }

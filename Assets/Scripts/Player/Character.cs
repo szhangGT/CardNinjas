@@ -18,6 +18,11 @@ namespace Assets.Scripts.Player
         private Util.Enums.FieldType type = Util.Enums.FieldType.Red;
         [SerializeField]
         private Util.Enums.Element element;
+        [SerializeField]
+        protected float stunTime = 1f;
+
+        protected bool stun = false;
+        protected float stunTimer = 0f;
 
         protected GridNode[,] grid;
         protected GridNode currentNode;
@@ -46,11 +51,17 @@ namespace Assets.Scripts.Player
         {
             set { rowStart = value; }
         }
-
         public int ColStart
         {
             set { colStart = value; }
         }
+
+        public bool Stun
+        {
+            get { return stun; }
+            set { stun = value; }
+        }
+
 
         protected bool invincible = false;
 

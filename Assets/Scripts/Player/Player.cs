@@ -265,10 +265,14 @@ namespace Assets.Scripts.Player
                 NewSelect(hand.getCurrent()); //fire event to gui
         }
 
+        public Hand Hand
+        {
+            get { return hand; }
+        }
+
         public void AddCardsToHand(List<Card> cards)
         {
             hand.PlayerHand = cards;
-            CardUIEvent();
         }
 
         void OnTriggerEnter(Collider col)

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 9ad1a956bca6eee46878856465750c7a
-timeCreated: 1445227458
+timeCreated: 1445828105
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -58,53 +58,53 @@ TextureImporter:
     - name: Game-UI_Tab
       rect:
         serializedVersion: 2
-        x: 13
-        y: 183
-        width: 121
-        height: 57
+        x: 45
+        y: 754
+        width: 512
+        height: 238
       alignment: 0
       pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 59, w: 0}
+      border: {x: 0, y: 0, z: 233, w: 0}
     - name: Game-UI_Square
       rect:
         serializedVersion: 2
-        x: 14
-        y: 38
-        width: 102
-        height: 102
+        x: 56
+        y: 158
+        width: 430
+        height: 428
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Game-UI_Hex
       rect:
         serializedVersion: 2
-        x: 137
-        y: 57
-        width: 69
-        height: 63
-      alignment: 0
+        x: 641
+        y: 347
+        width: 43
+        height: 30
+      alignment: 9
       pivot: {x: .5, y: .5}
-      border: {x: 26, y: 29, z: 26, w: 30}
+      border: {x: 12, y: 0, z: 12, w: 0}
     - name: Game-UI_0
       rect:
         serializedVersion: 2
-        x: 162
-        y: 176
-        width: 60
-        height: 61
+        x: 671
+        y: 730
+        width: 254
+        height: 257
       alignment: 0
       pivot: {x: .5, y: .5}
-      border: {x: 20, y: 21, z: 20, w: 20}
+      border: {x: 89, y: 93, z: 88, w: 88}
     - name: Game-UI_Meter
       rect:
         serializedVersion: 2
-        x: 147
-        y: 134
-        width: 48
-        height: 21
+        x: 615
+        y: 557
+        width: 125
+        height: 91
       alignment: 0
       pivot: {x: .5, y: .5}
-      border: {x: 9, y: 0, z: 9, w: 0}
+      border: {x: 37, y: 46, z: 37, w: 45}
   spritePackingTag: 
   userData: 
   assetBundleName: 

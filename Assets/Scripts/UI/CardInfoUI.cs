@@ -1,61 +1,124 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Linq;
+using Assets.Scripts.Util;
 
 namespace Assets.Scripts.UI
 {
     public class CardInfoUI : MonoBehaviour
     {
-        private Text nameText, typeText, descriptionText, rangeText, damageText;
+        private static int playerIndex;
+        private int thisPlayerIndex;
+
+        private const int MAX_HAND = 4;
+        private const int CHILD_IMAGE_INDEX = 0;
+
+        private int cardToUse = 0;
+        private Image[] hand;
+        private string[] cards;
+        private Text currentCardName;
+        private Canvas canvas;
+        private Player.Player player;
 
         void OnEnable()
         {
             Player.Player.NewSelect += UpdateCardInfo;
+            CardSelector.CardSelectorDisabled += Show;
+            SelectionTimer.TimerFinish += Hide;
         }
         void OnDisable()
         {
             Player.Player.NewSelect -= UpdateCardInfo;
+            CardSelector.CardSelectorDisabled -= Show;
+            SelectionTimer.TimerFinish -= Hide;
         }
 
         void Awake()
         {
-            nameText = GameObject.Find("Name Text").GetComponent<Text>();
-            typeText = GameObject.Find("Type Text").GetComponent<Text>();
-            descriptionText = GameObject.Find("Description Text").GetComponent<Text>();
-            rangeText = GameObject.Find("Range Text").GetComponent<Text>();
-            damageText = GameObject.Find("Damage Text").GetComponent<Text>();
+            hand = new Image[MAX_HAND];
+            cards = new string[MAX_HAND];
 
-            HideDescription();
+            thisPlayerIndex = ++playerIndex;
+            player = GameObject.Find("Player " + playerIndex).GetComponent<Player.Player>();
+            GameObject[] gos = GameObject.FindGameObjectsWithTag("Hand").OrderBy(go => go.name).ToArray();
+            for (int i = 0; i < gos.Length; i++)
+            {
+                gos[i].tag = "Hand " + thisPlayerIndex.ToString();
+                hand[i] = gos[i].GetComponent<Image>();
+            }
+            currentCardName = GameObject.Find("Current Hand Card").GetComponent<Text>();
+
+            canvas = this.GetComponent<Canvas>();
+            Hide();
         }
 
         private void UpdateCardInfo(CardSystem.Card card)
         {
-            if (card == null)
+            if (cards[cardToUse] == "")
             {
-                nameText.text = "Name: ";
-                typeText.text = "Type: ";
-                descriptionText.text = "Description: ";
-                rangeText.text = "Range: ";
-                damageText.text = "Damage: ";
+                currentCardName.text = "None";
             }
             else
             {
-                nameText.text = "Name: " + card.Name;
-                typeText.text = "Type: " + card.Type.ToString();
-                descriptionText.text = "Description: " + card.Description;
-                rangeText.text = "Range: " + card.Action.Range.ToString();
-                damageText.text = "Damage: " + card.Action.Damage.ToString();
+                currentCardName.text = cardToUse+1 >= MAX_HAND ? "None" : cards[cardToUse+1];
+                hand[cardToUse].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = null;
+                hand[cardToUse].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().color = Color.black;
+                hand[cardToUse].color = new Color(128.0f / 255, 128.0f / 255, 128.0f / 255);
             }
+            cardToUse++;
         }
 
-        public void DisplayDescription()
+        private void Show()
         {
-            if(!descriptionText.IsActive()) descriptionText.gameObject.SetActive(true);
+            canvas.enabled = true;
+            for(int i = 0; i < MAX_HAND; i++)
+            {
+                if(i < player.Hand.PlayerHand.Count)
+                {
+                    cards[i] = player.Hand.PlayerHand[i].Name;
+                    hand[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().color = Color.white;
+                    hand[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = player.Hand.PlayerHand[i].Image;
+                    hand[i].color = GetElementDisplay(player.Hand.PlayerHand[i].Element);
+                }
+                else
+                {
+                    cards[i] = "";
+                }
+            }
+            currentCardName.text = cards[0] == null ?  "" : cards[0];
         }
 
-        public void HideDescription()
+        private void Hide()
         {
-            if (descriptionText.IsActive()) descriptionText.gameObject.SetActive(false);
+            canvas.enabled = false;
+            for(int i = 0; i < hand.Length; i++)
+            {
+                hand[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = null;
+                hand[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().color = Color.black;
+                hand[i].color = new Color(128.0f / 255, 128.0f / 255, 128.0f / 255);
+            }
+            currentCardName.text = "None";
+            cardToUse = 0;
+        }
+
+        public Color GetElementDisplay(Enums.Element element)
+        {
+            switch (element)
+            {
+                case Enums.Element.Fire:
+                    return new Color(175.0f / 255, 30.0f / 255, 30.0f / 255);
+                case Enums.Element.Water:
+                    return new Color(30.0f / 255, 30.0f / 255, 175.0f / 255);
+                case Enums.Element.Thunder:
+                    return new Color(225.0f / 255, 225.0f / 255, 30.0f / 255);
+                case Enums.Element.Earth:
+                    return new Color(85.0f / 255, 50.0f / 255, 15.0f / 255);
+                case Enums.Element.Wood:
+                    return new Color(30.0f / 255, 175.0f / 255, 30.0f / 255);
+                default:
+                    return new Color(128.0f / 255, 128.0f / 255, 128.0f / 255);
+            }
         }
     }
 }

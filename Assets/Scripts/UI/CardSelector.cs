@@ -13,37 +13,24 @@ namespace Assets.Scripts.UI
     public class CardSelector : MonoBehaviour
     {
         public delegate void CardSelectorAction();
-        public static event CardSelectorAction CardSelectorEnabled;
-        public static event CardSelectorAction CardSelectorDisabled;
+        public static event CardSelectorAction CardSelectorEnabled, CardSelectorDisabled;
 
         private static int playerIndex;
         private int thisPlayerIndex;
         private int numSelections = 0;
-        private const int NUM_SELECTIONS = 8;
-        private const int MAX_SELECTIONS = 4;
-        private const int CHILD_IMAGE_INDEX = 0;
+        private const int NUM_SELECTIONS = 8, MAX_SELECTIONS = 4;
+        private const int ELEMENT_INDEX = 0, CHILD_IMAGE_INDEX = 1;
 
-        public Player.Player player;
+        private Player.Player player;
         private Deck deck;
-        private List<Card> selectedCards;
-        private List<Card> selectionOptions;
+        private List<Card> selectedCards, selectionOptions;
         private List<int> finalMap;
-        private Toggle[] selectionButtons;
-        private Toggle[] finalButtons;
+        private Toggle[] selectionButtons, finalButtons;
         private Button okayButton;
 
-        private Image displayingImage;
-        private Image nextImage;
-        private Text displayingName;
-        private Text nextName;
-        private Text displayingDamage;
-        private Text nextDamage;
-        private Text displayingRange;
-        private Text nextRange;
-        private Text displayingType;
-        private Text nextType;
-        private Text displayingDescription;
-        private Text nextDescription;
+        private Image displayingImage, nextImage;
+        private Text displayingName, nextName, displayingDamage, nextDamage, displayingRange, nextRange,
+                     displayingType, nextType, displayingDescription, nextDescription;
 
         private int lastTransition = 0;
         private bool resize = false;
@@ -103,12 +90,11 @@ namespace Assets.Scripts.UI
                 {
                     DrawPossibleSelections();
                 }
+                if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up, thisPlayerIndex)) Navigate(CustomInput.UserInput.Up);
+                if (CustomInput.BoolFreshPress(CustomInput.UserInput.Down, thisPlayerIndex)) Navigate(CustomInput.UserInput.Down);
+                if (CustomInput.BoolFreshPress(CustomInput.UserInput.Right, thisPlayerIndex)) Navigate(CustomInput.UserInput.Right);
+                if (CustomInput.BoolFreshPress(CustomInput.UserInput.Left, thisPlayerIndex)) Navigate(CustomInput.UserInput.Left);
             }
-
-            if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up, thisPlayerIndex)) Navigate(CustomInput.UserInput.Up);
-            if (CustomInput.BoolFreshPress(CustomInput.UserInput.Down, thisPlayerIndex)) Navigate(CustomInput.UserInput.Down);
-            if (CustomInput.BoolFreshPress(CustomInput.UserInput.Right, thisPlayerIndex)) Navigate(CustomInput.UserInput.Right);
-            if (CustomInput.BoolFreshPress(CustomInput.UserInput.Left, thisPlayerIndex)) Navigate(CustomInput.UserInput.Left);
         }
 
         private void DrawPossibleSelections()
@@ -119,21 +105,19 @@ namespace Assets.Scripts.UI
                 if (selectionOptions != null && i < selectionOptions.Count && selectionOptions[i] != null)
                 {
                     selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = selectionOptions[i].Image;
-                    selectionButtons[i].isOn = false;
                     selectionButtons[i].interactable = true;
                 }
                 else
                 {
                     selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = null;
                     selectionButtons[i].interactable = false;
-                    selectionButtons[i].isOn = false;
                 }
             }
         }
 
         public void SelectCard(int index)
         {
-            if (!selectionButtons[index].isOn)
+            if (finalMap.Contains(index))
             {
                 if (numSelections == 0) return;
                 if (numSelections >= MAX_SELECTIONS)
@@ -146,7 +130,7 @@ namespace Assets.Scripts.UI
                 selectedCards.Remove(selectionOptions[index]);
                 finalMap.Remove(index);
                 UpdateFinalDisplayData();
-                if(--numSelections < 0) numSelections = 0;
+                if (--numSelections < 0) numSelections = 0;
             }
             else
             {
@@ -158,7 +142,8 @@ namespace Assets.Scripts.UI
                 {
                     for (int i = 0; i < selectionButtons.Length; i++)
                     {
-                        if (!selectionButtons[i].isOn) selectionButtons[i].interactable = false;
+            
+                        if (!finalMap.Contains(i)) selectionButtons[i].interactable = false;
                     }
                 }
             }
@@ -173,10 +158,10 @@ namespace Assets.Scripts.UI
                     if (!selectionButtons[i].interactable && selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite != null) selectionButtons[i].interactable = true;
                 }
             }
-            selectionButtons[finalMap[index]].isOn = false;
-            FinalTransition(index);
+            selectedCards.Remove(selectionOptions[finalMap[index]]);
+            finalMap.RemoveAt(index);
             UpdateFinalDisplayData();
-            numSelections--;
+            if (--numSelections < 0) numSelections = 0;
         }
 
         public void EnableCanvas()
@@ -226,13 +211,13 @@ namespace Assets.Scripts.UI
             {
                 if(i < finalMap.Count)
                 {
-                    finalButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().color = Color.white;
+                    finalButtons[i].transform.GetChild(ELEMENT_INDEX).GetComponent<Image>().color = GetElementDisplay(selectionOptions[finalMap[i]].Element);
                     finalButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = selectionOptions[finalMap[i]].Image;
                     finalButtons[i].interactable = true;
                 }
                 else
                 {
-                    finalButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().color = Color.black;
+                    finalButtons[i].transform.GetChild(ELEMENT_INDEX).GetComponent<Image>().color = GetElementDisplay(Enums.Element.None);
                     finalButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = null;
                     finalButtons[i].interactable = false;
                 }
@@ -264,12 +249,14 @@ namespace Assets.Scripts.UI
             {
                 if (selectionOptions != null && i < selectionOptions.Count)
                 {
+                    selectionButtons[i].transform.GetChild(ELEMENT_INDEX).GetComponent<Image>().color = GetElementDisplay(selectionOptions[i].Element);
                     selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().color = Color.white;
                     selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = selectionOptions[i].Image;
                     selectionButtons[i].interactable = true;
                 }
                 else
                 {
+                    selectionButtons[i].transform.GetChild(ELEMENT_INDEX).GetComponent<Image>().color = GetElementDisplay(Enums.Element.None);
                     selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().color = Color.black;
                     selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = null;
                     selectionButtons[i].interactable = false;
@@ -315,6 +302,7 @@ namespace Assets.Scripts.UI
 
         public void FinalTransition(int index)
         {
+            if (Managers.GameManager.State != Enums.GameStates.CardSelection) return;
             if (index >= finalMap.Count || finalMap[index] == lastTransition || index >= MAX_SELECTIONS) return;
             lastTransition = finalMap[index];
 
@@ -383,5 +371,24 @@ namespace Assets.Scripts.UI
             }
         }
         #endregion
+
+        public Color GetElementDisplay(Enums.Element element)
+        {
+            switch(element)
+            {
+                case Enums.Element.Fire:
+                    return new Color(175.0f / 255, 30.0f / 255, 30.0f / 255);
+                case Enums.Element.Water:
+                    return new Color(30.0f / 255, 30.0f / 255, 175.0f / 255);
+                case Enums.Element.Thunder:
+                    return new Color(225.0f / 255, 225.0f / 255, 30.0f / 255);
+                case Enums.Element.Earth:
+                    return new Color(85.0f / 255, 50.0f/255, 15.0f / 255);
+                case Enums.Element.Wood:
+                    return new Color(30.0f / 255, 175.0f / 255, 30.0f / 255);
+                default:
+                    return new Color(128.0f / 255, 128.0f / 255, 128.0f / 255);
+            }
+        }
     }
 }

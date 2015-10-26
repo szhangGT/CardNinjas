@@ -17,6 +17,9 @@ TagManager:
   - Selection 2
   - Final 1
   - Final 2
+  - Hand
+  - Hand 1
+  - Hand 2
   layers:
   - Default
   - TransparentFX

@@ -6,7 +6,11 @@ namespace Assets.Scripts.Util
     class CustomInput : MonoBehaviour
     {
         /// <summary> This is used to define user inputs, changed to add or remove buttons. </summary>
-        public enum UserInput { Up, Down, Left, Right, Attack, UseCard, Pause, Accept, Cancel, SelectCards, Taunt }
+        public enum UserInput
+        {
+            Up, Down, Left, Right, Pause, Accept, Cancel, Attack, UseCard, Taunt,
+            PickCard0, PickCard1, PickCard2, PickCard3, PickCard4, PickCard5, PickCard6, PickCard7
+        }
 
         /// <summary> The file to save the bindings to. </summary>
         private const string filename = "config.xml";
@@ -16,17 +20,24 @@ namespace Assets.Scripts.Util
         {
             if (rawSign == null)
                 throw new System.AccessViolationException(UnitializedMessage);
-            rawSign[(int)UserInput.Up] = 1;
-            rawSign[(int)UserInput.Down] = -1;
-            rawSign[(int)UserInput.Left] = -1;
-            rawSign[(int)UserInput.Right] = 1;
-            rawSign[(int)UserInput.Attack] = 1;
-            rawSign[(int)UserInput.UseCard] = 1;
-            rawSign[(int)UserInput.Pause] = 1;
-            rawSign[(int)UserInput.Accept] = 1;
-            rawSign[(int)UserInput.Cancel] = 1;
-            rawSign[(int)UserInput.SelectCards] = 1;
-            rawSign[(int)UserInput.Taunt] = 1;
+            rawSign[(int)UserInput.Up]          = 1;
+            rawSign[(int)UserInput.Down]        = -1;
+            rawSign[(int)UserInput.Left]        = -1;
+            rawSign[(int)UserInput.Right]       = 1;
+            rawSign[(int)UserInput.Pause]       = 1;
+            rawSign[(int)UserInput.Accept]      = 1;
+            rawSign[(int)UserInput.Cancel]      = 1;
+            rawSign[(int)UserInput.Attack]      = 1;
+            rawSign[(int)UserInput.UseCard]     = 1;
+            rawSign[(int)UserInput.Taunt]       = 1;
+            rawSign[(int)UserInput.PickCard0]   = 1;
+            rawSign[(int)UserInput.PickCard1]   = 1;
+            rawSign[(int)UserInput.PickCard2]   = 1;
+            rawSign[(int)UserInput.PickCard3]   = 1;
+            rawSign[(int)UserInput.PickCard4]   = 1;
+            rawSign[(int)UserInput.PickCard5]   = 1;
+            rawSign[(int)UserInput.PickCard6]   = 1;
+            rawSign[(int)UserInput.PickCard7]   = 1;
         }
 
         /// <summary> 
@@ -38,17 +49,32 @@ namespace Assets.Scripts.Util
         {
             if (keyBoard == null)
                 throw new System.AccessViolationException(UnitializedMessage);
-            keyBoard[(int)UserInput.Up, 1] = KeyCode.W;
-            keyBoard[(int)UserInput.Down, 1] = KeyCode.S;
-            keyBoard[(int)UserInput.Left, 1] = KeyCode.A;
-            keyBoard[(int)UserInput.Right, 1] = KeyCode.D;
-            keyBoard[(int)UserInput.Attack, 1] = KeyCode.K;
-            keyBoard[(int)UserInput.UseCard, 1] = KeyCode.J;
-            keyBoard[(int)UserInput.Pause, 1] = KeyCode.Escape;
-            keyBoard[(int)UserInput.Accept, 1] = KeyCode.K;
-            keyBoard[(int)UserInput.Cancel, 1] = KeyCode.J;
-            keyBoard[(int)UserInput.SelectCards, 1] = KeyCode.I;
-            keyBoard[(int)UserInput.Taunt, 1] = KeyCode.L;
+
+            keyBoard[(int)UserInput.Up,         0] = KeyCode.W;
+            keyBoard[(int)UserInput.Down,       0] = KeyCode.S;
+            keyBoard[(int)UserInput.Left,       0] = KeyCode.A;
+            keyBoard[(int)UserInput.Right,      0] = KeyCode.D;
+            keyBoard[(int)UserInput.Pause,      0] = KeyCode.Escape;
+            keyBoard[(int)UserInput.Accept,     0] = KeyCode.K;
+            keyBoard[(int)UserInput.Cancel,     0] = KeyCode.J;
+
+            keyBoard[(int)UserInput.Up,         1] = KeyCode.W;
+            keyBoard[(int)UserInput.Down,       1] = KeyCode.S;
+            keyBoard[(int)UserInput.Left,       1] = KeyCode.A;
+            keyBoard[(int)UserInput.Right,      1] = KeyCode.D;
+            keyBoard[(int)UserInput.Accept,     1] = KeyCode.K;
+            keyBoard[(int)UserInput.Cancel,     1] = KeyCode.J;
+            keyBoard[(int)UserInput.Attack,     1] = KeyCode.K;
+            keyBoard[(int)UserInput.UseCard,    1] = KeyCode.J;
+            keyBoard[(int)UserInput.Taunt,      1] = KeyCode.L;
+            keyBoard[(int)UserInput.PickCard0,  1] = KeyCode.Alpha1;
+            keyBoard[(int)UserInput.PickCard1,  1] = KeyCode.Alpha2;
+            keyBoard[(int)UserInput.PickCard2,  1] = KeyCode.Alpha3;
+            keyBoard[(int)UserInput.PickCard3,  1] = KeyCode.Alpha4;
+            keyBoard[(int)UserInput.PickCard4,  1] = KeyCode.Alpha5;
+            keyBoard[(int)UserInput.PickCard5,  1] = KeyCode.Alpha6;
+            keyBoard[(int)UserInput.PickCard6,  1] = KeyCode.Alpha7;
+            keyBoard[(int)UserInput.PickCard7,  1] = KeyCode.Alpha8;
         }
 
         /// <summary> 
@@ -60,17 +86,58 @@ namespace Assets.Scripts.Util
         {
             if (gamePad == null)
                 throw new System.AccessViolationException(UnitializedMessage);
-            gamePad[(int)UserInput.Up, 1] = LEFT_STICK_UP;
-            gamePad[(int)UserInput.Down, 1] = LEFT_STICK_DOWN;
-            gamePad[(int)UserInput.Left, 1] = LEFT_STICK_LEFT;
-            gamePad[(int)UserInput.Right, 1] = LEFT_STICK_RIGHT;
-            gamePad[(int)UserInput.Attack, 1] = A;
-            gamePad[(int)UserInput.UseCard, 1] = B;
-            gamePad[(int)UserInput.Pause, 1] = START;
-            gamePad[(int)UserInput.Accept, 1] = A;
-            gamePad[(int)UserInput.Cancel, 1] = B;
-            gamePad[(int)UserInput.SelectCards, 1] = RB;
-            gamePad[(int)UserInput.Taunt, 1] = BACK;
+
+            gamePad[(int)UserInput.Up,          0] = DPAD_UP;
+            gamePad[(int)UserInput.Down,        0] = DPAD_DOWN;
+            gamePad[(int)UserInput.Left,        0] = DPAD_LEFT;
+            gamePad[(int)UserInput.Right,       0] = DPAD_RIGHT;
+            gamePad[(int)UserInput.Pause,       0] = START;
+            gamePad[(int)UserInput.Accept,      0] = A;
+            gamePad[(int)UserInput.Cancel,      0] = B;
+
+            gamePad[(int)UserInput.Up,          1] = DPAD_UP;
+            gamePad[(int)UserInput.Down,        1] = DPAD_DOWN;
+            gamePad[(int)UserInput.Left,        1] = DPAD_LEFT;
+            gamePad[(int)UserInput.Right,       1] = DPAD_RIGHT;
+            gamePad[(int)UserInput.Accept,      1] = A;
+            gamePad[(int)UserInput.Cancel,      1] = B;
+            gamePad[(int)UserInput.Attack,      1] = A;
+            gamePad[(int)UserInput.UseCard,     1] = B;
+            gamePad[(int)UserInput.Taunt,       1] = X;
+            gamePad[(int)UserInput.PickCard0,   1] = LB;
+            gamePad[(int)UserInput.PickCard1,   1] = RB;
+            gamePad[(int)UserInput.PickCard2,   1] = LEFT_TRIGGER;
+            gamePad[(int)UserInput.PickCard3,   1] = RIGHT_TRIGGER;
+            gamePad[(int)UserInput.PickCard4,   1] = A;
+            gamePad[(int)UserInput.PickCard5,   1] = B;
+            gamePad[(int)UserInput.PickCard6,   1] = X;
+            gamePad[(int)UserInput.PickCard7,   1] = Y;
+
+            gamePad[(int)UserInput.Up,          2] = DPAD_UP;
+            gamePad[(int)UserInput.Down,        2] = DPAD_DOWN;
+            gamePad[(int)UserInput.Left,        2] = DPAD_LEFT;
+            gamePad[(int)UserInput.Right,       2] = DPAD_RIGHT;
+            gamePad[(int)UserInput.Accept,      2] = A;
+            gamePad[(int)UserInput.Cancel,      2] = B;
+            gamePad[(int)UserInput.Attack,      2] = A;
+            gamePad[(int)UserInput.UseCard,     2] = B;
+            gamePad[(int)UserInput.Taunt,       2] = X;
+            gamePad[(int)UserInput.PickCard0,   2] = LB;
+            gamePad[(int)UserInput.PickCard1,   2] = RB;
+            gamePad[(int)UserInput.PickCard2,   2] = LEFT_TRIGGER;
+            gamePad[(int)UserInput.PickCard3,   2] = RIGHT_TRIGGER;
+            gamePad[(int)UserInput.PickCard4,   2] = A;
+            gamePad[(int)UserInput.PickCard5,   2] = B;
+            gamePad[(int)UserInput.PickCard6,   2] = X;
+            gamePad[(int)UserInput.PickCard7,   2] = Y;
+        }
+
+        private bool keyboardDisabled = false;
+
+        public bool KeyboardDisabled
+        {
+            get { return keyboardDisabled; }
+            set { keyboardDisabled = value; }
         }
 
         // Modification of the code below this should be unecessary.
@@ -356,7 +423,7 @@ namespace Assets.Scripts.Util
             bindings.InsertAfter(root, bindings.DocumentElement);
             for (int p = 0; p < 7; p++)
             {
-                element = bindings.CreateElement("Player"+p);
+                element = bindings.CreateElement("Player" + p);
                 for (int i = 0; i < System.Enum.GetNames(typeof(UserInput)).Length; i++)
                 {
                     child = bindings.CreateElement("Keyboard_" + System.Enum.GetNames(typeof(UserInput))[i]);
@@ -374,7 +441,7 @@ namespace Assets.Scripts.Util
                     child.AppendChild(node);
                     element.AppendChild(child);
                 }
-                root.AppendChild(element);                
+                root.AppendChild(element);
             }
             bindings.Save(filename);
         }
@@ -385,7 +452,7 @@ namespace Assets.Scripts.Util
                 usingPad = false;
             if (AnyPadInput())
                 usingPad = true;
-            if (!usingPad)
+            if (!usingPad && !keyboardDisabled)
             {
                 for (int i = 0; i < System.Enum.GetNames(typeof(UserInput)).Length; i++)
                 {

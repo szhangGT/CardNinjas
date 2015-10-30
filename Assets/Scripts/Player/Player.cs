@@ -89,7 +89,7 @@ namespace Assets.Scripts.Player
 
         void Update()
         {
-            if (Managers.GameManager.State == Enums.GameStates.Battle)
+            if (Managers.GameManager.State == Enums.GameStates.Battle && !stun)
             {
                 if (paused)
                 {
@@ -238,6 +238,14 @@ namespace Assets.Scripts.Player
                     anim.speed = 0;
                     paused = true;
                 }
+                if (stun)
+                {
+                    if ((stunTimer += Time.deltaTime) > stunTime)
+                    {
+                        stunTimer = 0f;
+                        stun = false;
+                    }
+                }
             }
         }
 
@@ -257,10 +265,14 @@ namespace Assets.Scripts.Player
                 NewSelect(hand.getCurrent()); //fire event to gui
         }
 
+        public Hand Hand
+        {
+            get { return hand; }
+        }
+
         public void AddCardsToHand(List<Card> cards)
         {
             hand.PlayerHand = cards;
-            CardUIEvent();
         }
 
         void OnTriggerEnter(Collider col)

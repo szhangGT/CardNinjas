@@ -64,7 +64,9 @@ namespace Assets.Scripts.Enemies
 				mechAnima.SetTrigger("Hurt");
 				turn=0;
 			}
-		}
-	
+
+            transform.position = currentNode.transform.position;
+        }
+	    
 	}
 }

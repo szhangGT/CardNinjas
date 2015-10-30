@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 9ad1a956bca6eee46878856465750c7a
-timeCreated: 1444888616
+timeCreated: 1445227458
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,7 @@ TextureImporter:
     21300002: Game-UI_Square
     21300004: Game-UI_Hex
     21300006: Game-UI_0
+    21300008: Game-UI_Meter
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -94,6 +95,16 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 20, y: 21, z: 20, w: 20}
+    - name: Game-UI_Meter
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 134
+        width: 48
+        height: 21
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 9, y: 0, z: 9, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

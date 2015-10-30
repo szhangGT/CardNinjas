@@ -11,5 +11,6 @@
             TauntGokuStretch, TauntPointPoint, TauntThumbsDown, TauntWrasslemania, TauntYaMoves
         };
         public enum GameStates { Battle, CardSelection };
+		public enum Element { Fire, Earth, Thunder, Water, Wood, None };
     }
 }

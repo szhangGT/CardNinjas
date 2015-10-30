@@ -17,6 +17,7 @@ namespace Assets.Scripts.UI
         public static event CardSelectorAction CardSelectorDisabled;
 
         private static int playerIndex;
+        private int thisPlayerIndex;
         private int numSelections = 0;
         private const int NUM_SELECTIONS = 8;
         private const int MAX_SELECTIONS = 4;
@@ -29,6 +30,7 @@ namespace Assets.Scripts.UI
         private List<int> finalMap;
         private Toggle[] selectionButtons;
         private Toggle[] finalButtons;
+        private Button okayButton;
 
         private Image displayingImage;
         private Image nextImage;
@@ -47,12 +49,22 @@ namespace Assets.Scripts.UI
         private bool resize = false;
         private Animator anim;
 
+        void OnEnable()
+        {
+            SelectionTimer.TimerFinish += EnableCanvas;
+        }
+        void OnDisable()
+        {
+            SelectionTimer.TimerFinish -= EnableCanvas;
+        }
+
         void Start()
         {
             anim = this.GetComponent<Animator>();
 
             //should find players provided they are named in the fashion: "Player 1" or "Player 42"
-            player = GameObject.Find("Player " + ++playerIndex).GetComponent<Player.Player>();
+            thisPlayerIndex = ++playerIndex;
+            player = GameObject.Find("Player " + playerIndex).GetComponent<Player.Player>();
 
             deck = player.Deck;
             selectionOptions = new List<Card>();
@@ -64,14 +76,19 @@ namespace Assets.Scripts.UI
             GameObject[] gos = GameObject.FindGameObjectsWithTag("Selection").OrderBy(go => go.name).ToArray();
             for(int i = 0; i < gos.Length; i++)
             {
+                gos[i].tag = "Selection " + thisPlayerIndex.ToString();
                 selectionButtons[i] = gos[i].GetComponent<Toggle>();
             }
 
             gos = GameObject.FindGameObjectsWithTag("Final").OrderBy(go => go.name).ToArray();
             for (int i = 0; i < gos.Length; i++)
             {
+                gos[i].tag = "Final " + thisPlayerIndex.ToString();
                 finalButtons[i] = gos[i].GetComponent<Toggle>();
             }
+
+            okayButton = GameObject.Find("Okay").GetComponent<Button>();
+            okayButton.transform.name = "Okay " + thisPlayerIndex.ToString();
 
             DrawPossibleSelections();
             InitializeDisplayData();
@@ -87,18 +104,30 @@ namespace Assets.Scripts.UI
                     DrawPossibleSelections();
                 }
             }
+
+            if (CustomInput.BoolFreshPress(CustomInput.UserInput.Up, thisPlayerIndex)) Navigate(CustomInput.UserInput.Up);
+            if (CustomInput.BoolFreshPress(CustomInput.UserInput.Down, thisPlayerIndex)) Navigate(CustomInput.UserInput.Down);
+            if (CustomInput.BoolFreshPress(CustomInput.UserInput.Right, thisPlayerIndex)) Navigate(CustomInput.UserInput.Right);
+            if (CustomInput.BoolFreshPress(CustomInput.UserInput.Left, thisPlayerIndex)) Navigate(CustomInput.UserInput.Left);
         }
 
         private void DrawPossibleSelections()
         {
             selectionOptions = deck.DrawHand();
-            for(int i = 0; i < NUM_SELECTIONS; i++)
+            for (int i = 0; i < NUM_SELECTIONS; i++)
             {
-                selectionButtons[i].isOn = false;
-                selectionButtons[i].interactable = true;
-
-                if (i < selectionOptions.Count && selectionOptions[i] != null)
+                if (selectionOptions != null && i < selectionOptions.Count && selectionOptions[i] != null)
+                {
                     selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = selectionOptions[i].Image;
+                    selectionButtons[i].isOn = false;
+                    selectionButtons[i].interactable = true;
+                }
+                else
+                {
+                    selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = null;
+                    selectionButtons[i].interactable = false;
+                    selectionButtons[i].isOn = false;
+                }
             }
         }
 
@@ -106,6 +135,7 @@ namespace Assets.Scripts.UI
         {
             if (!selectionButtons[index].isOn)
             {
+                if (numSelections == 0) return;
                 if (numSelections >= MAX_SELECTIONS)
                 {
                     for (int i = 0; i < selectionButtons.Length; i++)
@@ -116,7 +146,7 @@ namespace Assets.Scripts.UI
                 selectedCards.Remove(selectionOptions[index]);
                 finalMap.Remove(index);
                 UpdateFinalDisplayData();
-                numSelections--;
+                if(--numSelections < 0) numSelections = 0;
             }
             else
             {
@@ -144,6 +174,7 @@ namespace Assets.Scripts.UI
                 }
             }
             selectionButtons[finalMap[index]].isOn = false;
+            FinalTransition(index);
             UpdateFinalDisplayData();
             numSelections--;
         }
@@ -152,7 +183,9 @@ namespace Assets.Scripts.UI
         {
             selectedCards.Clear();
             finalMap.Clear();
+            numSelections = 0;
             transform.GetComponent<Canvas>().enabled = true;
+            Navigate(CustomInput.UserInput.Up);
             DrawPossibleSelections();
             UpdateDisplayData();
             UpdateFinalDisplayData();
@@ -161,12 +194,15 @@ namespace Assets.Scripts.UI
 
         public void Okay()
         {
-            for(int i = 0; i < selectedCards.Count; i++)
+            if (selectionOptions != null)
             {
-                selectionOptions.Remove(selectedCards[i]);
+                for (int i = 0; i < selectedCards.Count; i++)
+                {
+                    selectionOptions.Remove(selectedCards[i]);
+                }
+                deck.ReturnUsedCards(selectionOptions);
+                player.AddCardsToHand(selectedCards);
             }
-            deck.ReturnUsedCards(selectionOptions);
-            player.AddCardsToHand(selectedCards);
             transform.GetComponent<Canvas>().enabled = false;
             if (CardSelectorDisabled != null) CardSelectorDisabled();
             EventSystem.current.SetSelectedGameObject(null);
@@ -183,6 +219,7 @@ namespace Assets.Scripts.UI
             anim.SetBool("Resize", resize);
         }
 
+        #region DISPLAY_DATA
         public void UpdateFinalDisplayData()
         {
             for(int i = 0; i < MAX_SELECTIONS; i++)
@@ -223,16 +260,46 @@ namespace Assets.Scripts.UI
 
         public void UpdateDisplayData()
         {
-            displayingImage.sprite = selectionOptions[0].Image;
-            displayingName.text = selectionOptions[0].Name;
-            displayingDamage.text = selectionOptions[0].Action.Damage.ToString();
-            displayingRange.text = selectionOptions[0].Action.Range.ToString();
-            displayingType.text = selectionOptions[0].Type.ToString();
-            displayingDescription.text = selectionOptions[0].Description;
+            for (int i = 0; i < NUM_SELECTIONS; i++)
+            {
+                if (selectionOptions != null && i < selectionOptions.Count)
+                {
+                    selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().color = Color.white;
+                    selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = selectionOptions[i].Image;
+                    selectionButtons[i].interactable = true;
+                }
+                else
+                {
+                    selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().color = Color.black;
+                    selectionButtons[i].transform.GetChild(CHILD_IMAGE_INDEX).GetComponent<Image>().sprite = null;
+                    selectionButtons[i].interactable = false;
+                }
+            }
+            if (selectionOptions != null)
+            {
+                displayingImage.sprite = selectionOptions[0].Image;
+                displayingName.text = selectionOptions[0].Name;
+                displayingDamage.text = selectionOptions[0].Action.Damage.ToString();
+                displayingRange.text = selectionOptions[0].Action.Range.ToString();
+                displayingType.text = selectionOptions[0].Type.ToString();
+                displayingDescription.text = selectionOptions[0].Description;
+            }
+            else
+            {
+                displayingImage.sprite = null;
+                displayingName.text = "None";
+                displayingDamage.text = "0";
+                displayingRange.text = "0";
+                displayingType.text = "None";
+                displayingDescription.text  = "No more cards in deck.";
+            }
         }
+        #endregion
 
+        #region TRANSITIONS
         public void Transition(int index)
         {
+            if (selectionOptions == null) return;
             if (index >= selectionOptions.Count || index == lastTransition) return;
             lastTransition = index;
 
@@ -248,7 +315,7 @@ namespace Assets.Scripts.UI
 
         public void FinalTransition(int index)
         {
-            if (index >= finalMap.Count || finalMap[index] == lastTransition) return;
+            if (index >= finalMap.Count || finalMap[index] == lastTransition || index >= MAX_SELECTIONS) return;
             lastTransition = finalMap[index];
 
             nextImage.sprite = selectionOptions[finalMap[index]].Image;
@@ -272,5 +339,49 @@ namespace Assets.Scripts.UI
             displayingType.text = nextType.text;
             displayingDescription.text = nextDescription.text;
         }
+        #endregion
+
+        #region NAVIGATION
+
+        private void Navigate(CustomInput.UserInput direction)
+        {
+            GameObject next = EventSystem.current.currentSelectedGameObject;
+            if(next == null)
+            {
+                if(deck.GetDeck.Count > 0)
+                {
+                    Transition(0);
+                    EventSystem.current.SetSelectedGameObject(selectionButtons[0].gameObject);
+                }
+                else
+                {
+                    EventSystem.current.SetSelectedGameObject(okayButton.gameObject);
+                }
+                return;
+            }
+
+            bool nextIsValid = false;
+            while (!nextIsValid)
+            {
+                switch(direction)
+                {
+                    case CustomInput.UserInput.Up:
+                        next = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp().gameObject;
+                        break;
+                    case CustomInput.UserInput.Down:
+                        next = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown().gameObject;
+                        break;
+                    case CustomInput.UserInput.Left:
+                        next = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnLeft().gameObject;
+                        break;
+                    case CustomInput.UserInput.Right:
+                        next = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnRight().gameObject;
+                        break;
+                }
+                EventSystem.current.SetSelectedGameObject(next);
+                nextIsValid = next.GetComponent<Selectable>().interactable;
+            }
+        }
+        #endregion
     }
 }

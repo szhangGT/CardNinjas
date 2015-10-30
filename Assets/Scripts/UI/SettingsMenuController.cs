@@ -9,8 +9,13 @@ public class SettingsMenuController : MonoBehaviour {
 	public UIHideBehaviour subtitleHide;
 
 	public GameObject Video;
+	public GameObject VideoSelect;
+
 	public GameObject Audio;
+	public GameObject AudioSelect;
+
 	public GameObject Settings;
+	public GameObject SettingsSelect;
 
 	public EventSystem es;
 
@@ -30,6 +35,8 @@ public class SettingsMenuController : MonoBehaviour {
 
 		Settings.SetActive(false);
 		Video.SetActive(true);
+		
+		es.SetSelectedGameObject(VideoSelect);
 	}
 
 	public void ChangeToAudio() {
@@ -38,6 +45,8 @@ public class SettingsMenuController : MonoBehaviour {
 
 		Settings.SetActive(false);
 		Audio.SetActive(true);
+		
+		es.SetSelectedGameObject(AudioSelect);
 	}
 
 	public void ChangeToSettings() {
@@ -48,6 +57,6 @@ public class SettingsMenuController : MonoBehaviour {
 		Audio.SetActive(false);
 		Settings.SetActive(true);
 
-		es.UpdateModules();
+		es.SetSelectedGameObject(SettingsSelect);
 	}
 }

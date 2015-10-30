@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using Assets.Scripts.Util;
 
-public class MenuController : MonoBehaviour {
+public class MainMenuController : MonoBehaviour {
 
 	public GameObject buttonParent;
 	public GameObject goalButtonParent;
@@ -68,13 +68,12 @@ public class MenuController : MonoBehaviour {
 	}
 
 	public void MoveButtons() {
-		// TODO: Use Jonathan's Custom Input - Werid issues breaking CustomInput.Bool. Maybe related to EventTriggers
-
+		Debug.Log(Input.GetAxis("Vertical"));
 		// TODO: function that lets me not have all this pointer switching stuff be hard coded twice.
 		// to lazy to fix right now and don't think it'll matter.
 
 		// Reassign all button references to proper place after navigation, then cards if applicable
-		if(Input.GetAxis("Vertical") < 0.0) {
+		if(Input.GetKeyDown(KeyCode.DownArrow)) {
 			GameObject temp = buttons[0];
 			for (int i = 1; i < buttons.Length; i++) {
 				buttons[i-1] = buttons[i];
@@ -92,7 +91,7 @@ public class MenuController : MonoBehaviour {
 				cards[cards.Length-1] = tempCard;
 			}
 		}
-		else if(Input.GetAxis("Vertical") > 0.0) {
+		else if(Input.GetKeyDown(KeyCode.UpArrow)) {
 			GameObject temp = buttons[buttons.Length-1];
 			for (int i = buttons.Length-2; i >= 0; i--) {
 				buttons[i+1] = buttons[i];

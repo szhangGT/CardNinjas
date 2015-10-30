@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using Assets.Scripts.Util;
 
-public class MenuController : MonoBehaviour {
+public class MainMenuController : MonoBehaviour {
 
 	public GameObject buttonParent;
 	public GameObject goalButtonParent;

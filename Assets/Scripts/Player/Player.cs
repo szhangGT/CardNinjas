@@ -28,19 +28,19 @@ namespace Assets.Scripts.Player
         [SerializeField]
         private Transform weaponPoint;
 
-        private static int damage = 0;
-        private static bool doOnce = false;
-        private static bool move = false;
-        private static bool useCard = false;
-        private static bool basicAttack = false;
-        private static bool attack = false;
-        private static bool takeDamage = false;
-        private static bool invun = false;
-        private static float invunTime = .5f;
-        private static float invunTimer = 0;
-        private static float hold = 0;//used for delays
-        private static Enums.Direction direction;
-        private static GridNode nextNode;
+        private int damage = 0;
+        private bool doOnce = false;
+        private bool move = false;
+        private bool useCard = false;
+        private bool basicAttack = false;
+        private bool attack = false;
+        private bool takeDamage = false;
+        private bool invun = false;
+        private float invunTime = .5f;
+        private float invunTimer = 0;
+        private float hold = 0;//used for delays
+        private Enums.Direction direction;
+        private GridNode nextNode;
 
         private float renderTime = .002f;
         private float renderTimer = 0;
@@ -48,8 +48,6 @@ namespace Assets.Scripts.Player
         private bool hit = false;
         private bool render = false;
         private PlayerStateMachine machine;
-        private delegate void state();
-        private state[] doState;
         private Enums.PlayerState prevState = 0;
         private Enums.PlayerState currState = 0;
         private Enums.Element damageElement = Enums.Element.None;
@@ -81,8 +79,6 @@ namespace Assets.Scripts.Player
             hand = new Hand();
             //state machine init
             machine = new PlayerStateMachine();
-            doState = new state[] { Idle, MoveBegining, MoveEnding, Hit, Dead, BasicAttack, CardAnim, CardAnim, CardAnim, CardAnim, CardAnim, CardAnim, CardAnim,
-                                    Taunt, Taunt, Taunt, Taunt, Taunt };
             renderTimer = 0;
             invunTimer = 0;
         }
@@ -165,7 +161,27 @@ namespace Assets.Scripts.Player
                 }
 
                 //run state
-                doState[(int)currState]();
+                switch (currState)
+                {
+                    case Enums.PlayerState.Idle:Idle(); break;
+                    case Enums.PlayerState.MoveBegining: MoveBegining(); break;
+                    case Enums.PlayerState.MoveEnding: MoveEnding(); break;
+                    case Enums.PlayerState.Hit: Hit(); break;
+                    case Enums.PlayerState.Dead: Dead(); break;
+                    case Enums.PlayerState.BasicAttack: CardAnim(); break;
+                    case Enums.PlayerState.HoriSwingMid: CardAnim(); break;
+                    case Enums.PlayerState.VertiSwingHeavy: CardAnim(); break;
+                    case Enums.PlayerState.ThrowLight: CardAnim(); break;
+                    case Enums.PlayerState.ThrowMid: CardAnim(); break;
+                    case Enums.PlayerState.Shoot: CardAnim(); break;
+                    case Enums.PlayerState.ChiAttack: CardAnim(); break;
+                    case Enums.PlayerState.ChiStationary: CardAnim(); break;
+                    case Enums.PlayerState.TauntGokuStretch: Taunt(); break;
+                    case Enums.PlayerState.TauntPointPoint: Taunt(); break;
+                    case Enums.PlayerState.TauntThumbsDown: Taunt(); break;
+                    case Enums.PlayerState.TauntWrasslemania: Taunt(); break;
+                    case Enums.PlayerState.TauntYaMoves: Taunt(); break;
+                }
 
                 if (move)
                 {
@@ -287,15 +303,15 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private static void Idle()
+        private void Idle()
         {
         }
 
-        private static void MoveBegining()
+        private void MoveBegining()
         {
         }
 
-        private static void MoveEnding()
+        private void MoveEnding()
         {
             if (!doOnce)
             {
@@ -304,7 +320,7 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private static void Hit()
+        private void Hit()
         {
             if (!doOnce)
             {
@@ -315,11 +331,11 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private static void Dead()
+        private void Dead()
         {
         }
 
-        private static void BasicAttack()
+        private void BasicAttack()
         {
             if (attack)
             {
@@ -328,7 +344,7 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private static void CardAnim()
+        private void CardAnim()
         {
             if (!doOnce)
             {
@@ -337,7 +353,7 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private static void Taunt()
+        private void Taunt()
         {
         }
     }

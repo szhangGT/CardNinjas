@@ -109,7 +109,7 @@ namespace Assets.Scripts.Util
             gamePad[(int)UserInput.PickCard2,   1] = LEFT_TRIGGER;
             gamePad[(int)UserInput.PickCard3,   1] = RIGHT_TRIGGER;
             gamePad[(int)UserInput.PickCard4,   1] = A;
-            gamePad[(int)UserInput.PickCard5,   1] = B;
+            gamePad[(int)UserInput.PickCard5,   1] = LEFT_STICK;
             gamePad[(int)UserInput.PickCard6,   1] = X;
             gamePad[(int)UserInput.PickCard7,   1] = Y;
 
@@ -127,7 +127,7 @@ namespace Assets.Scripts.Util
             gamePad[(int)UserInput.PickCard2,   2] = LEFT_TRIGGER;
             gamePad[(int)UserInput.PickCard3,   2] = RIGHT_TRIGGER;
             gamePad[(int)UserInput.PickCard4,   2] = A;
-            gamePad[(int)UserInput.PickCard5,   2] = B;
+            gamePad[(int)UserInput.PickCard5,   2] = LEFT_STICK;
             gamePad[(int)UserInput.PickCard6,   2] = X;
             gamePad[(int)UserInput.PickCard7,   2] = Y;
         }

@@ -9,6 +9,7 @@ namespace Assets.Scripts.Enemies
         protected abstract void RunAI();
 
         protected bool hit = false;
+        protected bool animDone = false;
         private bool paused = false;
         private float animSpeed = 0;
 
@@ -32,9 +33,20 @@ namespace Assets.Scripts.Enemies
                         GetComponent<Animator>().speed = animSpeed;
                 }
                 RunAI();
-                transform.position = currentNode.transform.position;
                 if (hit)
                     hit = false;
+                if (animDone)
+                    animDone = false;
+                //if (invulerability > 0)
+                //{
+                //    render = !render;
+                //    GetComponent<Renderer>().enabled = render;
+                //    damage = 0;
+                //    beingHit = false;
+                //    invulerability -= Time.deltaTime;
+                //}
+                //else
+                //    GetComponent<Renderer>().enabled = true;
             }
             else
             {
@@ -43,7 +55,7 @@ namespace Assets.Scripts.Enemies
                     if (GetComponent<Animator>() != null)
                     {
                         animSpeed = GetComponent<Animator>().speed;
-                        GetComponent<Animator>().speed = 0;
+                        GetComponent<Animator>().speed = 0.0000001f;
                     }
                     paused = true;
                 }
@@ -56,6 +68,11 @@ namespace Assets.Scripts.Enemies
                     }
                 }
             }
+        }
+
+        public void AnimDetector()
+        {
+            animDone = true;
         }
 
         void OnTriggerEnter(Collider col)

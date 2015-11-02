@@ -149,10 +149,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   rowStart: 1
-  colStart: 1
+  colStart: 4
   direction: 2
   type: 0
   element: 0
+  stunTime: 1
   bullet: {fileID: 131416, guid: ea9caf517f393d040b907eef5331304d, type: 2}
 --- !u!1001 &100100000
 Prefab:
@@ -172,6 +173,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Constraints
       value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: colStart
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

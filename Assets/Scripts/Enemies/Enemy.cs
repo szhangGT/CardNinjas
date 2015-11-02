@@ -55,7 +55,7 @@ namespace Assets.Scripts.Enemies
                     if (GetComponent<Animator>() != null)
                     {
                         animSpeed = GetComponent<Animator>().speed;
-                        GetComponent<Animator>().speed = 0;
+                        GetComponent<Animator>().speed = 0.0000001f;
                     }
                     paused = true;
                 }

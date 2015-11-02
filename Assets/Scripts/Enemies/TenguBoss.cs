@@ -6,9 +6,11 @@ namespace Assets.Scripts.Enemies
     class TenguBoss : Enemy
     {
         [SerializeField]
+        private Animator anim;
+        [SerializeField]
         private GameObject bullet;
         [SerializeField]
-        private Transform holdPos;
+        private Vector3 holdPos;
 
         private Vector3 TeleportPos;
         private GameObject player;
@@ -39,12 +41,13 @@ namespace Assets.Scripts.Enemies
                 doOnce = false;
                 prevState = state;
                 waitTime = Random.Range(0, 2);
+                anim.SetInteger("state", state);
             }
             if (animDone)
             {
                 if (moveToHold)
                 {
-                    transform.position = holdPos.position;
+                    transform.position = holdPos;
                     moveToHold = false;
                 }
                 if(state == (int)TenguBossStateMachine.State.Move)
@@ -63,6 +66,7 @@ namespace Assets.Scripts.Enemies
 
             switch (state)
             {
+                case (int)TenguBossStateMachine.State.Intro: Intro(); break;
                 case (int)TenguBossStateMachine.State.Wait: Wait(); break;
                 case (int)TenguBossStateMachine.State.Move: Move(); break;
                 case (int)TenguBossStateMachine.State.TeleportPrep: TeleportPrep(); break;
@@ -71,7 +75,10 @@ namespace Assets.Scripts.Enemies
                 case (int)TenguBossStateMachine.State.Return: Return(); break;
                 case (int)TenguBossStateMachine.State.Tornado: Tornado(); break;
             }
+        }
 
+        private void Intro()
+        {
         }
 
         private void Wait()
@@ -82,7 +89,8 @@ namespace Assets.Scripts.Enemies
         {
             if(!doOnce)
             {
-                GameObject[] tiles = GameObject.FindGameObjectsWithTag("Red");
+                doOnce = true;
+                GameObject[] tiles = GameObject.FindGameObjectsWithTag("Blue");
                 List<Grid.GridNode> usableTiles = new List<Grid.GridNode>();
                 Grid.GridNode n;
                 foreach (GameObject g in tiles)
@@ -99,8 +107,8 @@ namespace Assets.Scripts.Enemies
                     currentNode.clearOccupied();
                     currentNode = usableTiles[tile];
                     currentNode.Owner = (this);
+                    transform.position = currentNode.transform.position;
                 }
-
             }
         }
 
@@ -125,6 +133,11 @@ namespace Assets.Scripts.Enemies
 
         private void Attack()
         {
+            if (!doOnce)
+            {
+                doOnce = true;
+                transform.position = new Vector3(TeleportPos.x, TeleportPos.y, TeleportPos.z + 2f);
+            }
         }
 
         private void Return()
@@ -138,9 +151,13 @@ namespace Assets.Scripts.Enemies
 
         private void Tornado()
         {
-            Weapons.Hitbox b = Instantiate(bullet).GetComponent<Weapons.Hitbox>();
-            b.transform.position = currentNode.Left.transform.position;
-            b.CurrentNode = currentNode.Left;
+            if (!doOnce)
+            {
+                doOnce = true;
+                Weapons.Hitbox b = Instantiate(bullet).GetComponent<Weapons.Hitbox>();
+                b.transform.position = currentNode.Left.transform.position;
+                b.CurrentNode = currentNode.Left;
+            }
         }
     }
 }

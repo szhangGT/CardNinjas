@@ -6,7 +6,7 @@ namespace Assets.Scripts.Enemies
     {
         public enum State
         {
-            Wait = 0, Move, TeleportPrep, WaitToAppear, Attack, Return, Tornado
+            Intro = 0, Wait, Move, TeleportPrep, WaitToAppear, Attack, Return, Tornado
         };
 
         private State currState;
@@ -25,6 +25,7 @@ namespace Assets.Scripts.Enemies
         {
             switch (currState)
             {
+                case State.Intro: currState = Intro(animDone); break;
                 case State.Wait: currState = Wait(moveFailed); break;
                 case State.Move: currState = Move(animDone, moveFailed); break;
                 case State.TeleportPrep: currState = TeleportPrep(animDone); break;
@@ -36,13 +37,21 @@ namespace Assets.Scripts.Enemies
             return (int)currState;
         }
 
+        private State Intro(bool animDone)
+        {
+            if (animDone)
+                return State.Wait;
+            return State.Intro;
+        }
+
         private State Wait(bool moveFailed)
         {
             hold += Time.deltaTime;
-            if (hold > .5f)
+            if (hold > 1.5f)
             {
                 hold = 0;
-                float r = Random.Range(0, 1);
+                float r = Random.Range(0f, 1f);
+                Debug.Log(r);
                 if (r < .25f)
                     return State.Tornado;
                 if (r < .5f || moveFailed)
@@ -80,9 +89,7 @@ namespace Assets.Scripts.Enemies
         private State WaitToAppear(bool animDone, bool waitTime)
         {
             if (waitTime)
-            {
                 return State.Attack;
-            }
             return State.WaitToAppear;
         }
 

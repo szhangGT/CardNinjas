@@ -39,7 +39,7 @@ namespace Assets.Scripts.Player
         private float invunTime = .5f;
         private float invunTimer = 0;
         private float hold = 0;//used for delays
-        private Enums.Direction direction;
+        private Enums.Direction directionToMove;
         private GridNode nextNode;
 
         private float renderTime = .002f;
@@ -96,7 +96,7 @@ namespace Assets.Scripts.Player
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Up, Type))
                     {
-                        direction = Enums.Direction.Up;
+                        directionToMove = Enums.Direction.Up;
                         nextNode = currentNode.Up;
                     }
                 }
@@ -104,7 +104,7 @@ namespace Assets.Scripts.Player
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Down, Type))
                     {
-                        direction = Enums.Direction.Down;
+                        directionToMove = Enums.Direction.Down;
                         nextNode = currentNode.Down;
                     }
                 }
@@ -112,7 +112,7 @@ namespace Assets.Scripts.Player
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Left, Type))
                     {
-                        direction = Enums.Direction.Left;
+                        directionToMove = Enums.Direction.Left;
                         nextNode = currentNode.Left;
                     }
                 }
@@ -120,14 +120,14 @@ namespace Assets.Scripts.Player
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Right, Type))
                     {
-                        direction = Enums.Direction.Right;
+                        directionToMove = Enums.Direction.Right;
                         nextNode = currentNode.Right;
                     }
                 }
                 else
-                    direction = Enums.Direction.None;
+                    directionToMove = Enums.Direction.None;
                 //get next state
-                currState = machine.update(hit, animDone, direction, hand.GetCurrentType(), hand.Empty(), playerNumber);
+                currState = machine.update(hit, animDone, directionToMove, hand.GetCurrentType(), hand.Empty(), playerNumber);
 
                 //state clean up
                 if (prevState != currState)

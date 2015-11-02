@@ -185,9 +185,10 @@ namespace Assets.Scripts.Player
                         {
                             weapon = Instantiate(Katana);
                             weapon.transform.position = weaponPoint.position;
-                            weapon.transform.localRotation = weaponPoint.localRotation;
-                            weapon.transform.localScale = weaponPoint.localScale / 2.5f;
+							weapon.transform.localScale = weaponPoint.localScale;
                             weapon.transform.parent = weaponPoint;
+							weapon.transform.localEulerAngles = new Vector3(0,0,0);
+
                         }
                         else if (type == Enums.CardTypes.NaginataHori || type == Enums.CardTypes.NaginataVert)
                         {
@@ -200,10 +201,10 @@ namespace Assets.Scripts.Player
                         else if (type == Enums.CardTypes.HammerHori || type == Enums.CardTypes.HammerVert)
                         {
                             weapon = Instantiate(Hammer);
-                            weapon.transform.position = weaponPoint.position;
-                            weapon.transform.localRotation = Quaternion.Euler(new Vector3(0, 270, 300));
-                            weapon.transform.localScale = weaponPoint.localScale;
-                            weapon.transform.parent = weaponPoint;
+							weapon.transform.position = weaponPoint.position;
+							weapon.transform.localScale = weaponPoint.localScale;
+							weapon.transform.parent = weaponPoint;
+							weapon.transform.localEulerAngles = new Vector3(0,0,0);
                         }
                         useCard = false;
                         hand.UseCurrent(this);

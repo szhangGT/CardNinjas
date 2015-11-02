@@ -1,16 +1,27 @@
 fileFormatVersion: 2
-guid: e83dd12612a96f94cac69311e0b01397
-timeCreated: 1445029039
+guid: 1e3c36c323cff8542982cfc1dd408447
+timeCreated: 1446420059
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
+    100002: FanBot
+    100004: FanTop
+    100006: Handle
     400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: PanelShatter
-    6400000: //RootNode
+    400002: FanBot
+    400004: FanTop
+    400006: Handle
+    2300000: FanBot
+    2300002: FanTop
+    2300004: Handle
+    3300000: FanBot
+    3300002: FanTop
+    3300004: Handle
+    4300000: FanTop
+    4300002: Handle
+    4300004: FanBot
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -35,9 +46,9 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 2
+    globalScale: .0399999991
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0

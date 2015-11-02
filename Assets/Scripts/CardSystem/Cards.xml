@@ -147,4 +147,39 @@
     <action range= "3" damage= "3" prefab= "Prefabs/Lightning">Lightning</action>
     <description>3 random lightning strikes on the enemy field</description>
   </card>
+  <card name= "Oil Spill">
+    <element>Water</element>
+    <image></image>
+    <type>SwordHori</type>
+    <action range= "1" damage= "1" prefab= "Prefabs/Oil">Oil</action>
+    <description>Throw a little oil in front of you</description>
+  </card>
+  <card name= "Oil Splash">
+    <element>Water</element>
+    <image></image>
+    <type>SwordHori</type>
+    <action range= "2" damage= "1" prefab= "Prefabs/Oil">Oil</action>
+    <description>Throw a cone of oil in front of you</description>
+  </card>
+  <card name= "Oil Line">
+    <element>Water</element>
+    <image></image>
+    <type>SwordHori</type>
+    <action range= "3" damage= "1" prefab= "Prefabs/Oil">Oil</action>
+    <description>Throw a line of oil three tiles forward</description>
+  </card>
+  <card name= "Big Oil">
+    <element>Water</element>
+    <image></image>
+    <type>SwordHori</type>
+    <action range= "4" damage= "1" prefab= "Prefabs/Oil">Oil</action>
+    <description>Cover half the enemy's field with oil</description>
+  </card>
+  <card name= "Laser">
+    <element>None</element>
+    <image></image>
+    <type>ChiAttack</type>
+    <action range= "0" damage= "2" prefab= "Prefabs/Laser">Laser</action>
+    <description>A laser strike across the field</description>
+  </card>
 </library>

@@ -5,8 +5,6 @@ namespace Assets.Scripts.Player
     /* This file controls all of the transitions between states*/
     class PlayerStateMachine
     {
-        private delegate Enums.PlayerState machine(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber);//function pointer
-        private machine[] getNextState;//array of function pointers
         private Enums.PlayerState currState;
         private static float hold = 0;//used for delays
         private static bool die = false;
@@ -15,20 +13,38 @@ namespace Assets.Scripts.Player
         {
             currState = Enums.PlayerState.Idle;
             //fill array with functions
-            getNextState = new machine[] { Idle, MoveBegining, MoveEnding, Hit, Dead, BasicAttack, HoriSwingMid, VertiSwingHeavy, ThrowLight, ThrowMid, Shoot, ChiAttack, ChiStaionary,
-                                           TauntGokuStretch, TauntPointPoint, TauntThumbsDown, TauntWrasslemania, TauntYaMoves };
         }
 
         public Enums.PlayerState update(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
-            currState = getNextState[((int)currState)](hit, animDone, direction, type, handEmpty, playerNumber);//gets te next Enums.PlayerState
+            switch (currState)
+            {
+                case Enums.PlayerState.Idle: currState = Idle(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.MoveBegining: currState = MoveBegining(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.MoveEnding: currState = MoveEnding(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.Hit: currState = Hit(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.Dead: currState = Dead(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.BasicAttack: currState = BasicAttack(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.HoriSwingMid: currState = HoriSwingMid(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.VertiSwingHeavy: currState = VertiSwingHeavy(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.ThrowLight: currState = ThrowLight(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.ThrowMid: currState = ThrowMid(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.Shoot: currState = Shoot(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.ChiAttack: currState = ChiAttack(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.ChiStationary: currState = ChiStationary(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.TauntGokuStretch: currState = TauntGokuStretch(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.TauntPointPoint: currState = TauntPointPoint(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.TauntThumbsDown: currState = TauntThumbsDown(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.TauntWrasslemania: currState = TauntWrasslemania(hit, animDone, direction, type, handEmpty, playerNumber); break;
+                case Enums.PlayerState.TauntYaMoves: currState = TauntYaMoves(hit, animDone, direction, type, handEmpty, playerNumber); break;
+            }
             return currState;
         }
 
 
         //The following methods control when and how you can transition between states
 
-        private static Enums.PlayerState Idle(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState Idle(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -71,7 +87,7 @@ namespace Assets.Scripts.Player
             return Enums.PlayerState.Idle;
         }
 
-        private static Enums.PlayerState MoveBegining(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState MoveBegining(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -80,7 +96,7 @@ namespace Assets.Scripts.Player
             return Enums.PlayerState.MoveBegining;
         }
 
-        private static Enums.PlayerState MoveEnding(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState MoveEnding(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -89,7 +105,7 @@ namespace Assets.Scripts.Player
             return Enums.PlayerState.MoveEnding;
         }
 
-        private static Enums.PlayerState Hit(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState Hit(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             hold += UnityEngine.Time.deltaTime;
             if (hold > .4f)
@@ -103,12 +119,12 @@ namespace Assets.Scripts.Player
         }
 
         //this is used to prevent the player character from doing any thing while dead
-        private static Enums.PlayerState Dead(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState Dead(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             return Enums.PlayerState.Dead;
         }
 
-        private static Enums.PlayerState BasicAttack(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState BasicAttack(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -124,7 +140,7 @@ namespace Assets.Scripts.Player
             return Enums.PlayerState.BasicAttack;
         }
 
-        private static Enums.PlayerState HoriSwingMid(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState HoriSwingMid(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -132,7 +148,7 @@ namespace Assets.Scripts.Player
                 return Enums.PlayerState.Idle;
             return Enums.PlayerState.HoriSwingMid;
         }
-        private static Enums.PlayerState VertiSwingHeavy(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState VertiSwingHeavy(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -140,7 +156,7 @@ namespace Assets.Scripts.Player
                 return Enums.PlayerState.Idle;
             return Enums.PlayerState.VertiSwingHeavy;
         }
-        private static Enums.PlayerState ThrowLight(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState ThrowLight(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -148,7 +164,7 @@ namespace Assets.Scripts.Player
                 return Enums.PlayerState.Idle;
             return Enums.PlayerState.ThrowLight;
         }
-        private static Enums.PlayerState ThrowMid(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState ThrowMid(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -156,7 +172,7 @@ namespace Assets.Scripts.Player
                 return Enums.PlayerState.Idle;
             return Enums.PlayerState.ThrowMid;
         }
-        private static Enums.PlayerState Shoot(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState Shoot(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -164,7 +180,7 @@ namespace Assets.Scripts.Player
                 return Enums.PlayerState.Idle;
             return Enums.PlayerState.Shoot;
         }
-        private static Enums.PlayerState ChiAttack(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState ChiAttack(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -172,7 +188,7 @@ namespace Assets.Scripts.Player
                 return Enums.PlayerState.Idle;
             return Enums.PlayerState.ChiAttack;
         }
-        private static Enums.PlayerState ChiStaionary(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState ChiStationary(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -180,7 +196,7 @@ namespace Assets.Scripts.Player
                 return Enums.PlayerState.Idle;
             return Enums.PlayerState.ChiStationary;
         }
-        private static Enums.PlayerState TauntGokuStretch(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState TauntGokuStretch(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -188,7 +204,7 @@ namespace Assets.Scripts.Player
                 return Enums.PlayerState.Idle;
             return Enums.PlayerState.TauntGokuStretch;
         }
-        private static Enums.PlayerState TauntPointPoint(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState TauntPointPoint(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -196,7 +212,7 @@ namespace Assets.Scripts.Player
                 return Enums.PlayerState.Idle;
             return Enums.PlayerState.TauntPointPoint;
         }
-        private static Enums.PlayerState TauntThumbsDown(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState TauntThumbsDown(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -204,7 +220,7 @@ namespace Assets.Scripts.Player
                 return Enums.PlayerState.Idle;
             return Enums.PlayerState.TauntThumbsDown;
         }
-        private static Enums.PlayerState TauntWrasslemania(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState TauntWrasslemania(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;
@@ -212,7 +228,7 @@ namespace Assets.Scripts.Player
                 return Enums.PlayerState.Idle;
             return Enums.PlayerState.TauntWrasslemania;
         }
-        private static Enums.PlayerState TauntYaMoves(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
+        private Enums.PlayerState TauntYaMoves(bool hit, bool animDone, Enums.Direction direction, Enums.CardTypes type, bool handEmpty, int playerNumber)
         {
             if (hit)
                 return Enums.PlayerState.Hit;

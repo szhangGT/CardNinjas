@@ -88,6 +88,7 @@ namespace Assets.Scripts.Weapons
 
         public GameObject Owner
         {
+            get { return owner; }
             set { owner = value; }
         }
 

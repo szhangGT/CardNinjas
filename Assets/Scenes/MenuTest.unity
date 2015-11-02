@@ -3347,12 +3347,12 @@ GameObject:
   - 222: {fileID: 252366745}
   - 114: {fileID: 252366744}
   m_Layer: 5
-  m_Name: GoalLevel
+  m_Name: GoalButtons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &252366743
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4818,6 +4818,7 @@ GameObject:
   - 222: {fileID: 368067435}
   - 114: {fileID: 368067434}
   - 114: {fileID: 368067433}
+  - 95: {fileID: 368067432}
   - 114: {fileID: 368067431}
   m_Layer: 5
   m_Name: Card Library
@@ -4876,6 +4877,23 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Level X
+--- !u!95 &368067432
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 368067429}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1d0206299af66444493815fee7a5c76c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &368067433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10287,7 +10305,7 @@ GameObject:
   - 222: {fileID: 996694491}
   - 114: {fileID: 996694490}
   m_Layer: 5
-  m_Name: LevelPanel
+  m_Name: ButtonPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11729,7 +11747,7 @@ GameObject:
   - 114: {fileID: 1177879855}
   - 82: {fileID: 1177879854}
   m_Layer: 0
-  m_Name: LevelSelectController
+  m_Name: MainMenuController (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13510,6 +13528,7 @@ GameObject:
   - 222: {fileID: 1364582223}
   - 114: {fileID: 1364582222}
   - 114: {fileID: 1364582221}
+  - 95: {fileID: 1364582220}
   - 114: {fileID: 1364582219}
   m_Layer: 5
   m_Name: Card Library
@@ -13568,6 +13587,23 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Level 1
+--- !u!95 &1364582220
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1364582217}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1d0206299af66444493815fee7a5c76c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &1364582221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14653,6 +14689,7 @@ GameObject:
   - 222: {fileID: 1478226549}
   - 114: {fileID: 1478226548}
   - 114: {fileID: 1478226547}
+  - 95: {fileID: 1478226546}
   - 114: {fileID: 1478226545}
   m_Layer: 5
   m_Name: Card Library
@@ -14711,6 +14748,23 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Level X
+--- !u!95 &1478226546
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1478226543}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1d0206299af66444493815fee7a5c76c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &1478226547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17271,7 +17325,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1749683357}
   m_Layer: 0
-  m_Name: LevelCArd
+  m_Name: CardPanel (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19317,7 +19371,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1950077103}
   m_Layer: 0
-  m_Name: LevelCArda
+  m_Name: CardPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

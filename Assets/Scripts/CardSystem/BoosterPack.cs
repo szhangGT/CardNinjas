@@ -3,28 +3,31 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.CardSystem
 {
-    class BoosterPack : MonoBehaviour
+    class BoosterPack
     {
-        [SerializeField]
-        private UnityEngine.UI.Image packImage;
-        [SerializeField]
-        private Vector2 cardRange;
-        [SerializeField]
+        private Sprite packImage;
         private int packSize;
+        private List<Card> cards;
 
-        public UnityEngine.UI.Image PackImage
+        public Sprite PackImage
         {
             get { return packImage; }
         }
 
+        public BoosterPack(List<Card> cards, int packSize, Sprite packImage)
+        {
+            this.cards = cards;
+            this.packSize = packSize;
+            this.packImage = packImage;
+        }
+
         public List<Card> GetCards()
         {
-            List<Card> cards = FindObjectOfType<CardList>().Cards;
             List<Card> pack = new List<Card>();
             Random.seed = System.DateTime.Today.Millisecond;
             for (int i = 0; i < packSize; i++)
             {
-                pack.Add(cards[Random.Range((int)cardRange.x, (int)cardRange.y)]);
+                pack.Add(cards[Random.Range(0, cards.Count)]);
             }
             return pack;
         }

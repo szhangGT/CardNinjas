@@ -9,10 +9,22 @@ namespace Assets.Scripts.Enemies
 
         private float wait = -1;
         private int currWave = 0;
+        private GameObject[] enemies;
+        private bool done;
+
+        void Start()
+        {
+            enemies = new GameObject[0];
+            done = true;
+        }
 
         void Update()
         {
-            if ((FindObjectsOfType(typeof(Enemy)) as Enemy[]).Length == 0 && wait < 0)
+            done = true;
+            foreach (GameObject g in enemies)
+                if (g != null)
+                    done = false;
+            if (done && wait < 0)
                 wait = 0;
             if(wait > -1)
                 wait += Time.deltaTime;
@@ -20,7 +32,7 @@ namespace Assets.Scripts.Enemies
             {
                 if (currWave >= waves.Length)
                     Application.Quit();
-                waves[currWave].SpawnWave();
+                enemies = waves[currWave].SpawnWave();
                 wait = -1;
                 currWave++;
             }

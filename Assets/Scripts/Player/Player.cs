@@ -168,7 +168,7 @@ namespace Assets.Scripts.Player
                     case Enums.PlayerState.MoveEnding: MoveEnding(); break;
                     case Enums.PlayerState.Hit: Hit(); break;
                     case Enums.PlayerState.Dead: Dead(); break;
-                    case Enums.PlayerState.BasicAttack: CardAnim(); break;
+                    case Enums.PlayerState.BasicAttack: BasicAttack(); break;
                     case Enums.PlayerState.HoriSwingMid: CardAnim(); break;
                     case Enums.PlayerState.VertiSwingHeavy: CardAnim(); break;
                     case Enums.PlayerState.ThrowLight: CardAnim(); break;

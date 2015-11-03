@@ -3,13 +3,15 @@ using System.Collections;
 
 namespace Assets.Scripts.Util
 {
-	public static class AddElements
+	public static class AddElement
 	{
 		#region Materials
-		public static Material FireMat;
-		public static Material EarthMat;
-		public static Material ThunderMat;
-		public static Material[] Mats = {FireMat, EarthMat, ThunderMat};
+		public static Material FireMat = Resources.Load("Elements/FireMat") as Material;
+		public static Material EarthMat = Resources.Load("Elements/EarthMat") as Material;
+		public static Material ThunderMat = Resources.Load("Elements/ThunderMat") as Material;
+		public static Material WaterMat = Resources.Load("Elements/WaterMat") as Material;
+		public static Material WoodMat = Resources.Load("Elements/WoodMat") as Material;
+		public static Material[] Mats = {FireMat, EarthMat, ThunderMat, WaterMat, WoodMat};
 		#endregion
 		
 		/// <summary>
@@ -18,9 +20,11 @@ namespace Assets.Scripts.Util
 		/// <param name="obj">Object which needs element effects added.</param>
 		/// <param name="element">Element added to the game object.</param>
 		public static void AddElementByEnum(GameObject obj, Enums.Element element, bool replaceMat) {
-			//GameObject trail = GameObject.Instantiate(Resources.Load(element + "trail"), obj.transform.position, obj.transform.rotation) as GameObject;
-			
-			//if (replaceMat) obj.GetComponent<Renderer>().material = Mats[(int)element];
+			Debug.Log("Elements/" + element + "ParticleSys");
+			GameObject particle = GameObject.Instantiate(Resources.Load("Elements/" + element + "ParticleSys"), obj.transform.position, obj.transform.rotation) as GameObject;
+			particle.GetComponent<ParticleFollow>().target = obj.transform.GetChild(0).gameObject;
+
+			if (replaceMat) obj.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = Mats[(int)element];
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace Assets.Scripts.CardSystem.Actions
             temp.TimesCanPierce = -1;
             temp.IsFlying = true;
             temp.Owner = actor.gameObject;
-            Util.AddElements.AddElementByEnum(temp.gameObject, element, true);
+            Util.AddElement.AddElementByEnum(temp.gameObject, element, true);
             if (actor.Direction == Util.Enums.Direction.Left)
 			{
                 temp.Direction = Util.Enums.Direction.Left;

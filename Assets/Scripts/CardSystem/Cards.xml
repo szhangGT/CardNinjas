@@ -3,43 +3,43 @@
   <card name= "Regular Fan">
     <element>None</element>
     <image></image>
-    <type>HoriSwingMid</type>
-    <action range= "1" damage= "5" prefab= "Prefabs/Sphere">MeleeHorizontal</action>
+    <type>Fan</type>
+    <action range= "1" damage= "5" prefab= "Prefabs/SwordSlash">MeleeHorizontal</action>
     <description>A fan that hits the tile in front of you.</description>
   </card>
   <card name= "Wide Fan">
     <element>None</element>
     <image></image>
-    <type>HoriSwingMid</type>
-    <action range= "3" damage= "5" prefab= "Prefabs/Sphere">MeleeHorizontal</action>
+    <type>Fan</type>
+    <action range= "3" damage= "5" prefab= "Prefabs/SwordSlash">MeleeHorizontal</action>
     <description>A fan that hits the tile in front of you and the tiles above and below.</description>
   </card>
   <card name= "Long Fan">
     <element>None</element>
     <image></image>
-    <type>HoriSwingMid</type>
-    <action range= "3" damage= "5" prefab= "Prefabs/Sphere">MeleeVertical</action>
+    <type>Fan</type>
+    <action range= "3" damage= "5" prefab= "Prefabs/SwordSlash">MeleeVertical</action>
     <description>A fan that hits 3 tiles in front of you.</description>
   </card>
   <card name= "Tonfa">
     <element>None</element>
     <image></image>
-    <type>HoriSwingMid</type>
-    <action range= "1" damage= "6" prefab= "Prefabs/Sphere">MeleeHorizontal</action>
+    <type>Tonfa</type>
+    <action range= "1" damage= "6" prefab= "Prefabs/SwordSlash">MeleeHorizontal</action>
     <description>A wooden weapon that can attack and stun the enemy in front of you.</description>
   </card>
   <card name= "Tanto">
     <element>None</element>
     <image></image>
-    <type>HoriSwingMid</type>
-    <action range= "1" damage= "6" prefab= "Prefabs/Sphere">MeleeHorizontal</action>
+    <type>Tanto</type>
+    <action range= "1" damage= "6" prefab= "Prefabs/SwordSlash">MeleeHorizontal</action>
     <description>A short sword that hits the tile in front of you.</description>
   </card>
   <card name= "Wakizashi">
     <element>None</element>
     <image></image>
-    <type>HoriSwingMid</type>
-    <action range= "1" damage= "7" prefab= "Prefabs/Sphere">MeleeHorizontal</action>
+    <type>Wakizashi</type>
+    <action range= "1" damage= "7" prefab= "Prefabs/SwordSlash">MeleeHorizontal</action>
     <description>A medium sword that hits the tile in front of you.</description>
   </card>
   <card name= "Katana">
@@ -66,29 +66,22 @@
   <card name= "Kanobo">
     <element>None</element>
     <image></image>
-    <type>SwordHori</type>
-    <action range= "1" damage= "10" prefab= "Prefabs/Sphere">MeleeHorizontal</action>
+    <type>Kanobo</type>
+    <action range= "1" damage= "10" prefab= "Prefabs/SwordSlash">MeleeHorizontal</action>
     <description>A studded mace that hits hard and stuns the enemy in front of you.</description>
-  </card>
-  <card name= "Ono">
-    <element>None</element>
-    <image></image>
-    <type>HoriSwingMid</type>
-    <action range= "1" damage= "11" prefab= "Prefabs/Sphere">MeleeHorizontal</action>
-    <description>An axe that hits the tile in front of you.</description>
   </card>
   <card name= "Naginata">
     <element>None</element>
     <image></image>
-    <type>StabMid</type>
-    <action range= "2" damage= "9" prefab= "Prefabs/Sphere">MeleeVertical</action>
+    <type>NaginataHori</type>
+    <action range= "2" damage= "9" prefab= "Prefabs/SwordSlash">MeleeVertical</action>
     <description>A spear that hits 2 tiles in front of you.</description>
   </card>
   <card name= "Bo Staff">
     <element>None</element>
     <image></image>
-    <type>StabMid</type>
-    <action range= "2" damage= "7" prefab= "Prefabs/Sphere">MeleeHorizontal</action>
+    <type>BoStaff</type>
+    <action range= "2" damage= "7" prefab= "Prefabs/SwordSlash">MeleeHorizontal</action>
     <description>A staff that stuns 2 tiles in front of you.</description>
   </card>
   <card name= "Tremor">
@@ -145,43 +138,50 @@
     <element>None</element>
     <image></image>
     <type>ThrowLight</type>
-    <action range= "1" damage= "4" prefab= "Prefabs/Sphere">Projectile</action>
+    <action range= "1" damage= "4" prefab= "Prefabs/5Star">Projectile</action>
     <description>Throws a shuriken in front of you.</description>
   </card>
   <card name= "Double Shuriken">
     <element>None</element>
     <image></image>
     <type>ThrowLight</type>
-    <action range= "2" damage= "4" prefab= "Prefabs/Sphere">Projectile</action>
+    <action range= "2" damage= "4" prefab= "Prefabs/5Star">Projectile</action>
     <description>Throws a shuriken in the row front and below you.</description>
   </card>
   <card name= "Triple Shuriken">
     <element>None</element>
     <image></image>
     <type>ThrowLight</type>
-    <action range= "3" damage= "4" prefab= "Prefabs/Sphere">Projectile</action>
+    <action range= "3" damage= "4" prefab= "Prefabs/5Star">Projectile</action>
     <description>Throws a shuriken in all the rows.</description>
   </card>
   <card name= "Single Sai">
     <element>None</element>
     <image></image>
     <type>ThrowLight</type>
-    <action range= "1" damage= "6" prefab= "Prefabs/Sphere">Projectile</action>
+    <action range= "1" damage= "6" prefab= "Prefabs/Sai">Projectile</action>
     <description>Throws a sai dagger in front of you.</description>
   </card>
   <card name= "Double Sai">
     <element>None</element>
     <image></image>
     <type>ThrowLight</type>
-    <action range= "2" damage= "6" prefab= "Prefabs/Sphere">Projectile</action>
+    <action range= "2" damage= "6" prefab= "Prefabs/Sai">Projectile</action>
     <description>Throws a sai dagger in the row front and below you.</description>
   </card>
   <card name= "Triple Sai">
     <element>None</element>
     <image></image>
     <type>ThrowLight</type>
-    <action range= "3" damage= "6" prefab= "Prefabs/Sphere">Projectile</action>
+    <action range= "3" damage= "6" prefab= "Prefabs/Sai">Projectile</action>
     <description>Throws a sai dagger in all the rows.</description>
+  </card>
+  <card name= "Naginata Throw">
+    <element>None</element>
+    <image></image>
+    <type>ThrowMid</type>
+    <action range= "9" damage= "9" prefab= "Prefabs/Spear">SpearAction</action>
+    <description>A spear thrown at the tiles in front of you, piercing the first enemy and stopping at the second.</description>
   </card>
   
   <card name= "Single Fireball">

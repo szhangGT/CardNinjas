@@ -64,6 +64,12 @@ namespace Assets.Scripts.Player
                     case Enums.CardTypes.ChiAttack: return Enums.PlayerState.ChiAttack;
                     case Enums.CardTypes.ChiStationary: return Enums.PlayerState.ChiStationary;
                     case Enums.CardTypes.Error: return Enums.PlayerState.ChiAttack;
+                    case Enums.CardTypes.Fan: return Enums.PlayerState.HoriSwingMid;
+                    case Enums.CardTypes.Kanobo: return Enums.PlayerState.HoriSwingMid;
+                    case Enums.CardTypes.Tanto: return Enums.PlayerState.HoriSwingMid;
+                    case Enums.CardTypes.Wakizashi: return Enums.PlayerState.HoriSwingMid;
+                    case Enums.CardTypes.Tonfa: return Enums.PlayerState.HoriSwingMid;
+                    case Enums.CardTypes.BoStaff: return Enums.PlayerState.HoriSwingMid;
                 }
             }
             if (CustomInput.BoolFreshPress(CustomInput.UserInput.Attack, playerNumber))

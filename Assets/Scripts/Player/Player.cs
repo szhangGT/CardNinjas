@@ -22,6 +22,18 @@ namespace Assets.Scripts.Player
         [SerializeField]
         private GameObject Hammer;
         [SerializeField]
+        private GameObject Fan;
+        [SerializeField]
+        private GameObject Kanobo;
+        [SerializeField]
+        private GameObject Tanto;
+        [SerializeField]
+        private GameObject Wakizashi;
+        [SerializeField]
+        private GameObject Tonfa;
+        [SerializeField]
+        private GameObject BoStaff;
+        [SerializeField]
         private Transform barrel;
         [SerializeField]
         private int playerNumber = 1;
@@ -210,9 +222,9 @@ namespace Assets.Scripts.Player
                         {
                             weapon = Instantiate(Naginata);
                             weapon.transform.position = weaponPoint.position;
-                            weapon.transform.localRotation = weaponPoint.localRotation;
-                            weapon.transform.localScale = weaponPoint.localScale / 1.5f;
+                            weapon.transform.localScale = weaponPoint.localScale;
                             weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
                         }
                         else if (type == Enums.CardTypes.HammerHori || type == Enums.CardTypes.HammerVert)
                         {
@@ -221,6 +233,54 @@ namespace Assets.Scripts.Player
 							weapon.transform.localScale = weaponPoint.localScale;
 							weapon.transform.parent = weaponPoint;
 							weapon.transform.localEulerAngles = new Vector3(0,0,0);
+                        }
+                        else if (type == Enums.CardTypes.Fan)
+                        {
+                            weapon = Instantiate(Fan);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
+                        }
+                        else if (type == Enums.CardTypes.Kanobo)
+                        {
+                            weapon = Instantiate(Kanobo);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
+                        }
+                        else if (type == Enums.CardTypes.Tanto)
+                        {
+                            weapon = Instantiate(Tanto);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
+                        }
+                        else if (type == Enums.CardTypes.Wakizashi)
+                        {
+                            weapon = Instantiate(Wakizashi);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
+                        }
+                        else if (type == Enums.CardTypes.Tonfa)
+                        {
+                            weapon = Instantiate(Tonfa);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
+                        }
+                        else if (type == Enums.CardTypes.BoStaff)
+                        {
+                            weapon = Instantiate(BoStaff);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
                         }
                         useCard = false;
                         hand.UseCurrent(this);

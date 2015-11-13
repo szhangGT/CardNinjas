@@ -52,7 +52,7 @@ namespace Assets.Scripts.CardSystem.Actions
             temp.IsFlying = isFlying;
             temp.Owner = actor.gameObject;
             temp.Element = element;
-            Util.AddElements.AddElementByEnum(model, element, true);
+            Util.AddElement.AddElementByEnum(model, element, true);
             temp.CurrentNode = spawnPosition;
             temp.transform.position = spawnPosition.transform.position;
         }

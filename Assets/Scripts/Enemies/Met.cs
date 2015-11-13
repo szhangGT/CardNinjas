@@ -47,6 +47,7 @@ namespace Assets.Scripts.Enemies
                     b.CurrentNode = currentNode.Left;
                 }
             }
+            transform.position = currentNode.transform.position;
         }
     }
 }

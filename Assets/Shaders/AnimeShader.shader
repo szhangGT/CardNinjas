@@ -29,7 +29,7 @@
 	        o.Albedo = fixed3(0,0,0);
 	    }
 	    ENDCG
-        Offset 0, -1000
+        Offset 0, -10000
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
 		#pragma surface surf Standard fullforwardshadows

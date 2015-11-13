@@ -22,25 +22,37 @@ namespace Assets.Scripts.Player
         [SerializeField]
         private GameObject Hammer;
         [SerializeField]
+        private GameObject Fan;
+        [SerializeField]
+        private GameObject Kanobo;
+        [SerializeField]
+        private GameObject Tanto;
+        [SerializeField]
+        private GameObject Wakizashi;
+        [SerializeField]
+        private GameObject Tonfa;
+        [SerializeField]
+        private GameObject BoStaff;
+        [SerializeField]
         private Transform barrel;
         [SerializeField]
         private int playerNumber = 1;
         [SerializeField]
         private Transform weaponPoint;
 
-        private static int damage = 0;
-        private static bool doOnce = false;
-        private static bool move = false;
-        private static bool useCard = false;
-        private static bool basicAttack = false;
-        private static bool attack = false;
-        private static bool takeDamage = false;
-        private static bool invun = false;
-        private static float invunTime = .5f;
-        private static float invunTimer = 0;
-        private static float hold = 0;//used for delays
-        private static Enums.Direction direction;
-        private static GridNode nextNode;
+        private int damage = 0;
+        private bool doOnce = false;
+        private bool move = false;
+        private bool useCard = false;
+        private bool basicAttack = false;
+        private bool attack = false;
+        private bool takeDamage = false;
+        private bool invun = false;
+        private float invunTime = .5f;
+        private float invunTimer = 0;
+        private float hold = 0;//used for delays
+        private Enums.Direction directionToMove;
+        private GridNode nextNode;
 
         private float renderTime = .002f;
         private float renderTimer = 0;
@@ -48,8 +60,6 @@ namespace Assets.Scripts.Player
         private bool hit = false;
         private bool render = false;
         private PlayerStateMachine machine;
-        private delegate void state();
-        private state[] doState;
         private Enums.PlayerState prevState = 0;
         private Enums.PlayerState currState = 0;
         private Enums.Element damageElement = Enums.Element.None;
@@ -81,15 +91,13 @@ namespace Assets.Scripts.Player
             hand = new Hand();
             //state machine init
             machine = new PlayerStateMachine();
-            doState = new state[] { Idle, MoveBegining, MoveEnding, Hit, Dead, BasicAttack, CardAnim, CardAnim, CardAnim, CardAnim, CardAnim, CardAnim, CardAnim,
-                                    Taunt, Taunt, Taunt, Taunt, Taunt };
             renderTimer = 0;
             invunTimer = 0;
         }
 
         void Update()
         {
-            if (Managers.GameManager.State == Enums.GameStates.Battle)
+            if (Managers.GameManager.State == Enums.GameStates.Battle && !stun)
             {
                 if (paused)
                 {
@@ -100,7 +108,7 @@ namespace Assets.Scripts.Player
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Up, Type))
                     {
-                        direction = Enums.Direction.Up;
+                        directionToMove = Enums.Direction.Up;
                         nextNode = currentNode.Up;
                     }
                 }
@@ -108,7 +116,7 @@ namespace Assets.Scripts.Player
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Down, Type))
                     {
-                        direction = Enums.Direction.Down;
+                        directionToMove = Enums.Direction.Down;
                         nextNode = currentNode.Down;
                     }
                 }
@@ -116,7 +124,7 @@ namespace Assets.Scripts.Player
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Left, Type))
                     {
-                        direction = Enums.Direction.Left;
+                        directionToMove = Enums.Direction.Left;
                         nextNode = currentNode.Left;
                     }
                 }
@@ -124,14 +132,14 @@ namespace Assets.Scripts.Player
                 {
                     if (currentNode.panelAllowed(Enums.Direction.Right, Type))
                     {
-                        direction = Enums.Direction.Right;
+                        directionToMove = Enums.Direction.Right;
                         nextNode = currentNode.Right;
                     }
                 }
                 else
-                    direction = Enums.Direction.None;
+                    directionToMove = Enums.Direction.None;
                 //get next state
-                currState = machine.update(hit, animDone, direction, hand.GetCurrentType(), hand.Empty(), playerNumber);
+                currState = machine.update(hit, animDone, directionToMove, hand.GetCurrentType(), hand.Empty(), playerNumber);
 
                 //state clean up
                 if (prevState != currState)
@@ -165,7 +173,27 @@ namespace Assets.Scripts.Player
                 }
 
                 //run state
-                doState[(int)currState]();
+                switch (currState)
+                {
+                    case Enums.PlayerState.Idle:Idle(); break;
+                    case Enums.PlayerState.MoveBegining: MoveBegining(); break;
+                    case Enums.PlayerState.MoveEnding: MoveEnding(); break;
+                    case Enums.PlayerState.Hit: Hit(); break;
+                    case Enums.PlayerState.Dead: Dead(); break;
+                    case Enums.PlayerState.BasicAttack: BasicAttack(); break;
+                    case Enums.PlayerState.HoriSwingMid: CardAnim(); break;
+                    case Enums.PlayerState.VertiSwingHeavy: CardAnim(); break;
+                    case Enums.PlayerState.ThrowLight: CardAnim(); break;
+                    case Enums.PlayerState.ThrowMid: CardAnim(); break;
+                    case Enums.PlayerState.Shoot: CardAnim(); break;
+                    case Enums.PlayerState.ChiAttack: CardAnim(); break;
+                    case Enums.PlayerState.ChiStationary: CardAnim(); break;
+                    case Enums.PlayerState.TauntGokuStretch: Taunt(); break;
+                    case Enums.PlayerState.TauntPointPoint: Taunt(); break;
+                    case Enums.PlayerState.TauntThumbsDown: Taunt(); break;
+                    case Enums.PlayerState.TauntWrasslemania: Taunt(); break;
+                    case Enums.PlayerState.TauntYaMoves: Taunt(); break;
+                }
 
                 if (move)
                 {
@@ -185,25 +213,74 @@ namespace Assets.Scripts.Player
                         {
                             weapon = Instantiate(Katana);
                             weapon.transform.position = weaponPoint.position;
-                            weapon.transform.localRotation = weaponPoint.localRotation;
-                            weapon.transform.localScale = weaponPoint.localScale / 2.5f;
+							weapon.transform.localScale = weaponPoint.localScale;
                             weapon.transform.parent = weaponPoint;
+							weapon.transform.localEulerAngles = new Vector3(0,0,0);
+
                         }
                         else if (type == Enums.CardTypes.NaginataHori || type == Enums.CardTypes.NaginataVert)
                         {
                             weapon = Instantiate(Naginata);
                             weapon.transform.position = weaponPoint.position;
-                            weapon.transform.localRotation = weaponPoint.localRotation;
-                            weapon.transform.localScale = weaponPoint.localScale / 1.5f;
+                            weapon.transform.localScale = weaponPoint.localScale;
                             weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
                         }
                         else if (type == Enums.CardTypes.HammerHori || type == Enums.CardTypes.HammerVert)
                         {
                             weapon = Instantiate(Hammer);
+							weapon.transform.position = weaponPoint.position;
+							weapon.transform.localScale = weaponPoint.localScale;
+							weapon.transform.parent = weaponPoint;
+							weapon.transform.localEulerAngles = new Vector3(0,0,0);
+                        }
+                        else if (type == Enums.CardTypes.Fan)
+                        {
+                            weapon = Instantiate(Fan);
                             weapon.transform.position = weaponPoint.position;
-                            weapon.transform.localRotation = Quaternion.Euler(new Vector3(0, 270, 300));
                             weapon.transform.localScale = weaponPoint.localScale;
                             weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
+                        }
+                        else if (type == Enums.CardTypes.Kanobo)
+                        {
+                            weapon = Instantiate(Kanobo);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
+                        }
+                        else if (type == Enums.CardTypes.Tanto)
+                        {
+                            weapon = Instantiate(Tanto);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
+                        }
+                        else if (type == Enums.CardTypes.Wakizashi)
+                        {
+                            weapon = Instantiate(Wakizashi);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
+                        }
+                        else if (type == Enums.CardTypes.Tonfa)
+                        {
+                            weapon = Instantiate(Tonfa);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
+                        }
+                        else if (type == Enums.CardTypes.BoStaff)
+                        {
+                            weapon = Instantiate(BoStaff);
+                            weapon.transform.position = weaponPoint.position;
+                            weapon.transform.localScale = weaponPoint.localScale;
+                            weapon.transform.parent = weaponPoint;
+                            weapon.transform.localEulerAngles = new Vector3(0, 0, 0);
                         }
                         useCard = false;
                         hand.UseCurrent(this);
@@ -215,6 +292,7 @@ namespace Assets.Scripts.Player
                 {
                     basicAttack = false;
                     Weapons.Hitbox b = Instantiate(bullet);
+					AddElement.AddElementByEnum(b.gameObject,(Enums.Element)Random.Range(0,5),true);
                     b.Owner = this.gameObject;
                     b.transform.position = Direction == Enums.Direction.Left ? currentNode.Left.transform.position : currentNode.Right.transform.position;
                     b.CurrentNode = Direction == Enums.Direction.Left ? currentNode.Left : currentNode.Right;
@@ -238,6 +316,14 @@ namespace Assets.Scripts.Player
                     anim.speed = 0;
                     paused = true;
                 }
+                if (stun)
+                {
+                    if ((stunTimer += Time.deltaTime) > stunTime)
+                    {
+                        stunTimer = 0f;
+                        stun = false;
+                    }
+                }
             }
         }
 
@@ -257,10 +343,14 @@ namespace Assets.Scripts.Player
                 NewSelect(hand.getCurrent()); //fire event to gui
         }
 
+        public Hand Hand
+        {
+            get { return hand; }
+        }
+
         public void AddCardsToHand(List<Card> cards)
         {
             hand.PlayerHand = cards;
-            CardUIEvent();
         }
 
         void OnTriggerEnter(Collider col)
@@ -274,15 +364,15 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private static void Idle()
+        private void Idle()
         {
         }
 
-        private static void MoveBegining()
+        private void MoveBegining()
         {
         }
 
-        private static void MoveEnding()
+        private void MoveEnding()
         {
             if (!doOnce)
             {
@@ -291,7 +381,7 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private static void Hit()
+        private void Hit()
         {
             if (!doOnce)
             {
@@ -302,11 +392,11 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private static void Dead()
+        private void Dead()
         {
         }
 
-        private static void BasicAttack()
+        private void BasicAttack()
         {
             if (attack)
             {
@@ -315,7 +405,7 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private static void CardAnim()
+        private void CardAnim()
         {
             if (!doOnce)
             {
@@ -324,7 +414,7 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private static void Taunt()
+        private void Taunt()
         {
         }
     }
